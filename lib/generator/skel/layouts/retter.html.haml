@@ -1,0 +1,25 @@
+!!!
+%html
+  %head
+    %title= config.title
+    %meta{:'http-equiv' => 'Content-Type', content: 'text/html', charset: 'utf-8'}
+    %link{rel: 'icon', type: 'image/png', href: '/favicon.png'}
+    %link{href: '/stylesheets/application.css', media: 'screen', rel: 'stylesheet', type: 'text/css'}
+    %link{rel: 'alternate', type: 'application/rss+xml', title: 'RSS', href: '/entries.rss'}
+  %body
+    #header
+      %h1
+        %a{href: '/'}= config.title
+      %ul#menu
+        %li
+          %a{href: '/'} Home
+        %li
+          %a{href: '/profile.html'} Profile
+        %li
+          %a{href: '/entries.html'} Archives
+        %li
+          %a{href: '/entries.rss'} RSS
+    #page
+      #content= content
+    #footer
+      #{config.title} (C) #{config.author}

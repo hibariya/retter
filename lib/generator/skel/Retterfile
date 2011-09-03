@@ -1,0 +1,6 @@
+# coding: utf-8
+
+url         'http://retter.example.com/'
+title       '<%= name %>'
+description '<%= name %>'
+author      '<%= ENV["USER"] %>'

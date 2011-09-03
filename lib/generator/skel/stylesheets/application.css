@@ -1,0 +1,114 @@
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0 auto 0 auto;
+  padding: 0;
+  font-family: sans-serif;
+  /*lbackground: rgb(55,65,60);*/
+  background: #EEE;
+  height: 100%;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(25,30,10);
+}
+
+#header {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+#header h1 {
+  width: 100%;
+  margin: 0;
+  padding: 0.2em 0 0.2em 1em;
+  background: rgb(25,30,10);
+  color: rgb(77,144,253);
+}
+
+#header h1 a {
+  color: rgb(77,144,253);
+}
+
+#header ul#menu {
+  margin: 0.5em 0 3em 0;
+  padding: 0 0 0 2em;
+  background: #FFF;
+}
+
+#header ul#menu li {
+  float: left;
+  margin-right: 1em;
+}
+
+#page {
+  clear: both;
+  margin: 0 auto 0 auto;
+  width: 800px;
+  position: relative;
+  min-height: 100%;
+}
+
+article {
+  background: rgb(228,239,192);
+  color: rgb(0,30,67);
+  border-radius: 20px;
+  border: 3px rgb(25,30,10) solid;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  padding: 1em 1.5em 1em 1.5em;
+  margin: 1em 0 1em 0;
+  width 100%;
+}
+
+article h1 {
+  margin-top: 2em;
+}
+
+article h1.date {
+  font-size: 1em;
+  text-align: right;
+  margin-top: 0.5em;
+  margin-bottom: -2em;
+}
+
+article ul#entries > li {
+  margin-top: 1em;
+}
+
+article ul#entries {
+  line-height: 1.5em;
+}
+
+#entries {
+  width 100%;
+}
+
+pre {
+  background: #EEE;
+  color: rgb(0,30,67);
+  padding: 1em;
+  border-radius: 10px;
+  border: 1px #000 solid;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+}
+
+#footer {
+  text-align: center;
+  margin: 1em 0 0 0;
+  padding: 0.5em 0.5em 0.5em 1em;
+  width: 100%;
+  background: rgb(0,40,40);
+  color: rgb(77,144,253);
+  position: relative; bottom: 0;
+}
+

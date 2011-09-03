@@ -1,0 +1,7 @@
+#entries
+  - entries[0..5].each do |entry|
+    %article
+      .entry
+        %h1.date
+          %a{href: entry_path(entry.date)}= entry.date.strftime('%Y/%m/%d')
+        = entry

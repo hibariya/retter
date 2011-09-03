@@ -1,0 +1,9 @@
+%article
+  %ul#entries
+    - entries.each do |entry|
+      %li
+        %a.entry{href: entry_path(entry.date)}= entry.date.strftime('%Y/%m/%d')
+        %ul.titles
+          - entry.titles.each do |id, title|
+            %li
+              %a.title{href: entry_path(entry.date, id)}= title
