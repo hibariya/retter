@@ -1,25 +1,28 @@
 # coding: utf-8
 
 class Retter::Config
-  [:editor,
-   :title,
-   :description,
-   :url,
-   :author,
-   :retters_dir,
-   :wip_file,
-   :layouts_dir,
-   :layout_file,
-   :profile_layout_file,
-   :entry_layout_file,
-   :entries_layout_file,
-   :index_layout_file,
-   :entries_dir,
-   :profile_file,
-   :index_file,
-   :entries_file,
-   :feed_file
-  ].each do |att|
+  ATTRIBUTES =  [
+    :editor,
+    :title,
+    :description,
+    :url,
+    :author,
+    :retters_dir,
+    :wip_file,
+    :layouts_dir,
+    :layout_file,
+    :profile_layout_file,
+    :entry_layout_file,
+    :entries_layout_file,
+    :index_layout_file,
+    :entries_dir,
+    :profile_file,
+    :index_file,
+    :entries_file,
+    :feed_file
+  ]
+
+  ATTRIBUTES.each do |att|
     class_eval <<-EOM
       def #{att}(val = nil)
         val ? @options[:#{att}] = val : @options[:#{att}]
@@ -71,5 +74,9 @@ class Retter::Config
 
   def entry_file(date)
     entries_dir.join date.strftime('%Y%m%d.html')
+  end
+
+  def self.delegatables
+    ATTRIBUTES + [:retter_file, :entry_file]
   end
 end

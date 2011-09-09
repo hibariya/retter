@@ -4,6 +4,10 @@ module Retter::Stationery
   class Previewer
     attr_reader :config
 
+    extend Forwardable
+
+    def_delegators :@config, *Retter::Config.delegatables
+
     def initialize(config, date)
       @config, @date = config, date
       @body, @entry  = *nil
@@ -17,11 +21,11 @@ module Retter::Stationery
     end
 
     def renderer
-      Haml::Engine.new(config.layout_file.read, ugly: true)
+      Haml::Engine.new(layout_file.read, ugly: true)
     end
 
     def entry_renderer
-      Haml::Engine.new(config.entry_layout_file.read, ugly: true)
+      Haml::Engine.new(entry_layout_file.read, ugly: true)
     end
 
     def print
@@ -46,13 +50,13 @@ module Retter::Stationery
     end
 
     def load_retter_file
-      retter_file = config.retter_file(@date)
+      retter_file = retter_file(@date)
       @body = retter_file.exist? ? retter_file.read : ''
     end
 
     def load_wip_entry_if_needed
-      if @date == Date.today && config.wip_file.exist?
-        @body = [@body, config.wip_file.read].join("\n")
+      if @date == Date.today && wip_file.exist?
+        @body = [@body, wip_file.read].join("\n")
       end
     end
   end

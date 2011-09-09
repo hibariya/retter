@@ -38,6 +38,9 @@ module Retter::Stationery::View
     attr_accessor :assigns
 
     include Helper
+    extend Forwardable
+
+    def_delegators :@config, *Retter::Config.delegatables
 
     [:entries].each do |meth|
       define_method meth do

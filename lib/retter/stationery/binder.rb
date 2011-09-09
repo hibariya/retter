@@ -4,6 +4,10 @@ module Retter::Stationery
   class Binder
     attr_reader :config, :entries
 
+    extend Forwardable
+
+    def_delegators :@config, *Retter::Config.delegatables
+
     def initialize(config)
       @config = config
     end
@@ -13,17 +17,17 @@ module Retter::Stationery
     end
 
     def layout_renderer
-      @layout_renderer ||= Haml::Engine.new(config.layout_file.read, ugly: true)
+      @layout_renderer ||= Haml::Engine.new(layout_file.read, ugly: true)
     end
 
     def entry_renderer
-      @entry_renderer ||= Haml::Engine.new(config.entry_layout_file.read, ugly: true)
+      @entry_renderer ||= Haml::Engine.new(entry_layout_file.read, ugly: true)
     end
 
     def rebind!
       commit_wip_file
 
-      @entries = Retter::Stationery.scan(config.retters_dir)
+      @entries = Retter::Stationery.scan(retters_dir)
 
       bind_entries
       print_index
@@ -32,10 +36,10 @@ module Retter::Stationery
     end
 
     def commit_wip_file
-      if config.wip_file.exist?
-        html = config.wip_file.read
-        config.retter_file(Date.today).open('a') {|f| f.puts html }
-        config.wip_file.unlink
+      if wip_file.exist?
+        html = wip_file.read
+        retter_file(Date.today).open('a') {|f| f.puts html }
+        wip_file.unlink
       end
     end
 
@@ -48,40 +52,40 @@ module Retter::Stationery
       part = entry_renderer.render(view_scope, entry: entry)
       html = layout_renderer.render(view_scope, content: part)
 
-      config.entry_file(entry.date).open('w') do |f|
+      entry_file(entry.date).open('w') do |f|
         f.puts View::Helper.fix_path(html, '../')
       end
     end
 
     def print_index
-      part = Haml::Engine.new(config.index_layout_file.read, ugly: true).render(view_scope)
+      part = Haml::Engine.new(index_layout_file.read, ugly: true).render(view_scope)
       html = layout_renderer.render(view_scope, content: part)
 
-      config.index_file.open('w') do |f|
+      index_file.open('w') do |f|
         f.puts  View::Helper.fix_path(html, './')
       end
     end
 
     def print_profile
-      part = Haml::Engine.new(config.profile_layout_file.read, ugly: true).render(view_scope)
+      part = Haml::Engine.new(profile_layout_file.read, ugly: true).render(view_scope)
       html = layout_renderer.render(view_scope, content: part)
 
-      config.profile_file.open('w') do |f|
+      profile_file.open('w') do |f|
         f.puts  View::Helper.fix_path(html, './')
       end
     end
 
     def print_toc
-      part = Haml::Engine.new(config.entries_layout_file.read, ugly: true).render(view_scope)
+      part = Haml::Engine.new(entries_layout_file.read, ugly: true).render(view_scope)
       html = layout_renderer.render(view_scope, content: part)
 
-      config.entries_file.open('w') do |f|
+      entries_file.open('w') do |f|
         f.puts  View::Helper.fix_path(html, './')
       end
     end
 
     def print_rss
-      config.feed_file.open('w') {|f| f.puts rss }
+      feed_file.open('w') {|f| f.puts rss }
     end
 
     def rss
@@ -91,11 +95,11 @@ module Retter::Stationery
                    :'xmlns:rdf'  => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
                    :'xmlns:dc'   => 'http://purl.org/dc/elements/1.1/',
                    :'xml:lang'   => 'ja' do
-        xml.channel :'rdf:about' => config.url do
-          xml.title config.title
-          xml.link config.url
+        xml.channel :'rdf:about' => url do
+          xml.title title
+          xml.link url
           xml.dc:date, entries.first.date
-          xml.description config.description
+          xml.description description
           xml.items { xml.rdf(:Seq) { entries.each {|e| xml.rdf:li, :'rdf:resource' => entry_url(e.date) } } }
         end
 
@@ -105,14 +109,14 @@ module Retter::Stationery
             xml.description { xml.cdata! entry.body }
             xml.dc:date, entry.date
             xml.link     entry_url(entry.date)
-            xml.author   config.author
+            xml.author   author
           end
         end
       end
     end
 
     def entry_url(date, id = nil)
-      (URI.parse(config.url) + date.strftime('/entries/%Y%m%d.html')).to_s
+      (URI.parse(url) + date.strftime('/entries/%Y%m%d.html')).to_s
     end
   end
 end
