@@ -25,7 +25,7 @@ You can use `retter` command anywhere, If you set `$RETTER_HOME` variable.
   $ . ~/.bash_profile
 ~~~~
 
-`retter` command open *$EDITOR*. You can write an article with Markdown.
+`retter` command open `$EDITOR`. You can write an article with Markdown.
 The article will be draft.
 
 ~~~~
