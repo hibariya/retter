@@ -30,8 +30,8 @@ module Retter::Stationery
       )
     end
 
-    def previewer(date, config)
-      Previewer.new date, config
+    def previewer(config, date)
+      Previewer.new config, date
     end
 
     def binder(config)

@@ -4,7 +4,7 @@ module Retter::Stationery
   class Previewer
     attr_reader :config
 
-    def initialize(date, config)
+    def initialize(config, date)
       @config, @date = config, date
       @body, @entry  = *nil
 

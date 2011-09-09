@@ -12,7 +12,7 @@ class Retter::Command < Thor
   desc 'preview', 'Preview current entry'
   method_options date: :string
   def preview
-    preview = Retter::Stationery.previewer(detected_date, config)
+    preview = Retter::Stationery.previewer(config, detected_date)
 
     preview.print
     Launchy.open preview.file_path.to_s
