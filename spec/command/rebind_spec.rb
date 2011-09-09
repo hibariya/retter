@@ -5,7 +5,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe 'Retter::Command#rebind', clean: :all do
   let(:command) { Retter::Command.new }
   let(:wip_file) { retter_config.wip_file }
-  let(:date_file) { retter_config.retter_file(Date.parse(date), '.md') }
+  let(:date_file) { retter_config.retter_file(Date.parse(date)) }
   let(:date_html) { retter_config.retter_home.join('entries', "#{date}.html") }
 
   before do

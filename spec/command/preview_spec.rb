@@ -6,7 +6,7 @@ describe 'Retter::Command#preview', clean: :all do
   let(:command) { Retter::Command.new }
   let(:preview) { retter_config.retter_home.join('.preview.html').read }
   let(:wip_file) { retter_config.wip_file }
-  let(:date_file) { retter_config.retter_file(Date.parse(date), '.md') }
+  let(:date_file) { retter_config.retter_file(Date.parse(date)) }
 
   before do
     command.stub!(:config) { retter_config }

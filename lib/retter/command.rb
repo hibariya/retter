@@ -42,9 +42,9 @@ class Retter::Command < Thor
 
   def detected_retter_file
     if options[:date]
-      config.retter_file(Date.parse(options[:date]), '.md')
+      config.retter_file(Date.parse(options[:date]))
     else
-      todays_file = config.retter_file(Date.today, '.md')
+      todays_file = config.retter_file(Date.today)
       todays_file.exist? ? todays_file : config.wip_file
     end
   end

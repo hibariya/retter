@@ -46,7 +46,7 @@ module Retter::Stationery
     def commit_wip_file
       if config.wip_file.exist?
         html = config.wip_file.read
-        config.retter_file(Date.today, '.md').open('a') {|f| f.puts html }
+        config.retter_file(Date.today).open('a') {|f| f.puts html }
         config.wip_file.unlink
       end
     end

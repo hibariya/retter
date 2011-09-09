@@ -46,7 +46,7 @@ module Retter::Stationery
     end
 
     def load_retter_file
-      retter_file = config.retter_file(@date, '.md')
+      retter_file = config.retter_file(@date)
       @body = retter_file.exist? ? retter_file.read : ''
     end
 

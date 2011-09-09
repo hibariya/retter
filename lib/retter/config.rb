@@ -35,8 +35,8 @@ class Retter::Config
     retters_dir.join 'today.md'
   end
 
-  def retter_file(date, suf)
-    retters_dir.join(date ? date.strftime("%Y%m%d#{suf}") : "today#{suf}")
+  def retter_file(date)
+    retters_dir.join(date ? date.strftime("%Y%m%d.md") : "today.md")
   end
 
   def layouts_dir
