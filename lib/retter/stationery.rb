@@ -6,7 +6,7 @@ module Retter::Stationery
       entries = find_markup_files(path).map {|file|
         date = file.basename('.*').to_s
         mkup = File.open(file, &:read)
-        Retter::Entry.new date: Date.parse(date), body: parser.render(mkup)
+        Retter::Entry.new date: Date.parse(date), body: markupper.render(mkup)
       }
 
       entries.sort_by(&:date).reverse
@@ -17,8 +17,8 @@ module Retter::Stationery
       Dir.open(path, &:to_a).grep(/^\d{4}(?:0[1-9]|1[012])(?:0[1-9]|[12][0-9]|3[01])\.(md)$/).map {|f| path.join f }
     end
 
-    def parser
-      @parser ||= ::Redcarpet::Markdown.new(
+    def markupper
+      @markupper ||= ::Redcarpet::Markdown.new(
         Renderer,
         autolink: true,
         space_after_headers: true,

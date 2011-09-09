@@ -42,7 +42,7 @@ module Retter::Stationery
     end
 
     def build_entry
-      @entry = Retter::Entry.new(date: @date, body: Retter::Stationery.parser.render(@body))
+      @entry = Retter::Entry.new(date: @date, body: Retter::Stationery.markupper.render(@body))
     end
 
     def load_retter_file
