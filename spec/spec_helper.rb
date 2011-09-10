@@ -25,7 +25,7 @@ RSpec.configure do |config|
   retter_home = RETTER_ROOT.join('tmp', 'test')
   skel        = RETTER_ROOT.join('lib', 'generator', 'skel')
 
-  config.after(:each, clean: :all) do
+  config.before(:each, clean: :all) do
     FileUtils.cp_r skel, retter_home.dirname.join('test')
   end
 
