@@ -1,9 +1,12 @@
 # coding: utf-8
 
-RETTER_ROOT = Pathname.new(File.dirname(__FILE__) + '/../').realpath
-
-require  RETTER_ROOT.join('lib', 'retter')
 require 'tapp'
+require 'simplecov'
+
+SimpleCov.start
+
+RETTER_ROOT = Pathname.new(File.dirname(__FILE__) + '/../').realpath
+require RETTER_ROOT.join('lib', 'retter')
 
 module Retter::ConfigSupport
   def retter_config

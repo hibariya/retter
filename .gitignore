@@ -12,3 +12,4 @@ lib/generator/skel/entries.*
 lib/generator/skel/entries/*.html
 lib/generator/skel/vendor
 .DS_Store
+coverage
