@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = Retter::VERSION
   s.authors     = ["hibariya"]
   s.email       = ["celluloid.key@gmail.com"]
-  s.homepage    = "http://retter.heroku.com"
+  s.homepage    = "https://github.com/hibariya/retter"
   s.summary     = %q{Lightweight diary workflow}
   s.description = %q{Lightweight diary workflow}
 
