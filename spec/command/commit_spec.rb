@@ -12,6 +12,7 @@ describe 'Retter::Command#commit', clean: :all do
     Grit::Repo.init retter_config.retter_home.to_s
 
     command.stub!(:config) { retter_config }
+    command.stub!(:say) { true }
     wip_file.open('w') {|f| f.puts article }
     command.rebind
 

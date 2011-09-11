@@ -40,8 +40,8 @@ class Retter::Command < Thor
     git = Grit::Repo.new(working_dir)
     Dir.chdir working_dir
 
-    git.add working_dir
-    git.commit_all 'Retter commit'
+    say git.add(working_dir), :green
+    say git.commit_all('Retter commit'), :green
   end
 
   desc 'new', 'Create a new site'
