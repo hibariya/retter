@@ -34,6 +34,16 @@ class Retter::Command < Thor
   desc 'bind', 'Re-bind the draft article, re-generate all html pages.'
   alias_method :bind, :rebind
 
+  desc 'commit', "cd $RETTER_HOME && git add . && git commit -m 'Retter commit'"
+  def commit
+    working_dir = config.retter_home.to_s
+    git = Grit::Repo.new(working_dir)
+    Dir.chdir working_dir
+
+    git.add working_dir
+    git.commit_all 'Retter commit'
+  end
+
   desc 'new', 'Create a new site'
   def new
   end
