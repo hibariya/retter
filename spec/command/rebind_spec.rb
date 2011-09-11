@@ -5,15 +5,15 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe 'Retter::Command#rebind', clean: :all do
   let(:command) { Retter::Command.new }
   let(:wip_file) { retter_config.wip_file }
-  let(:date_file) { retter_config.retter_file(Date.parse(date)) }
-  let(:date_html) { retter_config.retter_home.join('entries', "#{date}.html") }
+  let(:date_file) { retter_config.retter_file(Date.parse(date_str)) }
+  let(:date_html) { retter_config.entry_file(Date.parse(date_str)) }
 
   before do
     command.stub!(:config) { retter_config }
   end
 
   context 'first post' do
-    let(:date) { '20110101' }
+    let(:date_str) { '20110101' }
     let(:article) { <<-EOM }
 # 朝11時
 
@@ -26,7 +26,7 @@ describe 'Retter::Command#rebind', clean: :all do
 
     before do
       wip_file.open('w') {|f| f.puts article }
-      Date.stub!(:today).and_return(Date.parse(date))
+      Date.stub!(:today).and_return(Date.parse(date_str))
 
       command.rebind
     end
@@ -36,18 +36,26 @@ describe 'Retter::Command#rebind', clean: :all do
     end
 
     describe 'index.html' do
-      subject { Nokogiri::HTML(retter_config.retter_home.join('index.html').read) }
+      let(:index_html) { retter_config.index_file.read }
 
-      it { subject.search('body').text.should =~ /おはようございます/ }
-      it { subject.search('.entry h1.date').first.text.should be_include('2011/01/01') }
-      it { subject.search('.entry h1').map(&:text).map(&:strip).should == %w(2011/01/01 朝11時 夜1時) }
+      it { texts_of(index_html, '.entry p').should be_include('おはようございます') }
+      it { texts_of(index_html, '.entry h1.date').should == %w(2011/01/01) }
+      it { texts_of(index_html, '.entry h1').should == %w(2011/01/01 朝11時 夜1時) }
     end
 
     describe 'entries.html' do
-      subject { Nokogiri::HTML(retter_config.retter_home.join('entries.html').read) }
+      let(:entries_html) { retter_config.entries_file.read }
 
-      it { subject.search('a.entry').first.text.should be_include('2011/01/01') }
-      it { subject.search('a.title').map(&:text).map(&:strip).should == %w(朝11時 夜1時) }
+      it { texts_of(entries_html, 'a.entry').first.should == '2011/01/01' }
+      it { texts_of(entries_html, 'a.title').should == %w(朝11時 夜1時) }
+    end
+
+    describe 'entry.html' do
+      let(:entry_html) { retter_config.entry_file(Date.parse(date_str)).read }
+
+      it { texts_of(entry_html, '.entry p').should be_include('おはようございます') }
+      it { texts_of(entry_html, '.entry h1.date').should == %w(2011/01/01) }
+      it { texts_of(entry_html, '.entry h1').should == %w(2011/01/01 朝11時 夜1時) }
     end
   end
 end

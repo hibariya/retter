@@ -6,7 +6,7 @@ describe 'Retter::Command#preview', clean: :all do
   let(:command) { Retter::Command.new }
   let(:preview) { retter_config.retter_home.join('.preview.html').read }
   let(:wip_file) { retter_config.wip_file }
-  let(:date_file) { retter_config.retter_file(Date.parse(date)) }
+  let(:date_file) { retter_config.retter_file(Date.parse(date_str)) }
 
   before do
     command.stub!(:config) { retter_config }
@@ -17,27 +17,34 @@ describe 'Retter::Command#preview', clean: :all do
 
     before do
       wip_file.open('w') {|f| f.puts article }
+
       Launchy.stub!(:open).with(anything)
 
       command.preview
     end
 
-    it { preview.should =~ /<body.*#{article}.*\/body>/mi }
+    subject { texts_of(preview, '.entry p') }
+
+    it { should == [article] }
   end
 
   context 'with date' do
     let(:article) { 'おはようございます' }
-    let(:date) { '20110101' }
+    let(:date_str) { '20110101' }
 
     before do
       wip_file.open('w') {|f| f.puts 'おやすみなさい' }
       date_file.open('w') {|f| f.puts article }
+
       Launchy.stub!(:open).with(anything)
+      command.stub!(:options) { {date: date_str} }
 
       command.preview
     end
 
-    it { preview =~ /#{article}/mi }
-    it { preview !~ /おやすみなさい/mi }
+    subject { texts_of(preview, '.entry p') }
+
+    it { should_not be_include('おやすみなさい') }
+    it { should be_include(article) }
   end
 end

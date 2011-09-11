@@ -8,18 +8,7 @@ SimpleCov.start
 RETTER_ROOT = Pathname.new(File.dirname(__FILE__) + '/../').realpath
 require RETTER_ROOT.join('lib', 'retter')
 
-module Retter::ConfigSupport
-  def retter_config
-    return @config if @config
-
-    env = {
-      'EDITOR'      => 'touch',
-      'RETTER_HOME' => RETTER_ROOT.join('tmp', 'test').to_s
-    }
-
-    @config = Retter::Config.new(env)
-  end
-end
+Dir[File.dirname(__FILE__) + '/support/*'].each {|f| require f }
 
 RSpec.configure do |config|
   config.filter_run focus: true
@@ -37,4 +26,5 @@ RSpec.configure do |config|
   end
 
   config.include Retter::ConfigSupport
+  config.include Retter::HTMLSupport
 end

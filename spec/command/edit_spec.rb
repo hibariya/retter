@@ -15,14 +15,14 @@ describe 'Retter::Command#edit', clean: :all do
       command.edit
     end
 
-    it { wip_file.should be_exist }
+    it { wip_file.should written }
   end
 
   context 'no options after rebind' do
-    let(:date) { '20110101' }
+    let(:date_str) { '20110101' }
 
     before do
-      Date.stub!(:today).and_return(Date.parse(date))
+      Date.stub!(:today).and_return(Date.parse(date_str))
 
       command.edit
       command.bind
@@ -30,23 +30,28 @@ describe 'Retter::Command#edit', clean: :all do
     end
 
     it { wip_file.should_not be_exist }
-    it { retter_config.retters_dir.join("#{date}.md").should be_exist }
+
+    describe "today's file" do
+      subject { retter_config.retters_dir.join("#{date_str}.md") }
+
+      it { should written }
+    end
   end
 
   context 'with date' do
-    let(:date) { '20110101' }
+    let(:date_str) { '20110101' }
 
     before do
-      command.stub!(:options) { {date: date} }
+      command.stub!(:options) { {date: date_str} }
       command.edit
     end
 
     it { wip_file.should_not be_exist }
 
     describe 'target date file' do
-      subject { retter_config.retters_dir.join("#{date}.md") }
+      subject { retter_config.retter_file(Date.parse(date_str)) }
 
-      it { should be_exist }
+      it { should written }
     end
   end
 end
