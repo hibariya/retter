@@ -1,7 +1,7 @@
 # coding: utf-8
 
 class Retter::Command < Thor
-  desc 'edit', 'Edit current entry with $EDITOR'
+  desc 'edit', 'Open $EDITOR. Write an article with Markdown.'
   method_options date: :string
   def edit
     system config.editor, detected_retter_file.to_s
@@ -9,7 +9,7 @@ class Retter::Command < Thor
 
   default_task :edit
 
-  desc 'preview', 'Preview current entry'
+  desc 'preview', 'Preview the draft article (browser will open).'
   method_options date: :string
   def preview
     preview = Retter::Stationery.previewer(config, detected_date)
@@ -18,12 +18,12 @@ class Retter::Command < Thor
     Launchy.open preview.file_path.to_s
   end
 
-  desc 'open', 'Open site statically'
+  desc 'open', 'Open your (static) site top page (browser will open).'
   def open
     Launchy.open config.index_file.to_s
   end
 
-  desc 'rebind', 'Re generate site pages'
+  desc 'rebind', 'Bind the draft article, re-generate all html pages.'
   def rebind
     binder = Retter::Stationery.binder(config)
 
@@ -31,11 +31,16 @@ class Retter::Command < Thor
     binder.rebind!
   end
 
-  desc 'bind', 'Generate site pages'
+  desc 'bind', 'Re-bind the draft article, re-generate all html pages.'
   alias_method :bind, :rebind
 
-  desc 'new', 'Create new site'
+  desc 'new', 'Create a new site'
   def new
+  end
+
+  desc 'usage', 'Show usage.'
+  def usage
+    say Retter::Command.usage, :green
   end
 
   private
@@ -57,18 +62,36 @@ class Retter::Command < Thor
     @retter_config ||= Retter::Config.new(ENV)
   rescue Retter::EnvError
     say 'Set $RETTER_HOME and $EDITOR, first.', :red
-    say <<-EOM, :green
-usage:
-  export EDITOR=`which vim`      # or other editor
+    say Retter::Command.usage, :green
+    exit 1
+  end
+
+  def self.usage
+    <<-EOM
+Usage:
+  # startup
   cd /path/to/dir
   retter new my_sweet_diary
-  export RETTER_HOME=/path/to/dir/my_sweet_diary
-  cd my_sweet_diary
-  retter                         # Write the article with markdown, and save.
-  retter preview                 # Draft article will be opened in your default browser.
-  retter bind                    # Your actual website will be generated.
-  bundle exec rackup             # Open your browser, and visit http://localhost:9292/ .
+  echo "export EDITOR=vim" >> ~/.zshenv # retter requires $EDITOR.
+  echo "export RETTER_HOME=/path/to/my_sweet_diary" >> ~/.zshenv
+  . ~/.zshenv
+
+  # write a article, and publish.
+  retter         # $EDITOR will open. Write an article with Markdown.
+  retter preview # Preview the draft article (browser will open).
+  retter bind    # bind the draft article, re-generate all html pages.
+  git add .
+  git commit -m 'commit message'
+  git push [remote] [branch]
+
+  # edit specific date article.
+  retter edit --date=20110101
+  retter preview --date=20110101
+
+  # browse offline.
+  retter open    # Open your (static) site top page (browser will open).
+
+  See also: https://github.com/hibariya/retter
     EOM
-    exit 1
   end
 end

@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.email       = ["celluloid.key@gmail.com"]
   s.homepage    = "https://github.com/hibariya/retter"
   s.summary     = %q{Lightweight diary workflow}
-  s.description = %q{Lightweight diary workflow}
+  s.description = %q{Lightweight diary workflow. ruby-1.9.2 or later is required.}
 
   #s.rubyforge_project = "retter"
 

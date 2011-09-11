@@ -12,10 +12,21 @@
 
 ## Usage
 
-To create new site, use `new` subcommand.
+### Create a new site.
+
+use `new` sub-command.
 
 ~~~~
   $ retter new my_sweet_diary
+~~~~
+
+### Settings
+
+**retter required $EDITOR variable.**
+
+~~~~
+  $ echo "export EDITOR=vim" >> ~/.bash_profile
+  $ . ~/.bash_profile
 ~~~~
 
 You can use `retter` command anywhere, If you set `$RETTER_HOME` variable.
@@ -25,40 +36,62 @@ You can use `retter` command anywhere, If you set `$RETTER_HOME` variable.
   $ . ~/.bash_profile
 ~~~~
 
-`retter` command open `$EDITOR`. You can write an article with Markdown.
+### Write a article, and publish.
+
+`retter` open `$EDITOR`. Write an article with Markdown.
 The article will be draft.
 
 ~~~~
-  $ cd /path/to/my_sweet_diary # You can skip this step if you already set $RETTER_HOME.
   $ retter
 ~~~~
 
-`preview` sub-command open the draft article by your default browser.
+`preview` open the draft article by your default browser.
 
 ~~~~
   $ retter preview
 ~~~~
 
-`bind` and `rebind` sub-command save the draft article.
-And generate actual web pages.
+`bind` and `rebind` binds the draft article.
+And re-generates actual html web pages. All html pages will overwrite.
 
 ~~~~
   $ retter bind
 ~~~~
 
-`open` sub-command open your web site by your default browser.
+
+To publish, use the git command.
 
 ~~~~
-  $ retter open
+  $ git add .
+  $ git commit -m 'commit message'
+  $ git push [remote] [branch]     # heroku, github pages, etc..
 ~~~~
 
-You can use rack, if you needed.
+Or, upload the file to your server.
+
+### Edit specific date article.
+
+`--date` option is available in `edit` `preview` sub-command.
+
+~~~~
+  retter edit --date=20110101
+  retter preview --date=20110101
+~~~~
+
+### Browse offline
+
+`open` sub-command open your (static) website by your default browser.
+
+~~~~
+  $ retter open    # visit file://path/to/my_sweet_diary/index.html
+~~~~
+
+Or, Use rack if needed.
 
 ~~~~
   $ cd /path/to/my_sweet_diary
   $ bundle exec rackup
 ~~~~
-
 
 ## LICENSE
 
