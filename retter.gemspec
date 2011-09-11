@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'bundler'
   s.add_runtime_dependency 'grit'
 
+  s.add_development_dependency 'rake'
   s.add_development_dependency 'ir_b'
   s.add_development_dependency 'tapp'
   s.add_development_dependency 'rspec'
