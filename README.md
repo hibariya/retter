@@ -1,6 +1,6 @@
 # RETTER (レッター) Lightweight diary workflow.
 
-コマンドラインで簡単に起動してブラウザですぐに確認できてデプロイがちょう楽そうな日記作成支援コマンドをつくる予定。
+コマンドラインで簡単に起動してブラウザですぐに確認できて柔軟にデプロイできる記事作成支援コマンド。
 
 ## Installation
 
@@ -22,12 +22,14 @@ use `new` sub-command.
 
 ### Settings
 
-**retter required $EDITOR variable.**
+**retter requires `$EDITOR` variable.**
 
 ~~~~
   $ echo "export EDITOR=vim" >> ~/.bash_profile
   $ . ~/.bash_profile
 ~~~~
+
+ファイルシステム上のどこに居ても `retter` コマンドを使って編集から公開まで行えるよう、 事前に `$RETTER_HOME` 環境変数を設定しておくことができます。
 
 You can use `retter` command anywhere, If you set `$RETTER_HOME` variable.
 
@@ -36,14 +38,17 @@ You can use `retter` command anywhere, If you set `$RETTER_HOME` variable.
   $ . ~/.bash_profile
 ~~~~
 
-### Write a article, and publish.
+### Write an article, and publish it.
 
-`retter` open `$EDITOR`. Write an article with Markdown.
-The article will be draft.
+`retter` コマンドは設定されているエディタを起動します。Markdownで記事を書くことができます。
+
+`retter` opens `$EDITOR`. Write an article with Markdown. That article will be the draft.
 
 ~~~~
   $ retter
 ~~~~
+
+`preview` で書きかけの最新記事をブラウザで確認することができます（デフォルトブラウザが起動します）。
 
 `preview` open the draft article by your default browser.
 
@@ -51,25 +56,53 @@ The article will be draft.
   $ retter preview
 ~~~~
 
-`bind` and `rebind` binds the draft article.
-And re-generates actual html web pages. All html pages will overwrite.
+`bind`, `rebind` は下書きの記事をその日の記事として保存し、すべてのHTMLを再生成します。
+
+`bind` and `rebind` binds the draft article. And re-generates actual html web pages. All html pages will overwrite.
 
 ~~~~
   $ retter bind
 ~~~~
 
 
+記事を公開（サーバにデプロイ）するには、すべてのファイルを git リポジトリにコミットしリモートサーバに push するか、単純にファイルをアップロードします。
+
 To publish, use the git command.
 
 ~~~~
-  $ git add .
-  $ git commit -m 'commit message'
-  $ git push [remote] [branch]     # heroku, github pages, etc..
+  $ retter commit              # shortcut of `git add . ; git commit -m 'Retter commit'`
+  $ git push [remote] [branch] # heroku, github pages, etc..
 ~~~~
 
 Or, upload the file to your server.
 
-### Edit specific date article.
+### Command callbacks
+
+作業をさらに単純化するために、いくつかのコマンドにコールバックが設定できます。
+
+Callback is enabled in `edit`, `bind`, `rebind` and `commit` sub-command.
+
+In Retterfile:
+
+~~~~ruby
+  # Syntax:
+  #   after [command], [invoke command or proc]
+
+  after :rebind, :commit
+
+  after :commit do
+    system "cd #{config.retter_home}"
+    system 'git push origin master'
+  end
+~~~~
+
+`--silent` オプションを指定すれば、たとえコールバックが設定されていても実行はされません。
+
+`--silent` option skip the callback.
+
+### Edit article (specific date).
+
+過去や未来の日付を指定して記事を編集・プレビューするには、 `--date` オプションを用います。
 
 `--date` option is available in `edit` `preview` sub-command.
 
@@ -79,6 +112,8 @@ Or, upload the file to your server.
 ~~~~
 
 ### Browse offline
+
+生成されるすべてのページは静的HTMLです。`open` でサーバにデプロイしたものとほぼ同じように閲覧することができます。
 
 `open` sub-command open your (static) website by your default browser.
 
