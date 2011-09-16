@@ -50,7 +50,7 @@ You can use `retter` command anywhere, If you set `$RETTER_HOME` variable.
 
 `preview` で書きかけの最新記事をブラウザで確認することができます（デフォルトブラウザが起動します）。
 
-`preview` open the draft article by your default browser.
+`preview` opens the draft article by your default browser.
 
 ~~~~
   $ retter preview
@@ -96,8 +96,6 @@ In Retterfile:
   end
 ~~~~
 
-`--silent` オプションを指定すれば、たとえコールバックが設定されていても実行はされません。
-
 `--silent` option skip the callback.
 
 ### Edit article (specific date).
@@ -113,9 +111,9 @@ In Retterfile:
 
 ### Browse offline
 
-生成されるすべてのページは静的HTMLです。`open` でサーバにデプロイしたものとほぼ同じように閲覧することができます。
+生成されるすべてのページは静的HTMLです。`open` でサーバにデプロイしたものとほぼ同じようにオフラインでも閲覧することができます。rackでもOK。
 
-`open` sub-command open your (static) website by your default browser.
+`open` sub-command opens your (static) website by your default browser.
 
 ~~~~
   $ retter open    # visit file://path/to/my_sweet_diary/index.html
