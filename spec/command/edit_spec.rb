@@ -12,6 +12,7 @@ describe 'Retter::Command#edit', clean: :all do
 
   context 'no options' do
     before do
+      command.should_receive(:invoke_after).with(:edit)
       command.edit
     end
 
@@ -38,11 +39,13 @@ describe 'Retter::Command#edit', clean: :all do
     end
   end
 
-  context 'with date' do
+  context 'with date option' do
     let(:date_str) { '20110101' }
 
     before do
       command.stub!(:options) { {date: date_str} }
+
+      command.should_receive(:invoke_after).with(:edit)
       command.edit
     end
 
@@ -53,5 +56,16 @@ describe 'Retter::Command#edit', clean: :all do
 
       it { should written }
     end
+  end
+
+  context 'with silent option' do
+    before do
+      command.stub!(:options) { {silent: true} }
+
+      command.should_not_receive(:invoke_after)
+      command.edit
+    end
+
+    it { wip_file.should written }
   end
 end

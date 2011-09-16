@@ -28,6 +28,8 @@ describe 'Retter::Command#rebind', clean: :all do
       wip_file.open('w') {|f| f.puts article }
       Date.stub!(:today).and_return(Date.parse(date_str))
 
+      command.should_receive(:invoke_after).with(:bind)
+      command.should_receive(:invoke_after).with(:rebind)
       command.rebind
     end
 
@@ -57,5 +59,16 @@ describe 'Retter::Command#rebind', clean: :all do
       it { texts_of(entry_html, '.entry h1.date').should == %w(2011/01/01) }
       it { texts_of(entry_html, '.entry h1').should == %w(2011/01/01 朝11時 夜1時) }
     end
+  end
+
+  context 'with silent option' do
+    before do
+      wip_file.open('w') {|f| f.puts 'article' }
+      command.stub!(:options) { {silent: true} }
+
+      command.should_not_receive(:invoke_after)
+    end
+
+    it { command.rebind.should }
   end
 end

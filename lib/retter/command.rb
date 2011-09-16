@@ -2,11 +2,11 @@
 
 class Retter::Command < Thor
   desc 'edit', 'Open $EDITOR. Write an article with Markdown.'
-  method_options date: :string
+  method_options date: :string, silent: :boolean
   def edit
     system config.editor, detected_retter_file.to_s
 
-    invoke_after :edit
+    invoke_after :edit unless options[:silent]
   end
 
   default_task :edit
@@ -26,19 +26,25 @@ class Retter::Command < Thor
   end
 
   desc 'rebind', 'Bind the draft article, re-generate all html pages.'
+  method_options silent: :boolean
   def rebind
     binder = Retter::Stationery.binder(config)
 
     binder.commit_wip_file
     binder.rebind!
 
-    invoke_after :rebind
+    unless options[:silent]
+      invoke_after :bind
+      invoke_after :rebind
+    end
   end
 
   desc 'bind', 'Re-bind the draft article, re-generate all html pages.'
+  method_options silent: :boolean
   alias_method :bind, :rebind
 
   desc 'commit', "cd $RETTER_HOME && git add . && git commit -m 'Retter commit'"
+  method_options silent: :boolean
   def commit
     working_dir = config.retter_home.to_s
     git = Grit::Repo.new(working_dir)
@@ -47,7 +53,7 @@ class Retter::Command < Thor
     say git.add(working_dir), :green
     say git.commit_all('Retter commit'), :green
 
-    invoke_after :commit
+    invoke_after :commit unless options[:silent]
   end
 
   desc 'new', 'Create a new site'

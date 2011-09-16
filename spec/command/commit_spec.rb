@@ -15,9 +15,23 @@ describe 'Retter::Command#commit', clean: :all do
     command.stub!(:say) { true }
     wip_file.open('w') {|f| f.puts article }
     command.rebind
-
-    command.commit
   end
 
-  it { repo.commits.first.message.should == 'Retter commit' }
+  context 'with no options' do
+    before do
+      command.should_receive(:invoke_after).with(:commit)
+      command.commit
+    end
+
+    it { repo.commits.first.message.should == 'Retter commit' }
+  end
+
+  context 'with silent option' do
+    before do
+      command.stub!(:options) { {silent: true} }
+      command.should_not_receive(:invoke_after)
+    end
+
+    it { command.commit.should }
+  end
 end
