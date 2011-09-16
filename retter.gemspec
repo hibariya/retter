@@ -18,19 +18,19 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_runtime_dependency 'thor'
-  s.add_runtime_dependency 'builder'
+  s.add_runtime_dependency 'thor', ['>= 0.14.6']
+  s.add_runtime_dependency 'builder', ['>= 3.0.0']
   s.add_runtime_dependency 'redcarpet', ['>= 2.0.0b3']
-  s.add_runtime_dependency 'coderay'
-  s.add_runtime_dependency 'nokogiri'
-  s.add_runtime_dependency 'launchy'
-  s.add_runtime_dependency 'haml'
-  s.add_runtime_dependency 'bundler'
-  s.add_runtime_dependency 'grit'
+  s.add_runtime_dependency 'coderay', ['>= 0.9.8']
+  s.add_runtime_dependency 'nokogiri', ['>= 1.5.0']
+  s.add_runtime_dependency 'launchy', ['>= 2.0.5']
+  s.add_runtime_dependency 'haml', ['>= 3.1.3']
+  s.add_runtime_dependency 'bundler', ['>= 1.1.pre.8']
+  s.add_runtime_dependency 'grit', ['>= 2.4.1']
 
-  s.add_development_dependency 'rake'
-  s.add_development_dependency 'ir_b'
-  s.add_development_dependency 'tapp'
-  s.add_development_dependency 'rspec'
-  s.add_development_dependency 'simplecov'
+  s.add_development_dependency 'rake', ['>= 0.9.2']
+  s.add_development_dependency 'ir_b', ['>= 1.4.0']
+  s.add_development_dependency 'tapp', ['>= 1.1.0']
+  s.add_development_dependency 'rspec', ['>= 2.6.0']
+  s.add_development_dependency 'simplecov', ['>= 0.5.3']
 end
