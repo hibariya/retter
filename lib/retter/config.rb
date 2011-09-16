@@ -34,6 +34,7 @@ class Retter::Config
 
   def initialize(env)
     @env, @options = env, {}
+    @after_callbacks = {}
 
     detect_retter_home
     raise Retter::EnvError unless env.values_at('EDITOR', 'RETTER_HOME').all?
@@ -78,5 +79,13 @@ class Retter::Config
 
   def self.delegatables
     ATTRIBUTES + [:retter_file, :entry_file]
+  end
+
+  def after(name, sym = nil, &block)
+    if callback = sym || block
+      @after_callbacks[name] = callback
+    else
+      @after_callbacks[name]
+    end
   end
 end

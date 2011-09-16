@@ -5,6 +5,8 @@ class Retter::Command < Thor
   method_options date: :string
   def edit
     system config.editor, detected_retter_file.to_s
+
+    invoke_after :edit
   end
 
   default_task :edit
@@ -29,6 +31,8 @@ class Retter::Command < Thor
 
     binder.commit_wip_file
     binder.rebind!
+
+    invoke_after :rebind
   end
 
   desc 'bind', 'Re-bind the draft article, re-generate all html pages.'
@@ -42,11 +46,12 @@ class Retter::Command < Thor
 
     say git.add(working_dir), :green
     say git.commit_all('Retter commit'), :green
+
+    invoke_after :commit
   end
 
   desc 'new', 'Create a new site'
-  def new
-  end
+  def new; end
 
   desc 'usage', 'Show usage.'
   def usage
@@ -74,6 +79,20 @@ class Retter::Command < Thor
     say 'Set $RETTER_HOME and $EDITOR, first.', :red
     say Retter::Command.usage, :green
     exit 1
+  end
+
+  def invoke_after(name)
+    callback = config.after(name)
+    return unless callback
+
+    case callback
+    when Proc
+      instance_eval &callback
+    when Symbol
+      invoke callback
+    else
+      raise ArgumentError
+    end
   end
 
   def self.usage

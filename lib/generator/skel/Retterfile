@@ -1,6 +1,21 @@
+#!/usr/bin/env ruby
 # coding: utf-8
 
 url         'http://retter.example.com/'
 title       '<%= name %>'
 description '<%= name %>'
 author      '<%= ENV["USER"] %>'
+
+## Callbacks for retter sub-command: edit, rebind, commit
+##
+## Syntax:
+##   after [command], [invoke command or proc]
+#
+## Using symbol example:
+#    after :rebind, :commit
+#
+## Using proc example:
+#    after :commit do
+#      system "cd #{config.retter_home}"
+#      system 'git push origin master'
+#    end
