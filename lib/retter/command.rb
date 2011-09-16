@@ -56,6 +56,14 @@ class Retter::Command < Thor
     invoke_after :commit unless options[:silent]
   end
 
+  desc 'home', 'Open a new shell in $RETTER_HOME'
+  def home
+    Dir.chdir config.retter_home.to_s
+
+    system 'PS1="(retter) $PS1" $SHELL'
+    say 'bye', :green
+  end
+
   desc 'new', 'Create a new site'
   def new; end
 
