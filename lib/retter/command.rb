@@ -60,7 +60,7 @@ class Retter::Command < Thor
   def home
     Dir.chdir config.retter_home.to_s
 
-    system 'PS1="(retter) $PS1" $SHELL'
+    system %(PS1="(retter) " #{config.shell})
     say 'bye', :green
   end
 
