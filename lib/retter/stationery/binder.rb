@@ -12,18 +12,6 @@ module Retter::Stationery
       @config = config
     end
 
-    def view_scope
-      @view_scope ||= View::Scope.new(config, entries: entries)
-    end
-
-    def layout_renderer
-      @layout_renderer ||= Haml::Engine.new(layout_file.read, ugly: true)
-    end
-
-    def entry_renderer
-      @entry_renderer ||= Haml::Engine.new(entry_layout_file.read, ugly: true)
-    end
-
     def rebind!
       commit_wip_file
 
@@ -117,6 +105,20 @@ module Retter::Stationery
 
     def entry_url(date, id = nil)
       (URI.parse(url) + date.strftime('/entries/%Y%m%d.html')).to_s
+    end
+
+    private
+
+    def view_scope
+      @view_scope ||= View::Scope.new(config, entries: entries)
+    end
+
+    def layout_renderer
+      @layout_renderer ||= Haml::Engine.new(layout_file.read, ugly: true)
+    end
+
+    def entry_renderer
+      @entry_renderer ||= Haml::Engine.new(entry_layout_file.read, ugly: true)
     end
   end
 end

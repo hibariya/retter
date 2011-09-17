@@ -1,7 +1,7 @@
 # coding: utf-8
 
 class Retter::Config
-  ATTRIBUTES =  [
+  ATTRIBUTES = [
     :editor,
     :shell,
     :title,
@@ -42,9 +42,7 @@ class Retter::Config
 
     @retter_home = Pathname.new(@env['RETTER_HOME'])
     load_defaults
-
-    retterfile = retter_home.join('Retterfile')
-    instance_eval retterfile.read if retterfile.exist?
+    load_retterfile_if_exists
   end
 
   def load_defaults
@@ -64,6 +62,11 @@ class Retter::Config
     index_file          retter_home.join('index.html')
     entries_file        retter_home.join('entries.html')
     feed_file           retter_home.join('entries.rss')
+  end
+
+  def load_retterfile_if_exists
+    retterfile = retter_home.join('Retterfile')
+    instance_eval retterfile.read if retterfile.exist?
   end
 
   def detect_retter_home
