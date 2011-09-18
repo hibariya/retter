@@ -38,7 +38,7 @@ You can use `retter` command anywhere, If you set `$RETTER_HOME` variable.
   $ . ~/.bash_profile
 ~~~~
 
-### Write an article, and publish it.
+### Write an article
 
 `retter` コマンドは設定されているエディタを起動します。Markdownで記事を書くことができます。
 
@@ -58,36 +58,55 @@ You can use `retter` command anywhere, If you set `$RETTER_HOME` variable.
 
 `bind`, `rebind` は下書きの記事をその日の記事として保存し、すべてのHTMLを再生成します。
 
-`bind` and `rebind` binds the draft article. And re-generates actual html web pages. All html pages will overwrite.
+`bind` and `rebind` binds the draft article. And re-generates actual html web pages. All html pages will be overwritten.
 
 ~~~~
   $ retter bind
 ~~~~
 
+### Publish
 
-記事を公開（サーバにデプロイ）するには、すべてのファイルを git リポジトリにコミットしリモートサーバに push するか、単純にファイルをアップロードします。
+記事を公開するには、すべてのファイルを git リポジトリにコミットし、リモートサーバに push するか単純にファイルをアップロードします。
 
-To publish, use the git command.
+To publish, use the git command. Or, upload the file to your server.
+
+#### Basic flow
+
+最も原始的な方法は、gitコマンドを直接使う方法です。
 
 ~~~~
-  $ retter commit              # shortcut of `git add . ; git commit -m 'Retter commit'`
-  $ git push [remote] [branch] # heroku, github pages, etc..
+  $ cd $RETTER_HOME
+  $ git add .
+  $ git commit -m 'commit message'
+  $ git push [remote] [branch]     # heroku, github pages, etc..
 ~~~~
 
-Or, upload the file to your server.
+#### Using shortcut commands
 
-### Command callbacks
+いくつかのショートカットを使い、コミットメッセージを書くことを省略したりすることができます。
 
-作業をさらに単純化するために、いくつかのコマンドにコールバックが設定できます。
+~~~~
+  $ retter commit # Shortcut of `git add . ; git commit -m 'Retter commit'`
+  $ retter home   # Open a new shell at $RETTER_HOME
+  (retter) git push [remote] [branch] # heroku, github pages, etc..
+~~~~
+
+#### Using Callbacks
+
+コールバックを定義しておくことで、公開の作業を無意識に実行することができます。
 
 Callback is enabled in `edit`, `bind`, `rebind` and `commit` sub-command.
+
+~~~~ruby
+  after [command], [invoke command or proc]
+~~~~
+
+
+以下のような内容を Retterfile に記述しておくことで、rebind または bind が実行されると即座に公開までの処理も実行されます。
 
 In Retterfile:
 
 ~~~~ruby
-  # Syntax:
-  #   after [command], [invoke command or proc]
-
   after :rebind, :commit
 
   after :commit do

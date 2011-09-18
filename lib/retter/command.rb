@@ -112,26 +112,28 @@ class Retter::Command < Thor
   def self.usage
     <<-EOM
 Usage:
-  # startup
+  # Startup
   cd /path/to/dir
   retter new my_sweet_diary
   echo "export EDITOR=vim" >> ~/.zshenv # retter requires $EDITOR.
   echo "export RETTER_HOME=/path/to/my_sweet_diary" >> ~/.zshenv
   . ~/.zshenv
 
-  # write a article, and publish.
+  # Write a article
   retter         # $EDITOR will open. Write an article with Markdown.
   retter preview # Preview the draft article (browser will open).
-  retter bind    # bind the draft article, re-generate all html pages.
-  git add .
-  git commit -m 'commit message'
-  git push [remote] [branch]
 
-  # edit specific date article.
+  # Publish
+  retter bind    # bind the draft article, re-generate all html pages.
+  retter commit  # shortcut of "cd $RETTER_HOME; git add .; git commit -m 'Retter commit'"
+  cd $RETTER_HOME
+  git push [remote] [branch] # or sftp, rsync, etc...
+
+  # Specific date
   retter edit --date=20110101
   retter preview --date=20110101
 
-  # browse offline.
+  # Browse offline.
   retter open    # Open your (static) site top page (browser will open).
 
   See also: https://github.com/hibariya/retter
