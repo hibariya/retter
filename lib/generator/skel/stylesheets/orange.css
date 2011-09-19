@@ -1,0 +1,149 @@
+@charset "utf-8";
+/* CSS Document */
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0 auto 0 auto;
+  padding: 0;
+  font-family: sans-serif;
+  /*lbackground: rgb(55,65,60);*/
+  background: #EEE;
+  background-image:url("../images/orange/bg_body.jpg");
+  height: 100%;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(25,30,10);
+}
+
+#header {
+  padding: 0;
+  margin: 0;
+}
+
+#header h1 {
+  margin: 0;
+  padding: 0.2em 0 0.2em 1em;
+  color: rgb(77,144,253);
+  height:40px;
+  background-image:url("../images/orange/bg_header.png");
+  background-repeat:repeat-x;
+}
+
+#header h1 a {
+  color:#FFF;
+}
+
+#header ul#menu {
+  margin: 0.5em 0 3em 0;
+  padding: 0 0 0 2em;
+}
+
+#header ul#menu{
+}
+
+#header ul#menu li {
+  float: left;
+  margin-right: 0.5em;
+  background:rgba(255,255,255,0.5);
+  padding:5px;
+}
+
+#header ul#menu li a{
+  color:#336;
+}
+
+#header ul#menu li a:hover{
+  color:#09C;
+}
+
+#page {
+  clear: both;
+  margin: 0 auto 0 auto;
+  width: 800px;
+  position: relative;
+  min-height: 100%;
+}
+
+article {
+  /*background: rgb(228,239,192);*/
+  /*color: rgb(0,30,67);*/
+  color:#603;
+  border-radius: 10px;
+  border: 3px #FFC solid;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  padding: 1em 1.5em 1em 1.5em;
+  margin: 1em 0 1em 0;
+  width 100%;
+  
+  background-image:url("../images/orange/bg_entry.jpg");
+  
+  position:relative;
+}
+
+article h1 {
+}
+
+
+article .date {
+  font-size: 1em;
+  text-align: center;
+  background-color:#036;
+  padding:10px;
+  width:100px;
+  float:right;
+  
+  position:absolute;
+  top:-24px;
+  left:650px;
+}
+
+article .date a{
+  color:#FFF;		
+}
+
+article .date a:hover{
+  color:#669;	
+}
+
+article ul#entries > li {
+  margin-top: 1em;
+}
+
+article ul#entries {
+  line-height: 1.5em;
+}
+
+#entries {
+  width 100%;
+}
+
+pre {
+  background: #EEE;
+  color: rgb(0,30,67);
+  padding: 1em;
+  border-radius: 10px;
+  border: 1px #BBB solid;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+}
+
+#footer {
+  text-align: center;
+  margin: 1em 0 0 0;
+  padding: 0.5em 0.5em 0.5em 1em;
+  background: #036;
+  color: #FFF;
+  position: relative; bottom: 0;
+}
+
+
