@@ -5,7 +5,7 @@ require "retter/version"
 Gem::Specification.new do |s|
   s.name        = "retter"
   s.version     = Retter::VERSION
-  s.authors     = ["hibariya"]
+  s.authors     = ["hibariya", "uzura29"]
   s.email       = ["celluloid.key@gmail.com"]
   s.homepage    = "https://github.com/hibariya/retter"
   s.summary     = %q{Lightweight diary workflow}
