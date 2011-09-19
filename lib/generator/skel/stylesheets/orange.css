@@ -111,8 +111,12 @@ article .date a{
   color:#FFF;		
 }
 
+article .date a:visited{
+  color:#FFF;
+}
+
 article .date a:hover{
-  color:#669;	
+  color:#669;
 }
 
 article ul#entries > li {
