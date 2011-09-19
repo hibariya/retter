@@ -151,6 +151,22 @@ Or, Use rack if needed.
   $ bundle exec rackup
 ~~~~
 
+### Pre-installed themes
+
+スタイルシートを変更することでテーマを変更できます。HTMLのヘッダを変更するには `layouts/retter.html.haml` を編集します。
+
+#### Default
+
+~~~~haml
+    %link{href: '/stylesheets/application.css', media: 'screen', rel: 'stylesheet', type: 'text/css'}
+~~~~
+
+#### Orange
+
+~~~~haml
+    %link{href: '/stylesheets/orange.css', media: 'screen', rel: 'stylesheet', type: 'text/css'}
+~~~~
+
 ## LICENSE
 
 The MIT License

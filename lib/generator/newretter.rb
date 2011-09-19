@@ -7,22 +7,30 @@ require 'bundler/cli'
 require 'retter'
 
 class Newretter < Thor::Group
-  FILES = %w(
-    .gitignore
-    Gemfile
+  TEMPLATES = %w(
     Retterfile
+    Gemfile
     config.ru
+    index.html
     layouts/entries.html.haml
     layouts/entry.html.haml
     layouts/profile.html.haml
     layouts/index.html.haml
     layouts/retter.html.haml
+  )
+
+  FILES = %w(
+    .gitignore
+    retters/.gitkeep
     images/.gitkeep
-    index.html
     entries/.gitkeep
     javascripts/.gitkeep
     stylesheets/application.css
-    retters/.gitkeep
+
+    stylesheets/orange.css
+    images/orange/bg_body.jpg
+    images/orange/bg_entry.jpg
+    images/orange/bg_header.png
   )
 
   include Thor::Actions
@@ -35,6 +43,10 @@ class Newretter < Thor::Group
 
   def create_files
     FILES.each do |file|
+      copy_file("skel/#{file}", "#{name}/#{file}")
+    end
+
+    TEMPLATES.each do |file|
       template("skel/#{file}", "#{name}/#{file}")
     end
   end
