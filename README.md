@@ -1,6 +1,13 @@
 # RETTER (レッター) Lightweight diary workflow.
 
-コマンドラインで簡単に起動してブラウザですぐに確認できて柔軟にデプロイできる記事作成支援コマンド。
+簡単さにこだわったシンプルな記事作成ツール。以下のような特徴があります。
+
+* CLIでの操作を前提としています
+* どこにいてもすぐに記事を編集できます（Markdown）
+* オフラインで簡単にプレビューできます
+* だいたいどんなサーバ上でも動作します（静的HTMLまたはRackアプリとして）
+* RSSフィードを吐きます
+* トラックバック、コメントなどの機能はありません
 
 ## Installation
 
@@ -100,7 +107,6 @@ Callback is enabled in `edit`, `bind`, `rebind` and `commit` sub-command.
 ~~~~ruby
   after [command], [invoke command or proc]
 ~~~~
-
 
 以下のような内容を Retterfile に記述しておくことで、rebind または bind が実行されると即座に公開までの処理も実行されます。
 
