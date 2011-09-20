@@ -1,7 +1,13 @@
 # coding: utf-8
 
 class Retter::Command < Thor
-  map '-v' => 'version'
+  map '-v' => :version,
+      '-e' => :edit,
+      '-p' => :preview,
+      '-o' => :open,
+      '-r' => :rebind,
+      '-b' => :bind,
+      '-h' => :home
 
   desc 'edit', 'Open $EDITOR. Write an article with Markdown.'
   method_options date: :string, silent: :boolean
