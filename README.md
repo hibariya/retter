@@ -158,14 +158,18 @@ Or, Use rack if needed.
 #### Default
 
 ~~~~haml
-    %link{href: '/stylesheets/application.css', media: 'screen', rel: 'stylesheet', type: 'text/css'}
+    %link{href: '/stylesheets/default.css', media: 'screen', rel: 'stylesheet', type: 'text/css'}
 ~~~~
+
+![Default](http://hibariya.github.com/images/theme_samples/retter_default.jpg)
 
 #### Orange
 
 ~~~~haml
     %link{href: '/stylesheets/orange.css', media: 'screen', rel: 'stylesheet', type: 'text/css'}
 ~~~~
+
+![Orange](http://hibariya.github.com/images/theme_samples/retter_orange.jpg)
 
 ## LICENSE
 
