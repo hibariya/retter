@@ -25,7 +25,8 @@ class Newretter < Thor::Group
     images/.gitkeep
     entries/.gitkeep
     javascripts/.gitkeep
-    stylesheets/application.css
+    stylesheets/base.css
+    stylesheets/retter.css
 
     stylesheets/orange.css
     images/orange/bg_body.jpg

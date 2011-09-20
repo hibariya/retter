@@ -1,5 +1,4 @@
 @charset "utf-8";
-/* CSS Document */
 
 html {
   height: 100%;
@@ -9,7 +8,6 @@ body {
   margin: 0 auto 0 auto;
   padding: 0;
   font-family: sans-serif;
-  /*lbackground: rgb(55,65,60);*/
   background: #EEE;
   background-image:url("../images/orange/bg_body.jpg");
   height: 100%;
@@ -57,11 +55,11 @@ a {
   padding:5px;
 }
 
-#header ul#menu li a{
+#header ul#menu li a {
   color:#336;
 }
 
-#header ul#menu li a:hover{
+#header ul#menu li a:hover {
   color:#09C;
 }
 
@@ -74,8 +72,6 @@ a {
 }
 
 article {
-  /*background: rgb(228,239,192);*/
-  /*color: rgb(0,30,67);*/
   color:#603;
   border-radius: 10px;
   border: 3px #FFC solid;
@@ -84,15 +80,9 @@ article {
   padding: 1em 1.5em 1em 1.5em;
   margin: 1em 0 1em 0;
   width 100%;
-  
   background-image:url("../images/orange/bg_entry.jpg");
-  
   position:relative;
 }
-
-article h1 {
-}
-
 
 article .date {
   font-size: 1em;
@@ -101,21 +91,21 @@ article .date {
   padding:10px;
   width:100px;
   float:right;
-  
+
   position:absolute;
   top:-24px;
   left:650px;
 }
 
-article .date a{
-  color:#FFF;		
-}
-
-article .date a:visited{
+article .date a {
   color:#FFF;
 }
 
-article .date a:hover{
+article .date a:visited {
+  color:#FFF;
+}
+
+article .date a:hover {
   color:#669;
 }
 
@@ -150,4 +140,15 @@ pre {
   position: relative; bottom: 0;
 }
 
+#footer a {
+  color: #FFF;
+}
+
+#footer a:visited {
+  color: #FFF;
+}
+
+#footer a:hover {
+  color: #669;
+}
 

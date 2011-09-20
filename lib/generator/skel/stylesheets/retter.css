@@ -112,3 +112,6 @@ pre {
   position: relative; bottom: 0;
 }
 
+#footer a:visited {
+  color: rgb(77,144,253);
+}
