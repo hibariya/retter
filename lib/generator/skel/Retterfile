@@ -16,6 +16,12 @@ author      '<%= ENV["USER"] %>'
 #
 ## Using proc example:
 #    after :commit do
-#      system "cd #{config.retter_home}"
-#      system 'git push origin master'
+#      if yes?("Deploy now? [yes/no]")
+#        system "cd #{config.retter_home}"
+#        system 'git push origin master'
+#      end
+#    end
+#
+#    after :edit do
+#      preview if yes?("Preview now? [yes/no]")
 #    end
