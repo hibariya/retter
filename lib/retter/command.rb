@@ -1,6 +1,8 @@
 # coding: utf-8
 
 class Retter::Command < Thor
+  map '-v' => 'version'
+
   desc 'edit', 'Open $EDITOR. Write an article with Markdown.'
   method_options date: :string, silent: :boolean
   def edit
@@ -70,6 +72,11 @@ class Retter::Command < Thor
   desc 'usage', 'Show usage.'
   def usage
     say Retter::Command.usage, :green
+  end
+
+  desc 'version', 'Show version.'
+  def version
+    say "Retter version #{Retter::VERSION}"
   end
 
   private
