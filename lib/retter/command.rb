@@ -72,6 +72,12 @@ class Retter::Command < Thor
     say 'bye', :green
   end
 
+  desc 'callback', 'Call a callback process only'
+  method_options after: :string
+  def callback
+    invoke_after options[:after].intern
+  end
+
   desc 'new', 'Create a new site'
   def new; end
 
