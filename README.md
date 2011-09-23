@@ -35,6 +35,7 @@
 #### $EDITOR
 
 **retter requires `$EDITOR` variable.**
+
 Retterで記事を編集する際には任意のエディタが起動します。そのためには`$EDITOR`環境変数が設定されている必要があります。
 大抵の場合は設定されていると思いますが、もし設定されていなければ`~/.bash_profile`や`~/.zshenv`などに追記する必要があります。
 
