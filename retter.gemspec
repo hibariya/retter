@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["hibariya", "uzura29"]
   s.email       = ["celluloid.key@gmail.com"]
   s.homepage    = "https://github.com/hibariya/retter"
-  s.summary     = %q{Lightweight diary workflow}
-  s.description = %q{Lightweight diary workflow. ruby-1.9.2 or later is required.}
+  s.summary     = %q{Flyweigh diary workflow}
+  s.description = %q{Flyweigh diary workflow. ruby-1.9.2 or later is required.}
 
   #s.rubyforge_project = "retter"
 
