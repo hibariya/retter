@@ -1,4 +1,4 @@
-# RETTER (レッター) Flyweigh diary workflow.
+# RETTER (レッター) Flyweight diary workflow.
 
 手軽さを追求した記事作成ツール。以下のような特徴があります。
 
