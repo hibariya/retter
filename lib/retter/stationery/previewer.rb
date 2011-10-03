@@ -46,7 +46,7 @@ module Retter::Stationery
     def print_html
       scope = View::Scope.new(config)
       part = entry_renderer.render(scope, entry: @entry)
-      html = renderer.render(scope, content: part, entries: [@entry])
+      html = renderer.render(scope, content: part, title: config.title, entries: [@entry])
 
       file_path.open('w') do |file|
         file.puts View::Helper.fix_path(html, './')

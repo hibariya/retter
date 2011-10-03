@@ -37,8 +37,9 @@ module Retter::Stationery
     end
 
     def print_entry(entry)
+      title = "#{entry.titles.values.first} - #{config.title}"
       part = entry_renderer.render(view_scope, entry: entry)
-      html = layout_renderer.render(view_scope, content: part)
+      html = layout_renderer.render(view_scope, content: part, title: title)
 
       entry_file(entry.date).open('w') do |f|
         f.puts View::Helper.fix_path(html, '../')
@@ -47,7 +48,7 @@ module Retter::Stationery
 
     def print_index
       part = Haml::Engine.new(index_layout_file.read, ugly: true).render(view_scope)
-      html = layout_renderer.render(view_scope, content: part)
+      html = layout_renderer.render(view_scope, content: part, title: config.title)
 
       index_file.open('w') do |f|
         f.puts  View::Helper.fix_path(html, './')
@@ -56,7 +57,7 @@ module Retter::Stationery
 
     def print_profile
       part = Haml::Engine.new(profile_layout_file.read, ugly: true).render(view_scope)
-      html = layout_renderer.render(view_scope, content: part)
+      html = layout_renderer.render(view_scope, content: part, title: config.title)
 
       profile_file.open('w') do |f|
         f.puts  View::Helper.fix_path(html, './')
@@ -65,7 +66,7 @@ module Retter::Stationery
 
     def print_toc
       part = Haml::Engine.new(entries_layout_file.read, ugly: true).render(view_scope)
-      html = layout_renderer.render(view_scope, content: part)
+      html = layout_renderer.render(view_scope, content: part, title: config.title)
 
       entries_file.open('w') do |f|
         f.puts  View::Helper.fix_path(html, './')

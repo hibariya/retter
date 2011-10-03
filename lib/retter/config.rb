@@ -66,7 +66,7 @@ class Retter::Config
 
   def load_retterfile_if_exists
     retterfile = retter_home.join('Retterfile')
-    instance_eval retterfile.read if retterfile.exist?
+    instance_eval retterfile.read, retterfile.to_s if retterfile.exist?
   end
 
   def detect_retter_home
