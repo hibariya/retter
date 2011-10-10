@@ -4,4 +4,9 @@
       .entry
         %h1.date
           %a{href: entry_path(entry.date)}= entry.date.strftime('%Y/%m/%d')
-        = entry
+        - unless entry.lede.empty?
+          = entry.lede
+        - entry.parts.each do |part|
+          %h1{id: part.id}
+            %a{href: entry_part_path(entry.date, part.id)}= part.title
+          = part

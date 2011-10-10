@@ -14,6 +14,10 @@ module Retter::Stationery::View
       date.strftime('/entries/%Y%m%d.html') + (id ? "##{id}" : '')
     end
 
+    def entry_part_path(date, id)
+      date.strftime("/entries/%Y%m%d/#{id}.html")
+    end
+
     private
 
     def fix_src_path(elements, prefix = './')

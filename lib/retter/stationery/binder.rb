@@ -32,17 +32,38 @@ module Retter::Stationery
     end
 
     def bind_entries
-      @entries.each {|entry| print_entry entry }
+      @entries.each do |entry|
+        print_entry entry
+        print_entry_parts entry
+      end
+
       print_toc
     end
 
     def print_entry(entry)
-      title = "#{entry.titles.values.first} - #{config.title}"
+      title = "#{entry.date.strftime('%Y/%m/%d')} - #{config.title}"
       part = entry_renderer.render(view_scope, entry: entry)
       html = layout_renderer.render(view_scope, content: part, title: title)
 
       entry_file(entry.date).open('w') do |f|
         f.puts View::Helper.fix_path(html, '../')
+      end
+    end
+
+    def print_entry_parts(entry)
+      return if entry.parts.empty?
+
+      entry_dir = config.entry_dir(entry.date)
+      entry_dir.mkdir unless entry_dir.directory?
+
+      entry.parts.each do |part|
+        title = "#{part.title} - #{config.title}"
+        entry_part = entry_part_renderer.render(view_scope, entry: entry, part: part)
+        html       = layout_renderer.render(view_scope, content: entry_part, title: title)
+
+        entry_dir.join("#{part.id}.html").open('w') do |f|
+          f.puts View::Helper.fix_path(html, '../../')
+        end
       end
     end
 
@@ -120,6 +141,10 @@ module Retter::Stationery
 
     def entry_renderer
       @entry_renderer ||= Haml::Engine.new(entry_layout_file.read, ugly: true)
+    end
+
+    def entry_part_renderer
+      @entry_part_renderer ||= Haml::Engine.new(entry_part_layout_file.read, ugly: true)
     end
   end
 end

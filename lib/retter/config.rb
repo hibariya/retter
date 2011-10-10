@@ -14,6 +14,7 @@ class Retter::Config
     :layout_file,
     :profile_layout_file,
     :entry_layout_file,
+    :entry_part_layout_file,
     :entries_layout_file,
     :index_layout_file,
     :entries_dir,
@@ -46,22 +47,23 @@ class Retter::Config
   end
 
   def load_defaults
-    editor              @env['EDITOR']
-    shell               @env['SHELL']
-    url                 'http://example.com'
-    retters_dir         retter_home.join('retters/')
-    wip_file            retters_dir.join('today.md')
-    layouts_dir         retter_home.join('layouts/')
-    layout_file         layouts_dir.join('retter.html.haml')
-    profile_layout_file layouts_dir.join('profile.html.haml')
-    entry_layout_file   layouts_dir.join('entry.html.haml')
-    entries_layout_file layouts_dir.join('entries.html.haml')
-    index_layout_file   layouts_dir.join('index.html.haml')
-    entries_dir         retter_home.join('entries/')
-    profile_file        retter_home.join('profile.html')
-    index_file          retter_home.join('index.html')
-    entries_file        retter_home.join('entries.html')
-    feed_file           retter_home.join('entries.rss')
+    editor                 @env['EDITOR']
+    shell                  @env['SHELL']
+    url                    'http://example.com'
+    retters_dir            retter_home.join('retters/')
+    wip_file               retters_dir.join('today.md')
+    layouts_dir            retter_home.join('layouts/')
+    layout_file            layouts_dir.join('retter.html.haml')
+    profile_layout_file    layouts_dir.join('profile.html.haml')
+    entry_layout_file      layouts_dir.join('entry.html.haml')
+    entry_part_layout_file layouts_dir.join('entry_part.html.haml')
+    entries_layout_file    layouts_dir.join('entries.html.haml')
+    index_layout_file      layouts_dir.join('index.html.haml')
+    entries_dir            retter_home.join('entries/')
+    profile_file           retter_home.join('profile.html')
+    index_file             retter_home.join('index.html')
+    entries_file           retter_home.join('entries.html')
+    feed_file              retter_home.join('entries.rss')
   end
 
   def load_retterfile_if_exists
@@ -82,8 +84,12 @@ class Retter::Config
     entries_dir.join date.strftime('%Y%m%d.html')
   end
 
+  def entry_dir(date)
+    entries_dir.join date.strftime('%Y%m%d')
+  end
+
   def self.delegatables
-    ATTRIBUTES + [:retter_file, :entry_file]
+    ATTRIBUTES + [:retter_file, :entry_file, :entry_dir]
   end
 
   def after(name, sym = nil, &block)

@@ -40,7 +40,7 @@ describe 'Retter::Command#rebind', clean: :all do
     describe 'index.html' do
       let(:index_html) { retter_config.index_file.read }
 
-      it { texts_of(index_html, '.entry p').should be_include('おはようございます') }
+      it { texts_of(index_html, '.entry p').should include('おはようございます') }
       it { texts_of(index_html, '.entry h1.date').should == %w(2011/01/01) }
       it { texts_of(index_html, '.entry h1').should == %w(2011/01/01 朝11時 夜1時) }
     end
@@ -55,9 +55,51 @@ describe 'Retter::Command#rebind', clean: :all do
     describe 'entry.html' do
       let(:entry_html) { retter_config.entry_file(Date.parse(date_str)).read }
 
-      it { texts_of(entry_html, '.entry p').should be_include('おはようございます') }
+      it { texts_of(entry_html, '.entry p').should == %w(おはようございます おやすみなさい) }
       it { texts_of(entry_html, '.entry h1.date').should == %w(2011/01/01) }
       it { texts_of(entry_html, '.entry h1').should == %w(2011/01/01 朝11時 夜1時) }
+    end
+
+    describe 'entry part(first)' do
+      let(:part_html) { retter_config.entry_dir(Date.parse(date_str)).join('a0.html').read }
+
+      describe 'body' do
+        subject { texts_of(part_html, '.entry p') }
+        it { should include('おはようございます') }
+        it { should_not include('おやすみなさい') }
+      end
+
+      describe 'date' do
+        subject { texts_of(part_html, '.entry h1.date') }
+        it { should == %w(2011/01/01) }
+      end
+
+      describe 'headings' do
+        subject { texts_of(part_html, '.entry h1') }
+        it { should include('朝11時') }
+        it { should_not include('夜1時') }
+      end
+    end
+
+    describe 'entry part(last)' do
+      let(:part_html) { retter_config.entry_dir(Date.parse(date_str)).join('a1.html').read }
+
+      describe 'body' do
+        subject { texts_of(part_html, '.entry p') }
+        it { should include('おやすみなさい') }
+        it { should_not include('おはようございます') }
+      end
+
+      describe 'date' do
+        subject { texts_of(part_html, '.entry h1.date') }
+        it { should == %w(2011/01/01) }
+      end
+
+      describe 'headings' do
+        subject { texts_of(part_html, '.entry h1') }
+        it { should include('夜1時') }
+        it { should_not include('朝11時') }
+      end
     end
   end
 
