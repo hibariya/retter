@@ -11,5 +11,10 @@ when 'new'
 when 'gen'
   Retter::Generator::Updator.start ARGV[1..-1]
 else
-  Retter::Command.start
+  begin
+    Retter::Command.start
+  rescue Errno::ENOENT
+    $stderr.puts "Some files might be broken. run `retter home && retter gen .`"
+    raise
+  end
 end
