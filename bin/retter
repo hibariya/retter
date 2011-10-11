@@ -14,7 +14,7 @@ else
   begin
     Retter::Command.start
   rescue Errno::ENOENT
-    $stderr.puts "Some files might be broken. run `retter home && retter gen .`"
+    $stderr.puts "Some files might be broken. run `retter gen $RETTER_HOME`"
     raise
   end
 end
