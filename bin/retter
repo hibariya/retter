@@ -5,9 +5,11 @@ $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
 require 'retter'
 
-if ARGV[0] == 'new'
-  require 'generator/newretter'
-  Newretter.start ARGV[1..-1]
+case ARGV[0]
+when 'new'
+  Retter::Generator::Creator.start ARGV[1..-1]
+when 'gen'
+  Retter::Generator::Updator.start ARGV[1..-1]
 else
   Retter::Command.start
 end
