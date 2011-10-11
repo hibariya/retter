@@ -4,6 +4,6 @@
       %li
         %a.entry{href: entry_path(entry.date)}= entry.date.strftime('%Y/%m/%d')
         %ul.titles
-          - entry.parts.each do |part|
+          - entry.articles.each do |article|
             %li
-              %a.title{href: entry_part_path(entry.date, part.id)}= part.title
+              %a.title{href: article_path(entry.date, article.id)}= article.title

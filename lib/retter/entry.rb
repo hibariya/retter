@@ -1,7 +1,7 @@
 # coding: utf-8
 
 class Retter::Entry
-  class Part
+  class Article
     attr_accessor :entry, :id, :title, :body
 
     def to_s
@@ -9,13 +9,13 @@ class Retter::Entry
     end
   end
 
-  attr_accessor :date, :lede, :body, :parts
+  attr_accessor :date, :lede, :body, :articles
 
   def initialize(attrs={})
     @date, @body = attrs.values_at(:date, :body)
 
     attach_titles
-    extract_entry_parts
+    extract_articles
     load_lede
   end
 
@@ -38,20 +38,20 @@ class Retter::Entry
     @body = html.search('//body/*').to_s
   end
 
-  def extract_entry_parts
-    @parts = body_elements.search('body > *').each_with_object([]) {|c, r|
+  def extract_articles
+    @articles = body_elements.search('body > *').each_with_object([]) {|c, r|
       if c.name == 'h1'
-        part = Part.new
-        part.entry = self
-        part.id = c.attr('id')
-        part.title = c.text
-        part.body  = ''
-        r << part
+        article = Article.new
+        article.entry = self
+        article.id = c.attr('id')
+        article.title = c.text
+        article.body  = ''
+        r << article
       else
-        part  = r.last
-        next if part.nil?
+        article  = r.last
+        next if article.nil?
 
-        part.body += c.to_s
+        article.body += c.to_s
       end
     } || []
   end

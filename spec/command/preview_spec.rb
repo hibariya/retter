@@ -23,7 +23,7 @@ describe 'Retter::Command#preview', clean: :all do
       command.preview
     end
 
-    subject { texts_of(preview, '.entry p') }
+    subject { texts_of(preview, 'article p') }
 
     it { should == [article] }
   end
@@ -42,7 +42,7 @@ describe 'Retter::Command#preview', clean: :all do
       command.preview
     end
 
-    subject { texts_of(preview, '.entry p') }
+    subject { texts_of(preview, 'article p') }
 
     it { should_not be_include('おやすみなさい') }
     it { should be_include(article) }

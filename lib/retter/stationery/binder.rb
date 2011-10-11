@@ -34,7 +34,7 @@ module Retter::Stationery
     def bind_entries
       @entries.each do |entry|
         print_entry entry
-        print_entry_parts entry
+        print_articles entry
       end
 
       print_toc
@@ -50,18 +50,18 @@ module Retter::Stationery
       end
     end
 
-    def print_entry_parts(entry)
-      return if entry.parts.empty?
+    def print_articles(entry)
+      return if entry.articles.empty?
 
       entry_dir = config.entry_dir(entry.date)
       entry_dir.mkdir unless entry_dir.directory?
 
-      entry.parts.each do |part|
-        title = "#{part.title} - #{config.title}"
-        entry_part = entry_part_renderer.render(view_scope, entry: entry, part: part)
-        html       = layout_renderer.render(view_scope, content: entry_part, title: title)
+      entry.articles.each do |article|
+        title = "#{article.title} - #{config.title}"
+        part = article_renderer.render(view_scope, entry: entry, article: article)
+        html = layout_renderer.render(view_scope, content: part, title: title)
 
-        entry_dir.join("#{part.id}.html").open('w') do |f|
+        entry_dir.join("#{article.id}.html").open('w') do |f|
           f.puts View::Helper.fix_path(html, '../../')
         end
       end
@@ -143,8 +143,8 @@ module Retter::Stationery
       @entry_renderer ||= Haml::Engine.new(entry_layout_file.read, ugly: true)
     end
 
-    def entry_part_renderer
-      @entry_part_renderer ||= Haml::Engine.new(entry_part_layout_file.read, ugly: true)
+    def article_renderer
+      @article_renderer ||= Haml::Engine.new(article_layout_file.read, ugly: true)
     end
   end
 end

@@ -14,6 +14,7 @@ class Newretter < Thor::Group
     index.html
     layouts/entries.html.haml
     layouts/entry.html.haml
+    layouts/article.html.haml
     layouts/profile.html.haml
     layouts/index.html.haml
     layouts/retter.html.haml
