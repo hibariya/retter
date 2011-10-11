@@ -234,6 +234,7 @@ HTMLのレイアウト自体を変更するには`layouts/`ディレクトリ以
 
 ~~~~
 layouts
+  |-- article.html.haml
   |-- entries.html.haml
   |-- entry.html.haml
   |-- index.html.haml
@@ -242,7 +243,8 @@ layouts
 ~~~~
 
 `retter.html.haml`はHTML宣言を含めた全体のHTMLが含まれています。
-`entry.html.haml`を変更することで記事のレイアウトを変更することができます。
+`entry.html.haml`を変更することで日別のページのレイアウトを変更することができます。
+`article.html.haml`を変更することで個々の記事のレイアウトを変更することができます。
 その他のファイルは実際のURLと名前が対応しています。
 
 ## LICENSE
