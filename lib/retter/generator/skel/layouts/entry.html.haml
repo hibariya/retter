@@ -1,0 +1,9 @@
+%article
+  %h1.date
+    %a{href: entry_path(entry.date)}= entry.date.strftime('%Y/%m/%d')
+  - unless entry.lede.empty?
+    = entry.lede
+  - entry.articles.each do |article|
+    %h1{id: article.id}
+      %a{href: article_path(entry.date, article.id)}= article.title
+    = article

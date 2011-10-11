@@ -5,6 +5,8 @@ $LOAD_PATH.unshift here unless $LOAD_PATH.include?(here)
 
 module Retter
   class EnvError < RuntimeError; end
+
+  autoload :Generator, 'retter/generator'
 end
 
 require 'date'

@@ -6,7 +6,7 @@ require 'bundler'
 require 'bundler/cli'
 require 'retter'
 
-class Newretter < Thor::Group
+class Retter::Generator::Base < Thor::Group
   TEMPLATES = %w(
     Retterfile
     Gemfile
@@ -14,6 +14,7 @@ class Newretter < Thor::Group
     index.html
     layouts/entries.html.haml
     layouts/entry.html.haml
+    layouts/article.html.haml
     layouts/profile.html.haml
     layouts/index.html.haml
     layouts/retter.html.haml
@@ -59,36 +60,5 @@ class Newretter < Thor::Group
     Bundler::CLI.new.install
 
     FileUtils.cd pwd
-  end
-
-  def git_init
-    Grit::Repo.init "#{Dir.pwd}/#{name}"
-  end
-
-  def notice_how_to_use
-    editor = ENV['EDITOR']
-
-    say "-- Thanks for flying Retter :-> --\n", :green
-    say <<-EOM, :green
-Setting $EDITOR:
-  retter *requires* $EDITOR variable.
-  example:
-    echo "export EDITOR=vim" >> ~/.zshenv # or ~/.bash_profile
-    . ~/.zshenv
-    EOM
-
-    say "  Current your $EDITOR is #{editor ? editor : 'undefined'}.\n", :red
-
-    say <<-EOM, :green
-Setting $RETTER_HOME:
-  You can use retter command anywhere, If you set $RETTER_HOME variable.
-  example:
-    echo "export RETTER_HOME=#{Dir.pwd}/#{name}" >> ~/.zshenv
-    ...
-
-See also:
-  retter usage
-  retter help
-    EOM
   end
 end

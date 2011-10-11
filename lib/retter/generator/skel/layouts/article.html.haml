@@ -1,0 +1,6 @@
+%article
+  %h1.date
+    %a{href: entry_path(entry.date)}= entry.date.strftime('%Y/%m/%d')
+  %h1{id: article.id}
+    %a{href: article_path(entry.date, article.id)}= article.title
+  = article
