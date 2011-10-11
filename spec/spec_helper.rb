@@ -15,7 +15,7 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
 
   retter_home = RETTER_ROOT.join('tmp', 'test')
-  skel        = RETTER_ROOT.join('lib', 'generator', 'skel')
+  skel        = RETTER_ROOT.join('lib', 'retter', 'generator', 'skel')
 
   config.before(:each, clean: :all) do
     FileUtils.cp_r skel, retter_home.dirname.join('test')
