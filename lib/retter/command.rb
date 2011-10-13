@@ -22,7 +22,7 @@ class Retter::Command < Thor
   desc 'preview', 'Preview the draft article (browser will open).'
   method_options date: :string
   def preview
-    preview = Retter::Stationery.previewer(config, detected_date)
+    preview = Retter.previewer(config, detected_date)
 
     preview.print
     Launchy.open preview.file_path.to_s
@@ -36,7 +36,7 @@ class Retter::Command < Thor
   desc 'rebind', 'Bind the draft article, re-generate all html pages.'
   method_options silent: :boolean
   def rebind
-    binder = Retter::Stationery.binder(config)
+    binder = Retter.binder(config)
 
     binder.commit_wip_file
     binder.rebind!

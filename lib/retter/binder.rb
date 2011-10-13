@@ -1,6 +1,6 @@
 # coding: utf-8
 
-module Retter::Stationery
+module Retter
   class Binder
     attr_reader :config, :entries
 
@@ -15,7 +15,7 @@ module Retter::Stationery
     def rebind!
       commit_wip_file
 
-      @entries = Retter::Stationery.scan(retters_dir)
+      @entries = Retter.scan(retters_dir)
 
       bind_entries
       print_index

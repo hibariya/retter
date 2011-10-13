@@ -1,6 +1,6 @@
 # coding: utf-8
 
-module Retter::Stationery::View
+module Retter::View
   module Helper
     extend self
 

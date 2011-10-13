@@ -1,6 +1,6 @@
 # coding: utf-8
 
-module Retter::Stationery
+module Retter
   class Previewer
     attr_reader :config
 
@@ -39,7 +39,7 @@ module Retter::Stationery
     end
 
     def build_entry
-      body_html = Retter::Stationery.markupper.render(@body)
+      body_html = Retter.markupper.render(@body)
       @entry    = Retter::Entry.new(date: @date, body: body_html)
     end
 
