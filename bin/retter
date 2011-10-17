@@ -5,6 +5,8 @@ $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
 require 'retter'
 
+Retter.load_config ENV
+
 case ARGV[0]
 when 'new'
   Retter::Generator::Creator.start ARGV[1..-1]

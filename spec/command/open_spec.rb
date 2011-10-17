@@ -7,7 +7,7 @@ describe 'Retter::Command#open', clean: :all do
   let(:wip_file) { retter_config.wip_file }
 
   before do
-    command.stub!(:config) { retter_config }
+    Retter.stub!(:config) { retter_config }
   end
 
   it 'should be open application' do

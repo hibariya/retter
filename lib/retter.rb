@@ -4,43 +4,32 @@ here = File.dirname(__FILE__)
 $LOAD_PATH.unshift here unless $LOAD_PATH.include?(here)
 
 module Retter
-  class EnvError < RuntimeError; end
+  module Stationery
+    [:config, :entries, :preprint, :pages, :repository].each do |meth|
+      define_method meth do
+        Retter.send meth
+      end
+    end
+  end
 
   class << self
-    def scan(path)
-      entries = find_markup_files(path).map {|file|
-        date = file.basename('.*').to_s
-        mkup = File.open(file, &:read)
-        Retter::Entry.new date: Date.parse(date), body: markupper.render(mkup)
-      }
-
-      entries.sort_by(&:date).reverse
+    def load_config(env)
+      @config = Config.new(env)
     end
 
-    def find_markup_files(path)
-      path = Pathname.new(path).realpath
-      Dir.open(path, &:to_a).grep(/^\d{4}(?:0[1-9]|1[012])(?:0[1-9]|[12][0-9]|3[01])\.(md)$/).map {|f| path.join f }
+    def config
+      @config
     end
 
-    def markupper
-      @markupper ||= ::Redcarpet::Markdown.new(
-        Renderer,
-        autolink: true,
-        space_after_headers: true,
-        fenced_code_blocks: true,
-        strikethrough: true,
-        superscript: true,
-        fenced_code_blocks: true,
-        tables: true
-      )
+    def reset_entries!
+      @entries = nil
     end
 
-    def previewer(config, date)
-      Previewer.new config, date
-    end
-
-    def binder(config)
-      Binder.new config
+    singletons = [:entries, :preprint, :pages, :repository]
+    singletons.each do |sym|
+      define_method sym do
+        eval "@#{sym} ||= #{sym.capitalize}.new"
+      end
     end
   end
 
@@ -64,7 +53,8 @@ require 'retter/version'
 require 'retter/entry'
 require 'retter/config'
 require 'retter/renderer'
-require 'retter/view'
-require 'retter/previewer'
-require 'retter/binder'
+require 'retter/pages'
+require 'retter/entries'
+require 'retter/preprint'
+require 'retter/repository'
 require 'retter/command'

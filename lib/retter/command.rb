@@ -1,6 +1,8 @@
 # coding: utf-8
 
 class Retter::Command < Thor
+  include Retter::Stationery
+
   map '-v' => :version,
       '-e' => :edit,
       '-p' => :preview,
@@ -12,9 +14,11 @@ class Retter::Command < Thor
   desc 'edit', 'Open $EDITOR. Write an article with Markdown.'
   method_options date: :string, silent: :boolean
   def edit
-    system config.editor, detected_retter_file.to_s
+    entry = entries.detect_by_date_string(options[:date])
 
-    invoke_after :edit unless options[:silent]
+    system config.editor, entry.path
+
+    invoke_after :edit unless silent?
   end
 
   default_task :edit
@@ -22,26 +26,26 @@ class Retter::Command < Thor
   desc 'preview', 'Preview the draft article (browser will open).'
   method_options date: :string
   def preview
-    preview = Retter.previewer(config, detected_date)
+    entry = entries.detect_by_date_string(options[:date])
 
-    preview.print
-    Launchy.open preview.file_path.to_s
+    preprint.print entry
+
+    Launchy.open preprint.path
   end
 
   desc 'open', 'Open your (static) site top page (browser will open).'
   def open
-    Launchy.open config.index_file.to_s
+    Launchy.open pages.index.path
   end
 
   desc 'rebind', 'Bind the draft article, re-generate all html pages.'
   method_options silent: :boolean
   def rebind
-    binder = Retter.binder(config)
+    entries.commit_wip_entry!
 
-    binder.commit_wip_file
-    binder.rebind!
+    pages.bind!
 
-    unless options[:silent]
+    unless silent?
       invoke_after :bind
       invoke_after :rebind
     end
@@ -54,14 +58,12 @@ class Retter::Command < Thor
   desc 'commit', "cd $RETTER_HOME && git add . && git commit -m 'Retter commit'"
   method_options silent: :boolean
   def commit
-    working_dir = config.retter_home.to_s
-    git = Grit::Repo.new(working_dir)
-    Dir.chdir working_dir
+    repository.open do |git|
+      say git.add(config.retter_home), :green
+      say git.commit_all('Retter commit'), :green
+    end
 
-    say git.add(working_dir), :green
-    say git.commit_all('Retter commit'), :green
-
-    invoke_after :commit unless options[:silent]
+    invoke_after :commit unless silent?
   end
 
   desc 'home', 'Open a new shell in $RETTER_HOME'
@@ -81,6 +83,9 @@ class Retter::Command < Thor
   desc 'new', 'Create a new site'
   def new; end
 
+  desc 'gen', 'Generate initial files'
+  def gen; end
+
   desc 'usage', 'Show usage.'
   def usage
     say Retter::Command.usage, :green
@@ -93,25 +98,8 @@ class Retter::Command < Thor
 
   private
 
-  def detected_retter_file
-    if options[:date]
-      config.retter_file(Date.parse(options[:date]))
-    else
-      todays_file = config.retter_file(Date.today)
-      todays_file.exist? ? todays_file : config.wip_file
-    end
-  end
-
-  def detected_date
-    options[:date] ? Date.parse(options[:date]) : Date.today
-  end
-
-  def config
-    @retter_config ||= Retter::Config.new(ENV)
-  rescue Retter::EnvError
-    say 'Set $RETTER_HOME and $EDITOR, first.', :red
-    say Retter::Command.usage, :green
-    exit 1
+  def silent?
+    !options[:silent].nil?
   end
 
   def invoke_after(name)
