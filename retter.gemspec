@@ -27,6 +27,8 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'haml', ['>= 3.1.3']
   s.add_runtime_dependency 'bundler', ['>= 1.0']
   s.add_runtime_dependency 'grit', ['>= 2.4.1']
+  s.add_runtime_dependency 'activesupport', ['>= 3.1.0']
+  s.add_runtime_dependency 'i18n', ['>= 0.6.0']
 
   s.add_development_dependency 'rake', ['>= 0.9.2']
   s.add_development_dependency 'ir_b', ['>= 1.4.0']
