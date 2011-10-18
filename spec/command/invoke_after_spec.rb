@@ -7,7 +7,7 @@ describe 'Retter::Command#invoke_after', clean: :all do
 
   context 'invoke with proc' do
     before do
-      command.stub!(:config) { retter_config }
+      Retter.stub!(:config) { retter_config }
 
       retter_config.after(:edit) { commit }
       command.should_receive(:commit).and_return(true)
@@ -18,7 +18,7 @@ describe 'Retter::Command#invoke_after', clean: :all do
 
   context 'invoke with symbol' do
     before do
-      command.stub!(:config) { retter_config }
+      Retter.stub!(:config) { retter_config }
 
       retter_config.after(:edit, :commit)
       command.should_receive(:invoke).with(:commit).and_return(true)

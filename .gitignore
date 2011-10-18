@@ -4,6 +4,7 @@ Gemfile.lock
 pkg/*
 tmp/*
 .rvmrc
+.rbenv-version
 lib/generator/skel/.gitignore
 lib/generator/skel/.preview.html
 lib/generator/skel/retters/*.md

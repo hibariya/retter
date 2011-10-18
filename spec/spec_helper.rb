@@ -23,6 +23,7 @@ RSpec.configure do |config|
 
   config.after(:each, clean: :all) do
     FileUtils.rm_rf retter_home
+    Retter.reset_entries!
   end
 
   config.include Retter::ConfigSupport

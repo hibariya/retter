@@ -10,13 +10,21 @@ class Retter::Entry
   end
 
   attr_accessor :date, :lede, :body, :articles
+  attr_reader :pathname
 
   def initialize(attrs={})
     @date, @body = attrs.values_at(:date, :body)
 
+    pathname_by_date = Retter.config.retters_dir.join(date.strftime('%Y%m%d.md'))
+    @pathname = attrs[:pathname] || pathname_by_date
+
     attach_titles
     extract_articles
     load_lede
+  end
+
+  def path
+    pathname.to_s
   end
 
   def to_s

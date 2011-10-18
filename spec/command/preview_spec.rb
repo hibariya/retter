@@ -9,7 +9,7 @@ describe 'Retter::Command#preview', clean: :all do
   let(:date_file) { retter_config.retter_file(Date.parse(date_str)) }
 
   before do
-    command.stub!(:config) { retter_config }
+    Retter.stub!(:config) { retter_config }
   end
 
   context 'no options' do

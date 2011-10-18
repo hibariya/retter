@@ -7,7 +7,7 @@ describe 'Retter::Command#edit', clean: :all do
   let(:wip_file) { retter_config.wip_file }
 
   before do
-    command.stub!(:config) { retter_config }
+    Retter.stub!(:config) { retter_config }
   end
 
   context 'no options' do
