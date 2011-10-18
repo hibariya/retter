@@ -158,8 +158,31 @@ To publish, use the git command. Or, upload the file to your server.
 `--date` option is available in `edit` `preview` sub-command.
 
 ~~~~
-  retter edit --date 20110101
-  retter preview --date 20110101
+  retter --date 20110101         # 編集
+  retter preview --date 20110101 # プレビュー
+~~~~
+
+サブコマンドを明示する場合は、日付の指定は引数のように指定することもできます（`--date`が不要になります）。
+
+~~~~
+  retter edit 20110101
+  retter preview 20110101
+~~~~
+
+日付は相対的に指定することができます。以下のような形式をサポートします。
+
+~~~~
+  retter edit yesterday    # 昨日
+  retter edit today        # 今日
+  retter edit tommorow     # 明日
+
+  retter edit '3 days ago' # 3日前
+  retter edit 3.days.ago   # 3日前
+  retter edit 3.days.since # 3日後
+  retter edit 1.week.ago   # 1週間前
+  retter edit 3.weeks.ago  # 3週間前
+  retter edit 3.months.ago # 3カ月前
+  retter edit 3.years.ago  # 3カ月前
 ~~~~
 
 ### コールバック - Callbacks
