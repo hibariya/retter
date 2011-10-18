@@ -44,7 +44,7 @@ module Retter
       when /^yesterday$/i then 1.day.ago
       when /^today$/i     then 0.day.ago
       when /^tomorrow$/i  then 1.day.since
-      when /^[0-9]+\s+(?:days?|weeks?|years?)\s+(?:ago|since)$/i
+      when /^[0-9]+[\.\s](?:days?|weeks?|months?|years?)[\.\s](?:ago|since)$/i
         eval date_str.gsub(/\s+/, '.')
       else
         Date.parse(date_str)

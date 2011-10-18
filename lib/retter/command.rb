@@ -13,8 +13,8 @@ class Retter::Command < Thor
 
   desc 'edit', 'Open $EDITOR. Write an article with Markdown.'
   method_options date: :string, silent: :boolean
-  def edit
-    entry = entries.detect_by_date_string(options[:date])
+  def edit(date = options[:date])
+    entry = entries.detect_by_date_string(date)
 
     system config.editor, entry.path
 
@@ -25,7 +25,7 @@ class Retter::Command < Thor
 
   desc 'preview', 'Preview the draft article (browser will open).'
   method_options date: :string
-  def preview
+  def preview(date = options[:date])
     entry = entries.detect_by_date_string(options[:date])
 
     preprint.print entry
