@@ -182,7 +182,7 @@ To publish, use the git command. Or, upload the file to your server.
   retter edit 1.week.ago   # 1週間前
   retter edit 3.weeks.ago  # 3週間前
   retter edit 3.months.ago # 3カ月前
-  retter edit 3.years.ago  # 3カ月前
+  retter edit 3.years.ago  # 3年前
 ~~~~
 
 ### コールバック - Callbacks
