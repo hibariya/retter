@@ -10,14 +10,37 @@ module Retter
       load_entries config.retters_dir
     end
 
-    def detect_by_date_string(date_str)
-      date = parse_date_string(date_str)
-      detect_by_date_or_today || wip_entry(date)
+    def detect_by_string(str)
+      case str
+      when nil, ''
+        detect_by_today or wip_entry
+      when /^e([0-9]+)$/
+        index = $1.to_i
+        self[index] or wip_entry
+      else
+        date = parse_date_string(str)
+        detect_by_date(date) || wip_entry(date)
+      end
     end
 
-    def detect_by_date_or_today(date = nil)
-      date_or_today = date || Date.today
-      detect {|e| e.date == date_or_today }
+    def detect_by_today
+      detect_by_date(Date.today)
+    end
+
+    def detect_by_date(date)
+      detect {|e| e.date == date }
+    end
+
+    def parse_date_string(date_str)
+      case date_str
+      when /^yesterday$/i then 1.day.ago
+      when /^today$/i     then 0.day.ago
+      when /^tomorrow$/i  then 1.day.since
+      when /^[0-9]+[\.\s](?:days?|weeks?|months?|years?)[\.\s](?:ago|since)$/i
+        eval(date_str.gsub(/\s+/, '.')).to_date
+      else
+        Date.parse(date_str)
+      end
     end
 
     def wip_entry(date = nil)
@@ -36,19 +59,6 @@ module Retter
       end
 
       Retter.reset_entries!
-    end
-
-    def parse_date_string(date_str)
-      return nil if date_str.nil? || date_str.empty?
-      case date_str
-      when /^yesterday$/i then 1.day.ago
-      when /^today$/i     then 0.day.ago
-      when /^tomorrow$/i  then 1.day.since
-      when /^[0-9]+[\.\s](?:days?|weeks?|months?|years?)[\.\s](?:ago|since)$/i
-        eval date_str.gsub(/\s+/, '.')
-      else
-        Date.parse(date_str)
-      end
     end
 
     def load_entries(path)

@@ -28,4 +28,5 @@ RSpec.configure do |config|
 
   config.include Retter::ConfigSupport
   config.include Retter::HTMLSupport
+  config.include Retter::StreamSupport
 end

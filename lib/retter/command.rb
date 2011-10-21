@@ -12,9 +12,9 @@ class Retter::Command < Thor
       '-h' => :home
 
   desc 'edit', 'Open $EDITOR. Write an article with Markdown.'
-  method_options date: :string, silent: :boolean
-  def edit(date = options[:date])
-    entry = entries.detect_by_date_string(date)
+  method_options date: :string, key: :string, silent: :boolean
+  def edit(date_or_index = options[:date] || options[:key])
+    entry = entries.detect_by_string(date_or_index)
 
     system config.editor, entry.path
 
@@ -24,9 +24,9 @@ class Retter::Command < Thor
   default_task :edit
 
   desc 'preview', 'Preview the draft article (browser will open).'
-  method_options date: :string
-  def preview(date = options[:date])
-    entry = entries.detect_by_date_string(options[:date])
+  method_options date: :string, key: :string
+  def preview(date_or_index = options[:date] || options[:key])
+    entry = entries.detect_by_string(date_or_index)
 
     preprint.print entry
 
@@ -64,6 +64,15 @@ class Retter::Command < Thor
     end
 
     invoke_after :commit unless silent?
+  end
+
+  desc 'list', 'List retters'
+  def list
+    entries.each_with_index do |entry, n|
+      say "[e#{n}] #{entry.date.strftime('%Y/%m/%d')}"
+      say "  #{entry.articles.map(&:title).join(', ')}"
+      say
+    end
   end
 
   desc 'home', 'Open a new shell in $RETTER_HOME'
