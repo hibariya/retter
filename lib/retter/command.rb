@@ -8,8 +8,7 @@ class Retter::Command < Thor
       '-p' => :preview,
       '-o' => :open,
       '-r' => :rebind,
-      '-b' => :bind,
-      '-h' => :home
+      '-b' => :bind
 
   desc 'edit', 'Open $EDITOR. Write an article with Markdown.'
   method_options date: :string, key: :string, silent: :boolean
