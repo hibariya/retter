@@ -62,7 +62,7 @@ class Retter::Entry
   end
 
   def index
-    entries.index(self)
+    entries.index(self) || 0
   end
 
   private
