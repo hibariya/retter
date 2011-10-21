@@ -4,10 +4,32 @@ class Retter::Entry
   class Article
     attr_accessor :entry, :id, :title, :body
 
+    def initialize(attrs = {})
+      @id, @entry, @title, @body = attrs.values_at(:id, :entry, :title, :body)
+    end
+
     def to_s
       body
     end
+
+    def next
+      articles[index.next] || (entry.next && entry.next.articles.first)
+    end
+
+    def prev
+      index.pred < 0 ? (entry.prev && entry.prev.articles.last) : articles[index.pred]
+    end
+
+    def index
+      articles.index(self)
+    end
+
+    def articles
+      @articles ||= entry.articles
+    end
   end
+
+  include Retter::Stationery
 
   attr_accessor :date, :lede, :body, :articles
   attr_reader :pathname
@@ -31,6 +53,18 @@ class Retter::Entry
     body
   end
 
+  def next
+    entries[index.next]
+  end
+
+  def prev
+    entries[index.pred] unless index.pred < 0
+  end
+
+  def index
+    entries.index(self) || 0
+  end
+
   private
 
   def body_elements
@@ -49,16 +83,11 @@ class Retter::Entry
   def extract_articles
     @articles = body_elements.search('body > *').each_with_object([]) {|c, r|
       if c.name == 'h1'
-        article = Article.new
-        article.entry = self
-        article.id = c.attr('id')
-        article.title = c.text
-        article.body  = ''
-        r << article
+        r << Article.new(entry: self, id: c.attr('id'), title: c.text, body: '')
       else
-        article  = r.last
-        next if article.nil?
+        next if r.empty?
 
+        article = r.last
         article.body += c.to_s
       end
     } || []
@@ -67,7 +96,7 @@ class Retter::Entry
   def load_lede
     @lede = body_elements.search('body > *').each_with_object('') {|c, r|
       break r if c.name == 'h1'
-      r<< c.to_s
+      r << c.to_s
     }
   end
 end
