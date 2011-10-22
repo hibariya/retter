@@ -11,6 +11,7 @@ body {
   background: #EEE;
   background-image:url("../images/orange/bg_body.jpg");
   height: 100%;
+  line-height:1.4;
 }
 
 ul {
@@ -20,6 +21,10 @@ ul {
 a {
   text-decoration: none;
   color: rgb(25,30,10);
+}
+
+code{
+	padding:0 5px;
 }
 
 #header {
@@ -84,6 +89,18 @@ article {
   position:relative;
 }
 
+article ul li{	
+	list-style-image:url("../images/orange/ic_li01.gif");
+}
+
+article p a{
+  color:#F30;	
+}
+
+article p a:hover{
+  color:#F93;	
+}
+
 article .date {
   font-size: 1em;
   text-align: center;
@@ -91,7 +108,6 @@ article .date {
   padding:10px;
   width:100px;
   float:right;
-
   position:absolute;
   top:-24px;
   left:650px;

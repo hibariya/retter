@@ -4,5 +4,5 @@ dl dd {
 }
 
 pre {
-  overflow: scroll;
+  overflow: hidden;
 }
