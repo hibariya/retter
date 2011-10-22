@@ -9,7 +9,7 @@ class Retter::Pages::Entry
     super()
     @path_prefix = '../'
     @entry       = entry
-    @title       = "#{entry.date.strftime('%Y/%m/%d')} - #{config.title}"
+    @title       = "#{entry.date} - #{config.title}"
   end
 
   def pathname

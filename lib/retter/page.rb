@@ -2,17 +2,7 @@
 
 module Retter
   module Page
-    module ViewHelper
-      include Retter::Stationery
-
-      def entry_path(date, id = nil)
-        date.strftime('/entries/%Y%m%d.html') + (id ? "##{id}" : '')
-      end
-
-      def article_path(date, id)
-        date.strftime("/entries/%Y%m%d/#{id}.html")
-      end
-    end
+    require 'retter/page/view_helper'
 
     include Retter::Stationery
 

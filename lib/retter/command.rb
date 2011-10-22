@@ -68,7 +68,7 @@ class Retter::Command < Thor
   desc 'list', 'List retters'
   def list
     entries.each_with_index do |entry, n|
-      say "[e#{n}] #{entry.date.strftime('%Y/%m/%d')}"
+      say "[e#{n}] #{entry.date}"
       say "  #{entry.articles.map(&:title).join(', ')}"
       say
     end

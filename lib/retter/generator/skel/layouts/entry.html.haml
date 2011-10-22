@@ -1,22 +1,23 @@
 %article.autopagerize_page_element
   %h1.date
-    %a{href: entry_path(entry.date)}= entry.date.strftime('%Y/%m/%d')
+    %a{href: entry_path(entry)}= entry.date
 
   - unless entry.lede.empty?
     = entry.lede
 
   - entry.articles.each do |article|
     %h1{id: article.id}
-      %a{href: article_path(entry.date, article.id)}= article.title
+      %a{href: article_path(article)}= article.title
+
     = article
 
 .nav
   .prev
     - if prev_entry = entry.prev
-      %link{href: entry_path(prev_entry.date), rel: :prev}
+      %link{href: entry_path(prev_entry), rel: :prev}
 
   .next
     - if next_entry = entry.next
-      %link{href: entry_path(next_entry.date), rel: :next}
+      %link{href: entry_path(next_entry), rel: :next}
 
 .autopagerize_insert_before

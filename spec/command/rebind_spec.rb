@@ -41,14 +41,14 @@ describe 'Retter::Command#rebind', clean: :all do
       let(:index_html) { retter_config.index_file.read }
 
       it { texts_of(index_html, 'article p').should include('おはようございます') }
-      it { texts_of(index_html, 'article h1.date').should == %w(2011/01/01) }
-      it { texts_of(index_html, 'article h1').should == %w(2011/01/01 朝11時 夜1時) }
+      it { texts_of(index_html, 'article h1.date').should == %w(2011-01-01) }
+      it { texts_of(index_html, 'article h1').should == %w(2011-01-01 朝11時 夜1時) }
     end
 
     describe 'entries.html' do
       let(:entries_html) { retter_config.entries_file.read }
 
-      it { texts_of(entries_html, 'a.entry').first.should == '2011/01/01' }
+      it { texts_of(entries_html, 'a.entry').first.should == '2011-01-01' }
       it { texts_of(entries_html, 'a.title').should == %w(朝11時 夜1時) }
     end
 
@@ -56,8 +56,8 @@ describe 'Retter::Command#rebind', clean: :all do
       let(:entry_html) { retter_config.entry_file(Date.parse(date_str)).read }
 
       it { texts_of(entry_html, 'article p').should == %w(おはようございます おやすみなさい) }
-      it { texts_of(entry_html, 'article h1.date').should == %w(2011/01/01) }
-      it { texts_of(entry_html, 'article h1').should == %w(2011/01/01 朝11時 夜1時) }
+      it { texts_of(entry_html, 'article h1.date').should == %w(2011-01-01) }
+      it { texts_of(entry_html, 'article h1').should == %w(2011-01-01 朝11時 夜1時) }
     end
 
     describe 'entry part(first)' do
@@ -71,7 +71,7 @@ describe 'Retter::Command#rebind', clean: :all do
 
       describe 'date' do
         subject { texts_of(part_html, 'article h1.date') }
-        it { should == %w(2011/01/01) }
+        it { should == %w(2011-01-01) }
       end
 
       describe 'headings' do
@@ -92,7 +92,7 @@ describe 'Retter::Command#rebind', clean: :all do
 
       describe 'date' do
         subject { texts_of(part_html, 'article h1.date') }
-        it { should == %w(2011/01/01) }
+        it { should == %w(2011-01-01) }
       end
 
       describe 'headings' do

@@ -39,9 +39,9 @@ describe 'Retter::Command#list', clean: :all do
 
     subject { capture(:stdout) { command.list }.split(/\n+/) }
 
-    its([0]) { should match /\[e0\]\s+2011\/02\/22/ }
+    its([0]) { should match /\[e0\]\s+2011\-02\-22/ }
     its([1]) { should match /朝11時30分, 夜1時30分/ }
-    its([2]) { should match /\[e1\]\s+2011\/01\/01/ }
+    its([2]) { should match /\[e1\]\s+2011\-01\-01/ }
     its([3]) { should match /朝11時, 夜1時/ }
   end
 end
