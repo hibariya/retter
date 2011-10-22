@@ -66,7 +66,7 @@ You can use `retter` command anywhere, If you set `$RETTER_HOME` variable.
 
 作業ディレクトリにRetterfileがある場合は、そのディレクトリが`$RETTER_HOME`に指定されているものとして動作します。
 
-### 記事を書く - Write an article
+### 記事を書く - Write an entry
 
 `retter`コマンドは設定されているエディタを起動します。今のところMarkdown形式で記事を書くことができます。
 
@@ -151,7 +151,7 @@ To publish, use the git command. Or, upload the file to your server.
 
 後述するコールバックを設定しておくことで、さらに手数を減らすことも可能です。
 
-### 特定の日付の記事を編集する - Edit article (specific date).
+### 特定の日付の記事を編集する - Edit entry (specific date).
 
 昨日、明日、過去や未来の日付を指定して記事を編集・プレビューするには、 `--date` オプションを用います。
 
@@ -183,6 +183,33 @@ To publish, use the git command. Or, upload the file to your server.
   retter edit 3.weeks.ago  # 3週間前
   retter edit 3.months.ago # 3カ月前
   retter edit 3.years.ago  # 3年前
+~~~~
+
+### 記事の一覧を出力する - Browse entries
+
+これまでに書いた記事の一覧を出力することができます。すべての一覧を出力するため、`less`や`lv`、`grep`などで適宜フィルタしてください。
+
+~~~~
+  retter list
+  [e0] 2011-10-12
+    記事ごとにPermlinkがつくようにした, retter 0.1.0
+
+  [e1] 2011-10-10
+    Rubyのトップレベルについて整理する
+
+  [e2] 2011-10-03
+    モジュール関数がprivateな理由
+
+  [e3] 2011-09-19
+    スタイルシートを追加してテーマを変えられるようにした
+~~~~
+
+日付の左側に表示されている文字列は、編集やプレビューの際の記事の指定に使うことができます。
+
+~~~~
+  retter edit e3
+  retter preview e3
+  retter preview --key e3
 ~~~~
 
 ### コールバック - Callbacks
