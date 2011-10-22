@@ -11,6 +11,32 @@ Gem::Specification.new do |s|
   s.summary     = %q{Flyweight diary workflow}
   s.description = %q{Flyweight diary workflow. ruby-1.9.2 or later is required.}
 
+
+  s.post_install_message = <<-EOM
+    **Important** Some features were added or updated.
+
+    * Article has Permlink in retter-0.1.0 or later.
+      If error occured, try overwrite templates by `retter gen $RETTER_HOME`. (overwrite layouts/*.html.haml)
+
+    * Relative date is now available in `--date` option.
+      Examples:
+        $ retter edit yesterday
+        $ retter edit today
+        $ retter edit tomorrow
+        $ retter preview 2.days.ago
+
+    * `--key` option is now available in edit (and preview).
+      Examples:
+        $ retter list
+        [e0] 2011-10-12  article3, article4
+        [e1] 2011-10-10  article1, article2
+        $ retter edit --key e0
+          ... or ...
+        $ retter edit e0
+
+    -- Thanks for flying Retter :-> --
+  EOM
+
   #s.rubyforge_project = "retter"
 
   s.files         = `git ls-files`.split("\n")

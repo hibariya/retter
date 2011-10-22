@@ -24,7 +24,7 @@ a {
 }
 
 code{
-	padding:0 5px;
+  padding:0 5px;
 }
 
 #header {
@@ -89,16 +89,16 @@ article {
   position:relative;
 }
 
-article ul li{	
-	list-style-image:url("../images/orange/ic_li01.gif");
+article ul li {
+  list-style-image:url("../images/orange/ic_li01.gif");
 }
 
-article p a{
-  color:#F30;	
+article p a {
+  color:#F30;
 }
 
-article p a:hover{
-  color:#F93;	
+article p a:hover {
+  color:#F93;
 }
 
 article .date {
@@ -167,4 +167,3 @@ pre {
 #footer a:hover {
   color: #669;
 }
-
