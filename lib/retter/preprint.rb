@@ -13,7 +13,11 @@ module Retter
     end
 
     def print(entry)
-      part = Haml::Engine.new(part_layout_pathname.read, ugly: true).render(view_scope, entry: entry)
+      part = Haml::Engine.new(
+        part_layout_pathname.read,
+        ugly: true,
+        filename: part_layout_pathname.to_s
+      ).render(view_scope, entry: entry)
 
       print_with_layout part
     end

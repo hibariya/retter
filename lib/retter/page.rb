@@ -14,7 +14,11 @@ module Retter
     end
 
     def print
-      part = Haml::Engine.new(part_layout_pathname.read, ugly: true).render(view_scope)
+      part = Haml::Engine.new(
+        part_layout_pathname.read,
+        ugly: true,
+        filename: part_layout_pathname.to_s
+      ).render(view_scope)
 
       print_with_layout part
     end
@@ -41,7 +45,7 @@ module Retter
     end
 
     def layout_renderer
-      @layout_renderer ||= Haml::Engine.new(config.layout_file.read, ugly: true)
+      @layout_renderer ||= Haml::Engine.new(config.layout_file.read, ugly: true, filename: config.layout_file.to_s)
     end
 
     def fix_path(html, prefix='./')

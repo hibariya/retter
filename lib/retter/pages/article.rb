@@ -22,7 +22,11 @@ class Retter::Pages::Article
 
   def print
     options = {entry: article.entry, article: article}
-    part = Haml::Engine.new(part_layout_pathname.read, ugly: true).render(view_scope, options)
+    part = Haml::Engine.new(
+      part_layout_pathname.read,
+      ugly: true,
+      filename: part_layout_pathname.to_s
+    ).render(view_scope, options)
 
     mkdir
     print_with_layout part
