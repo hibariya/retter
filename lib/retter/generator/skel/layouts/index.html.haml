@@ -1,5 +1,6 @@
-#entries
-  - entries[0..5].each do |entry|
+#entries.autopagerize_page_element
+  - recent_entries = entries[0..4]
+  - recent_entries.each do |entry|
     %article
       %h1.date
         %a{href: entry_path(entry.date)}= entry.date.strftime('%Y/%m/%d')
@@ -9,3 +10,10 @@
         %h1{id: article.id}
           %a{href: article_path(entry.date, article.id)}= article.title
         = article
+
+  .nav
+    .next
+      - if next_entry = recent_entries.last.next
+        %link{href: entry_path(next_entry.date), rel: :next}
+
+  .autopagerize_insert_before
