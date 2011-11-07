@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module Retter
-  class EnvError < RuntimeError; end
+  class EnvError < RetterError; end
 
   class Config
     ATTRIBUTES = [

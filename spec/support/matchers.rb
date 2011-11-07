@@ -2,7 +2,7 @@
 
 RSpec::Matchers.define :written do
   match do |file|
-    file.exist?
+    file.exist? && !file.size.zero?
   end
 end
 

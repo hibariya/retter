@@ -12,10 +12,10 @@ class Retter::Command < Thor
 
   desc 'edit', 'Open $EDITOR. Write an article with Markdown.'
   method_options date: :string, key: :string, silent: :boolean
-  def edit(date_or_index = options[:date] || options[:key])
-    entry = entries.detect_by_string(date_or_index)
+  def edit(identifier = options[:date] || options[:key])
+    entry = entries.detect_by_string(identifier)
 
-    system config.editor, entry.path
+    system "#{config.editor} #{entry.path}"
 
     invoke_after :edit unless silent?
   end
@@ -24,8 +24,8 @@ class Retter::Command < Thor
 
   desc 'preview', 'Preview the draft article (browser will open).'
   method_options date: :string, key: :string
-  def preview(date_or_index = options[:date] || options[:key])
-    entry = entries.detect_by_string(date_or_index)
+  def preview(identifier = options[:date] || options[:key])
+    entry = entries.detect_by_string(identifier)
 
     preprint.print entry
 

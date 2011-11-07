@@ -5,7 +5,7 @@ module Retter::ConfigSupport
     return @config if @config
 
     env = {
-      'EDITOR'      => 'touch',
+      'EDITOR'      => 'echo written >',
       'RETTER_HOME' => RETTER_ROOT.join('tmp', 'test').to_s
     }
 

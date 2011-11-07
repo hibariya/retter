@@ -4,6 +4,8 @@ here = File.dirname(__FILE__)
 $LOAD_PATH.unshift here unless $LOAD_PATH.include?(here)
 
 module Retter
+  class RetterError < RuntimeError; end
+
   module Stationery
     [:config, :entries, :preprint, :pages, :repository].each do |meth|
       define_method meth do

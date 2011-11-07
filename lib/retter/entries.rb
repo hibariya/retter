@@ -3,6 +3,8 @@
 require 'active_support/core_ext/object'
 
 module Retter
+  class EntryLoadError < RetterError; end
+
   class Entries < Array
     include Retter::Stationery
 
@@ -11,15 +13,30 @@ module Retter
     end
 
     def detect_by_string(str)
-      case str
-      when nil, ''
-        detect_by_today or wip_entry
-      when /^e([0-9]+)$/
-        index = $1.to_i
-        self[index] or wip_entry
+      entry = case str
+              when nil, ''
+                detect_by_today || wip_entry
+              when /^e([0-9]+)$/
+                index = $1.to_i
+                self[index]
+              when /^([0-9a-z]+\.md)$/
+                detect_by_filename($1)
+              else
+                date = parse_date_string(str)
+                detect_by_date(date) || wip_entry(date)
+              end
+
+      raise EntryLoadError, "Entry not found with keyword '#{str}'" unless entry
+
+      entry
+    end
+
+    def detect_by_filename(filename)
+      case filename
+      when config.wip_file.basename.to_s
+        wip_entry
       else
-        date = parse_date_string(str)
-        detect_by_date(date) || wip_entry(date)
+        detect {|e| e.pathname.basename.to_s == filename }
       end
     end
 
