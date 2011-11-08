@@ -260,7 +260,7 @@ In Retterfile:
 
 ~~~~ruby
   after :edit do
-    preview if yes?("Preview now? [yes/no]")
+    preview ARGV.pop if yes?("Preview now? [yes/no]")
   end
 ~~~~
 
