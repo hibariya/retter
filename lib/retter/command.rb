@@ -145,13 +145,13 @@ Usage:
   git push [remote] [branch] # or sftp, rsync, etc...
 
   # Specific date
-  retter edit --date=20110101
-  retter preview --date=20110101
+  retter edit 20110101
+  retter preview 20110101
 
   # Specific file
-  retter edit --key=today.md
-  retter edit --key=20110101.md
-  retter preview --key=20110101.md
+  retter edit today.md
+  retter edit 20110101.md
+  retter preview 20110101.md
 
   # Browse entry list.
   retter list
