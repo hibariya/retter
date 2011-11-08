@@ -185,6 +185,16 @@ To publish, use the git command. Or, upload the file to your server.
   retter edit 3.years.ago  # 3年前
 ~~~~
 
+### 特定のファイルを編集する - Edit entry (specific file).
+
+記事の編集・プレビューにはファイル名での指定も可能です。
+
+~~~~
+  retter edit today.md
+  retter edit 20110101.md
+  retter preview 20110101.md
+~~~~
+
 ### 記事の一覧を出力する - Browse entries
 
 これまでに書いた記事の一覧を出力することができます。すべての一覧を出力するため、`less`や`lv`、`grep`などで適宜フィルタしてください。
@@ -204,12 +214,11 @@ To publish, use the git command. Or, upload the file to your server.
     スタイルシートを追加してテーマを変えられるようにした
 ~~~~
 
-日付の左側に表示されている文字列は、編集やプレビューの際の記事の指定に使うことができます。
+日付の左側に表示されている文字列は、編集やプレビューの際の記事の指定するキーワードとして使うことができます。
 
 ~~~~
   retter edit e3
   retter preview e3
-  retter preview --key e3
 ~~~~
 
 ### コールバック - Callbacks
