@@ -15,32 +15,21 @@ Gem::Specification.new do |s|
   s.post_install_message = <<-EOM
     **Important** Some features were added or updated.
 
-    * Article has Permlink in retter-0.1.0 or later.
-      If error occured, try overwrite templates by `retter gen $RETTER_HOME`. (overwrite layouts/*.html.haml)
-
-    * Relative date is now available in `--date` option.
+    * Filename is now specificable.
       Examples:
-        $ retter edit yesterday
-        $ retter edit today
-        $ retter edit tomorrow
-        $ retter preview 2.days.ago
+        $ retter edit today.md
+        $ retter edit 20110101.md
+        $ retter preview 20110101.md
 
     * `--key` option is now available in edit (and preview).
       Examples:
         $ retter list
         [e0] 2011-10-12  article3, article4
         [e1] 2011-10-10  article1, article2
-        $ retter edit --key e0
-          ... or ...
-        $ retter edit e0
-
-    * Default date format has changed.
-      2011/01/01 -> 2011-01-01
+        $ retter edit e0 # edit 2011-10-12 entry
 
     -- Thanks for flying Retter :-> --
   EOM
-
-  #s.rubyforge_project = "retter"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
