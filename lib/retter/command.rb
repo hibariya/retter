@@ -50,7 +50,7 @@ class Retter::Command < Thor
     end
   end
 
-  desc 'bind', 'Re-bind the draft article, re-generate all html pages.'
+  desc 'bind', 'Alias of rebind'
   method_options silent: :boolean
   alias_method :bind, :rebind
 
@@ -127,18 +127,18 @@ class Retter::Command < Thor
   def self.usage
     <<-EOM
 Usage:
-  # Startup
+  # 1. Startup
   cd /path/to/dir
   retter new my_sweet_diary
   echo "export EDITOR=vim" >> ~/.zshenv # retter requires $EDITOR.
   echo "export RETTER_HOME=/path/to/my_sweet_diary" >> ~/.zshenv
   . ~/.zshenv
 
-  # Write a article
+  # 2. Write a article
   retter         # $EDITOR will open. Write an article with Markdown.
   retter preview # Preview the draft article (browser will open).
 
-  # Publish
+  # 3. Publish
   retter bind    # bind the draft article, re-generate all html pages.
   retter commit  # shortcut of "cd $RETTER_HOME; git add .; git commit -m 'Retter commit'"
   cd $RETTER_HOME
@@ -147,6 +147,27 @@ Usage:
   # Specific date
   retter edit --date=20110101
   retter preview --date=20110101
+
+  # Specific file
+  retter edit --key=today.md
+  retter edit --key=20110101.md
+  retter preview --key=20110101.md
+
+  # Browse entry list.
+  retter list
+
+  output examples:
+    [e0] 2011-11-07
+    entry3 title
+
+    [e1] 2011-10-25
+    entry2 title
+
+    [e2] 2011-10-22
+    entry1 title
+
+  to edit by keyword. run following command:
+    retter edit e1
 
   # Browse offline.
   retter open    # Open your (static) site top page (browser will open).
