@@ -25,6 +25,8 @@ module Retter
       :index_file,
       :entries_file,
       :feed_file
+    ] + [ # extras
+      :disqus_shortname
     ]
 
     ATTRIBUTES.each do |att|
