@@ -14,12 +14,12 @@
 * CLIでの操作を前提としています
 * どこ（cwd）にいてもすぐに記事を編集できます（Markdown）
 * オフラインで簡単にプレビューできます
-* だいたいどんなサーバ上でも動作します（静的HTMLまたはRackアプリとして）
+* だいたいどんなサーバ上でも動作します（Heroku, GitHub Pages, Dropbox などで、静的HTMLまたはRackアプリとして）
 * RSSフィードを吐きます
-* トラックバック、**コメント**などの機能はありません
+* トラックバック、**コメント**などの機能は外部のサービスを使用できます
 * コールバックを設定することでさらに手数を減らすことができます
 
-## インストール - Installation
+# インストール - Installation
 
 *ruby-1.9.2* or later is required.
 
@@ -27,9 +27,9 @@
   gem install retter
 ~~~~
 
-## 使い方 - Usage
+# 使い方 - Usage
 
-### 新規サイト生成 - New site
+## 新規サイト生成 - New site
 
 `retter new`で新しいサイトのひな形を生成し、依存ライブラリをインストールし、gitリポジトリを初期化します。
 
@@ -39,9 +39,9 @@
 
 生成するファイルはHAMLテンプレート、設定ファイル、デフォルトのCSS、Rackアプリ用の設定などです。
 
-### 初期設定 - Settings
+## 初期設定 - Settings
 
-#### $EDITOR
+### $EDITOR
 
 **retter requires `$EDITOR` variable.**
 
@@ -53,7 +53,7 @@ Retterで記事を編集する際には任意のエディタが起動します�
   $ . ~/.bash_profile
 ~~~~
 
-#### $RETTER_HOME
+### $RETTER_HOME
 
 ファイルシステム上のどこに居ても`retter`コマンドを使って編集から公開まで行えるよう、 事前に`$RETTER_HOME`環境変数を設定します。
 
@@ -66,7 +66,7 @@ You can use `retter` command anywhere, If you set `$RETTER_HOME` variable.
 
 作業ディレクトリにRetterfileがある場合は、そのディレクトリが`$RETTER_HOME`に指定されているものとして動作します。
 
-### 記事を書く - Write an entry
+## 記事を書く - Write an entry
 
 `retter`コマンドは設定されているエディタを起動します。今のところMarkdown形式で記事を書くことができます。
 
@@ -79,7 +79,7 @@ You can use `retter` command anywhere, If you set `$RETTER_HOME` variable.
 記事をひと通り書き終えたり確認したくなったら、エディタの機能で記事を保存して終了してください。
 保存された記事は、その段階ではまだ下書きの状態です。
 
-### プレビュー - Preview
+## プレビュー - Preview
 
 下書きの記事を確認するには`preview`サブコマンドを使います（デフォルトブラウザが起動します）。
 
@@ -93,7 +93,7 @@ You can use `retter` command anywhere, If you set `$RETTER_HOME` variable.
 満足のいく文章が出来上がるまで編集とプレビューを繰り返しましょう。
 
 
-### 記事の生成 - Bind
+## 記事の生成 - Bind
 
 下書きが完成したら、記事をそのサイトのページとして生成します。
 `bind`, `rebind` は下書きの記事をその日の記事として保存し、すべてのHTMLを再生成します。
@@ -104,7 +104,7 @@ You can use `retter` command anywhere, If you set `$RETTER_HOME` variable.
   $ retter bind
 ~~~~
 
-### サイト全体の確認 - Browse Offline
+## サイト全体の確認 - Browse Offline
 
 生成されるすべてのページは静的HTMLですから、オフラインでも自分のマシンで全体的な見栄えを確認できます。
 `open`サブコマンドはデフォルトブラウザを起動してサイトのトップページを開きます。
@@ -122,13 +122,13 @@ You can use `retter` command anywhere, If you set `$RETTER_HOME` variable.
   (retter) bundle exec rackup
 ~~~~
 
-### 記事の公開 - Publish
+## 記事の公開 - Publish
 
 記事をインターネット上に公開するには、必要なすべてのファイルを git リポジトリにコミットしリモートサーバに push、または単純にファイルをアップロードします。
 
 To publish, use the git command. Or, upload the file to your server.
 
-#### Basic flow
+### Basic flow
 
 最も原始的な方法は、gitコマンドを直接使う方法です。
 
@@ -139,7 +139,7 @@ To publish, use the git command. Or, upload the file to your server.
   $ git push [remote] [branch]     # heroku, github pages, etc..
 ~~~~
 
-#### Using shortcut commands
+### Using shortcut commands
 
 いくつかのショートカットを使い、コミットメッセージを書くことを省略したりすることができます。
 
@@ -151,7 +151,7 @@ To publish, use the git command. Or, upload the file to your server.
 
 後述するコールバックを設定しておくことで、さらに手数を減らすことも可能です。
 
-### 特定の日付の記事を編集する - Edit entry (specific date).
+## 特定の日付の記事を編集する - Edit entry (specific date).
 
 昨日、明日、過去や未来の日付を指定して記事を編集・プレビューするには、 `--date` オプションを用います。
 
@@ -185,7 +185,7 @@ To publish, use the git command. Or, upload the file to your server.
   retter edit 3.years.ago  # 3年前
 ~~~~
 
-### 特定のファイルを編集する - Edit entry (specific file).
+## 特定のファイルを編集する - Edit entry (specific file).
 
 記事の編集・プレビューにはファイル名での指定も可能です。
 
@@ -195,7 +195,7 @@ To publish, use the git command. Or, upload the file to your server.
   retter preview 20110101.md
 ~~~~
 
-### 記事の一覧を出力する - Browse entries
+## 記事の一覧を出力する - Browse entries
 
 これまでに書いた記事の一覧を出力することができます。すべての一覧を出力するため、`less`や`lv`、`grep`などで適宜フィルタしてください。
 
@@ -221,20 +221,20 @@ To publish, use the git command. Or, upload the file to your server.
   retter preview e3
 ~~~~
 
-### コールバック - Callbacks
+## コールバック - Callbacks
 
 コールバックはいくつかのサブコマンド（edit bind rebind commit）の実行直後に自動的に実行されます。
 コールバックを定義しておくことで、手数の多い割に代わり映えのしない作業を自動化することができます。
 
 Callback is enabled in `edit`, `bind`, `rebind` and `commit` sub-command.
 
-#### Syntax
+### Syntax
 
 ~~~~ruby
   after [command], [invoke command or proc]
 ~~~~
 
-#### HTMLの生成時、デプロイまでの作業を自動化する - Auto deploying
+### HTMLの生成時、デプロイまでの作業を自動化する - Auto deploying
 
 以下のような内容を Retterfile に記述しておくことで、rebind または bind が実行されると即座に公開までの処理も実行されます。
 
@@ -254,7 +254,7 @@ In Retterfile:
 
 `--silent` option skip the callback.
 
-#### エディタを終了したとき即座にプレビューする - Auto preview
+### エディタを終了したとき即座にプレビューする - Auto preview
 
 記事を編集しエディタを終了したあとブラウザでプレビューしたい場合は、`edit`へのコールバックを設定できます。
 
@@ -266,7 +266,7 @@ In Retterfile:
 
 もしもコールバックを毎回実行したくない場合、`--silent`を指定する以外に、上記のように確認プロンプトを表示させるという方法もあります。
 
-#### コールバック呼出し
+### コールバック呼出し
 
 コマンド実行後にコールバックだけを再度実行したい場面では、`callback`サブコマンドを使用できます。
 
@@ -274,12 +274,40 @@ In Retterfile:
   $ retter callback --after edit
 ~~~~
 
-### 組込みテーマ - Pre-installed themes
+## コメントシステム（DISQUS）の導入 - Install DISQUS
+
+
+### Prepare
+
+1. Create DISQUS Account
+2. Add new site for retter
+
+### Install
+
+First, Add your `disqus_shortname` to retterfile.
+
+in Retterfile
+
+~~~~ruby
+disqus_shortname 'your_disqus_shortname'
+~~~~
+
+Second, Edit templete and paste `render_disqus_comment_form`.
+
+in layouts/article.html.haml
+
+~~~~haml
+-# abbrev
+#comments= render_disqus_comment_form
+-# abbrev
+~~~~
+
+## 組込みテーマ - Pre-installed themes
 
 スタイルシートを変更することでテーマを変更できます。HTMLのヘッダを変更するには `layouts/retter.html.haml` を編集します。
 スタイルシートの指定を変更し、`retter rebind`コマンドを実行するとすべてのページが更新されます。
 
-#### Default
+### Default
 
 ~~~~haml
     %link{href: '/stylesheets/default.css', media: 'screen', rel: 'stylesheet', type: 'text/css'}
@@ -287,7 +315,7 @@ In Retterfile:
 
 ![Default](http://hibariya.github.com/images/theme_samples/retter_default.jpg)
 
-#### Orange
+### Orange
 
 ~~~~haml
     %link{href: '/stylesheets/orange.css', media: 'screen', rel: 'stylesheet', type: 'text/css'}
@@ -295,7 +323,7 @@ In Retterfile:
 
 ![Orange](http://hibariya.github.com/images/theme_samples/retter_orange.jpg)
 
-### HTMLの修正 - HTML Layout
+## HTMLの修正 - HTML Layout
 
 HTMLのレイアウト自体を変更するには`layouts/`ディレクトリ以下のHAMLファイルを修正します。
 これらのファイルを変更したとしても、`retter rebind`コマンドを実行するまでは反映されません。
@@ -315,7 +343,7 @@ layouts
 `article.html.haml`を変更することで個々の記事のレイアウトを変更することができます。
 その他のファイルは実際のURLと名前が対応しています。
 
-## LICENSE
+# LICENSE
 
 The MIT License
 
