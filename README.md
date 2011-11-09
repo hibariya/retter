@@ -284,7 +284,7 @@ In Retterfile:
 
 ### Install
 
-First, Add your `disqus_shortname` to retterfile.
+First, Add your `disqus_shortname` to Retterfile.
 
 in Retterfile
 

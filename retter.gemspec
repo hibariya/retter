@@ -15,18 +15,22 @@ Gem::Specification.new do |s|
   s.post_install_message = <<-EOM
     **Important** Some features were added or updated.
 
+    * DISQUS (comment system) support is now available.
+      First, Add your `disqus_shortname` to Retterfile.
+
+      in Retterfile:
+        disqus_shortname 'your_disqus_shortname'
+
+      Second, Edit templete and paste `render_disqus_comment_form`.
+
+      in layouts/article.html.haml:
+        #comments= render_disqus_comment_form
+
     * Filename is now specificable.
       Examples:
         $ retter edit today.md
         $ retter edit 20110101.md
         $ retter preview 20110101.md
-
-    * `--key` option is now available in edit (and preview).
-      Examples:
-        $ retter list
-        [e0] 2011-10-12  article3, article4
-        [e1] 2011-10-10  article1, article2
-        $ retter edit e0 # edit 2011-10-12 entry
 
     -- Thanks for flying Retter :-> --
   EOM
