@@ -90,15 +90,15 @@ article {
   position: relative;
 }
 
-article ul li{	
+article ul li {
 	list-style-image: url("../images/orange/ic_li01.gif");
 }
 
-article p a{
+article p a {
   color: #F30;
 }
 
-article p a:hover{
+article p a:hover {
   color: #F93;
 }
 
@@ -136,6 +136,19 @@ article ul#entries {
 
 #entries {
   width: 100%;
+}
+
+#comments {
+  color: #603;
+  border-radius: 10px;
+  border: 3px #FFC solid;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  padding: 1em 1.5em 1em 1.5em;
+  margin: 1em 0 1em 0;
+  width: 100%;
+  background-image: url("../images/orange/bg_entry.jpg");
+  position: relative;
 }
 
 pre {

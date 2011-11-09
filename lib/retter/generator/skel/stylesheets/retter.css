@@ -92,6 +92,18 @@ article ul#entries {
   width 100%;
 }
 
+#comments {
+  background: rgb(228,239,192);
+  color: rgb(0,30,67);
+  border-radius: 20px;
+  border: 3px rgb(25,30,10) solid;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  padding: 1em 1.5em 1em 1.5em;
+  margin: 1em 0 1em 0;
+  width 100%;
+}
+
 pre {
   background: #EEE;
   color: rgb(0,30,67);
