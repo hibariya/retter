@@ -1,12 +1,3 @@
-# 注意
-
-0.1.0 以降、`layouts/`ファイル以下に追加と変更があります。
-以下のコマンドで`layouts/`以下のファイルを上書きしてください。
-
-~~~~
-  retter gen $RETTER_HOME
-~~~~
-
 # RETTER (レッター) Flyweight diary workflow.
 
 手軽さを追求した記事作成ツール。以下のような特徴があります。
@@ -19,29 +10,89 @@
 * トラックバック、**コメント**などの機能は外部のサービスを使用できます
 * コールバックを設定することでさらに手数を減らすことができます
 
-# インストール - Installation
+# Quick Start
 
 *ruby-1.9.2* or later is required.
+
+**Install:**
 
 ~~~~
   gem install retter
 ~~~~
 
-# 使い方 - Usage
-
-## 新規サイト生成 - New site
-
-`retter new`で新しいサイトのひな形を生成し、依存ライブラリをインストールし、gitリポジトリを初期化します。
+**Generate a new site:**
 
 ~~~~
   $ retter new my_sweet_diary
 ~~~~
 
-生成するファイルはHAMLテンプレート、設定ファイル、デフォルトのCSS、Rackアプリ用の設定などです。
+**Initial settings:**
 
-## 初期設定 - Settings
+~~~~
+  $ export EDITOR=vim
+  $ export RETTER_HOME=`pwd`/my_sweet_diary
+~~~~
 
-### $EDITOR
+**Writing today's article:**
+
+~~~~
+  $ retter
+~~~~
+
+`retter` opens `$EDITOR`. Write an article with Markdown.
+
+**Preview:**
+
+~~~~
+  $ retter preview
+~~~~
+
+`preview` opens the draft article by your default browser.
+
+**Bind:**
+
+~~~~
+  $ retter rebind
+~~~~
+
+`bind` and `rebind` binds the draft article. And re-generates actual html web pages. All html pages will be overwritten.
+
+**Browse offline:**
+
+~~~~
+  $ retter open
+~~~~
+
+`open` sub-command opens your (static) website by your default browser.
+
+**Show Articles list:**
+
+~~~~
+  $ retter list
+  [e0] 2011-11-09
+    my sweet article title
+~~~~
+
+**Re-writing an article:**
+
+~~~~
+  $ retter edit e0
+  ... abbr ...
+  $ retter preview e0
+~~~~
+
+**Deploy example:**
+
+~~~~
+  $ cd $RETTER_HOME
+  $ git add .
+  $ git commit -m 'Entry written'
+  $ git push [your_git_remote] master
+~~~~
+
+To publish, use the git command. Or, upload the file to your server.
+
+# Environment variables
 
 **retter requires `$EDITOR` variable.**
 
@@ -53,9 +104,9 @@ Retterで記事を編集する際には任意のエディタが起動します�
   $ . ~/.bash_profile
 ~~~~
 
-### $RETTER_HOME
+## $RETTER_HOME
 
-ファイルシステム上のどこに居ても`retter`コマンドを使って編集から公開まで行えるよう、 事前に`$RETTER_HOME`環境変数を設定します。
+ファイルシステム上のどこに居ても`retter`コマンドを使って編集から公開まで行えるよう、 事前に`$RETTER_HOME`環境変数を設定することをおすすめします。
 
 You can use `retter` command anywhere, If you set `$RETTER_HOME` variable.
 
@@ -66,80 +117,7 @@ You can use `retter` command anywhere, If you set `$RETTER_HOME` variable.
 
 作業ディレクトリにRetterfileがある場合は、そのディレクトリが`$RETTER_HOME`に指定されているものとして動作します。
 
-## 記事を書く - Write an entry
-
-`retter`コマンドは設定されているエディタを起動します。今のところMarkdown形式で記事を書くことができます。
-
-`retter` opens `$EDITOR`. Write an article with Markdown.
-
-~~~~
-  $ retter
-~~~~
-
-記事をひと通り書き終えたり確認したくなったら、エディタの機能で記事を保存して終了してください。
-保存された記事は、その段階ではまだ下書きの状態です。
-
-## プレビュー - Preview
-
-下書きの記事を確認するには`preview`サブコマンドを使います（デフォルトブラウザが起動します）。
-
-`preview` opens the draft article by your default browser.
-
-~~~~
-  $ retter preview
-~~~~
-
-気に入らない箇所を見つけたらページを閉じて、また`retter`コマンドで記事を編集します。
-満足のいく文章が出来上がるまで編集とプレビューを繰り返しましょう。
-
-
-## 記事の生成 - Bind
-
-下書きが完成したら、記事をそのサイトのページとして生成します。
-`bind`, `rebind` は下書きの記事をその日の記事として保存し、すべてのHTMLを再生成します。
-
-`bind` and `rebind` binds the draft article. And re-generates actual html web pages. All html pages will be overwritten.
-
-~~~~
-  $ retter bind
-~~~~
-
-## サイト全体の確認 - Browse Offline
-
-生成されるすべてのページは静的HTMLですから、オフラインでも自分のマシンで全体的な見栄えを確認できます。
-`open`サブコマンドはデフォルトブラウザを起動してサイトのトップページを開きます。
-
-`open` sub-command opens your (static) website by your default browser.
-
-~~~~
-  $ retter open
-~~~~
-
-デプロイ先のサーバではRackアプリとして起動しているということであれば、rackupで確認しましょう。
-
-~~~~
-  $ retter home # `home` opens a new shell in $RETTER_HOME.
-  (retter) bundle exec rackup
-~~~~
-
-## 記事の公開 - Publish
-
-記事をインターネット上に公開するには、必要なすべてのファイルを git リポジトリにコミットしリモートサーバに push、または単純にファイルをアップロードします。
-
-To publish, use the git command. Or, upload the file to your server.
-
-### Basic flow
-
-最も原始的な方法は、gitコマンドを直接使う方法です。
-
-~~~~
-  $ cd $RETTER_HOME
-  $ git add .
-  $ git commit -m 'commit message'
-  $ git push [remote] [branch]     # heroku, github pages, etc..
-~~~~
-
-### Using shortcut commands
+# Using shortcuts
 
 いくつかのショートカットを使い、コミットメッセージを書くことを省略したりすることができます。
 
@@ -149,79 +127,40 @@ To publish, use the git command. Or, upload the file to your server.
   (retter) git push [remote] [branch] # heroku, github pages, etc..
 ~~~~
 
-後述するコールバックを設定しておくことで、さらに手数を減らすことも可能です。
+# Specify a date
 
-## 特定の日付の記事を編集する - Edit entry (specific date).
-
-昨日、明日、過去や未来の日付を指定して記事を編集・プレビューするには、 `--date` オプションを用います。
-
-`--date` option is available in `edit` `preview` sub-command.
+Date is specify-able in `edit` `preview` sub-command.
 
 ~~~~
-  retter --date 20110101         # 編集
-  retter preview --date 20110101 # プレビュー
+  $ retter edit 20110101    # edit
+  $ retter preview 20110101 # preview
 ~~~~
 
-サブコマンドを明示する場合は、日付の指定は引数のように指定することもできます（`--date`が不要になります）。
+Relative date is available too.
 
 ~~~~
-  retter edit 20110101
-  retter preview 20110101
+  $ retter edit yesterday    # 昨日
+  $ retter edit today        # 今日
+  $ retter edit tommorow     # 明日
+
+  $ retter edit '3 days ago' # 3日前
+  $ retter edit 3.days.ago   # 3日前
+  $ retter edit 3.days.since # 3日後
+  $ retter edit 1.week.ago   # 1週間前
+  $ retter edit 3.weeks.ago  # 3週間前
+  $ retter edit 3.months.ago # 3カ月前
+  $ retter edit 3.years.ago  # 3年前
 ~~~~
 
-日付は相対的に指定することができます。以下のような形式をサポートします。
+And file name.
 
 ~~~~
-  retter edit yesterday    # 昨日
-  retter edit today        # 今日
-  retter edit tommorow     # 明日
-
-  retter edit '3 days ago' # 3日前
-  retter edit 3.days.ago   # 3日前
-  retter edit 3.days.since # 3日後
-  retter edit 1.week.ago   # 1週間前
-  retter edit 3.weeks.ago  # 3週間前
-  retter edit 3.months.ago # 3カ月前
-  retter edit 3.years.ago  # 3年前
+  $ retter edit today.md
+  $ retter edit 20110101.md
+  $ retter preview 20110101.md
 ~~~~
 
-## 特定のファイルを編集する - Edit entry (specific file).
-
-記事の編集・プレビューにはファイル名での指定も可能です。
-
-~~~~
-  retter edit today.md
-  retter edit 20110101.md
-  retter preview 20110101.md
-~~~~
-
-## 記事の一覧を出力する - Browse entries
-
-これまでに書いた記事の一覧を出力することができます。すべての一覧を出力するため、`less`や`lv`、`grep`などで適宜フィルタしてください。
-
-~~~~
-  retter list
-  [e0] 2011-10-12
-    記事ごとにPermlinkがつくようにした, retter 0.1.0
-
-  [e1] 2011-10-10
-    Rubyのトップレベルについて整理する
-
-  [e2] 2011-10-03
-    モジュール関数がprivateな理由
-
-  [e3] 2011-09-19
-    スタイルシートを追加してテーマを変えられるようにした
-~~~~
-
-日付の左側に表示されている文字列は、編集やプレビューの際の記事の指定するキーワードとして使うことができます。
-
-~~~~
-  retter edit e3
-  retter preview e3
-~~~~
-
-## コールバック - Callbacks
+# Callbacks
 
 コールバックはいくつかのサブコマンド（edit bind rebind commit）の実行直後に自動的に実行されます。
 コールバックを定義しておくことで、手数の多い割に代わり映えのしない作業を自動化することができます。
@@ -230,11 +169,25 @@ Callback is enabled in `edit`, `bind`, `rebind` and `commit` sub-command.
 
 ### Syntax
 
+In Retterfile:
+
 ~~~~ruby
   after [command], [invoke command or proc]
 ~~~~
 
-### HTMLの生成時、デプロイまでの作業を自動化する - Auto deploying
+## Auto preview
+
+記事を編集しエディタを終了したあとブラウザでプレビューしたい場合は、`edit`へのコールバックを設定できます。
+
+In Retterfile:
+
+~~~~ruby
+  after :edit do
+    preview ARGV.pop if yes?("Preview now? [yes/no]")
+  end
+~~~~
+
+## Auto deploying
 
 以下のような内容を Retterfile に記述しておくことで、rebind または bind が実行されると即座に公開までの処理も実行されます。
 
@@ -250,32 +203,18 @@ In Retterfile:
 ~~~~
 
 もし毎回デプロイするのが煩わしい場合は、`--silent`オプションを付けることでコールバックを回避できます。
-その場合は`retter rebind`ではなく`retter rebind --silent`を実行することになります。
 
-`--silent` option skip the callback.
+`--silent` option skip those callback.
 
-### エディタを終了したとき即座にプレビューする - Auto preview
+## Run callback
 
-記事を編集しエディタを終了したあとブラウザでプレビューしたい場合は、`edit`へのコールバックを設定できます。
-
-~~~~ruby
-  after :edit do
-    preview ARGV.pop if yes?("Preview now? [yes/no]")
-  end
-~~~~
-
-もしもコールバックを毎回実行したくない場合、`--silent`を指定する以外に、上記のように確認プロンプトを表示させるという方法もあります。
-
-### コールバック呼出し
-
-コマンド実行後にコールバックだけを再度実行したい場面では、`callback`サブコマンドを使用できます。
+`callback` sub-command runs only callback proccess.
 
 ~~~~
   $ retter callback --after edit
 ~~~~
 
 ## コメントシステム（DISQUS）の導入 - Install DISQUS
-
 
 ### Prepare
 
