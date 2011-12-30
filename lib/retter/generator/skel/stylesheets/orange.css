@@ -47,7 +47,7 @@ code{
 }
 
 #header ul#menu {
-  margin: 0.5em 0 3em 0;
+  margin: 0.5em 0 6em 0;
   padding: 0 0 0 2em;
 }
 
@@ -83,11 +83,10 @@ article {
   border: 3px #FFC solid;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
-  padding: 1em 1.5em 1em 1.5em;
-  margin: 1em 0 1em 0;
-  width: 100%;
+  padding: 2em 3em;
   background-image: url("../images/orange/bg_entry.jpg");
   position: relative;
+  margin-top:60px;
 }
 
 article ul li {
@@ -134,6 +133,10 @@ article ul#entries {
   line-height: 1.5em;
 }
 
+article img{
+	max-width: 100%
+}
+
 #entries {
   width: 100%;
 }
@@ -144,9 +147,8 @@ article ul#entries {
   border: 3px #FFC solid;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
-  padding: 1em 1.5em 1em 1.5em;
+  padding: 2em 3em;
   margin: 1em 0 1em 0;
-  width: 100%;
   background-image: url("../images/orange/bg_entry.jpg");
   position: relative;
 }
