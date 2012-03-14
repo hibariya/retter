@@ -1,5 +1,7 @@
 # coding: utf-8
 
+require 'albino'
+
 module Retter
   module Renderers
     class CodeRayRenderer < Redcarpet::Render::HTML
