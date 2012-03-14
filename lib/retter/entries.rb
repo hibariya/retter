@@ -97,7 +97,7 @@ module Retter
 
     def render_body(body)
       Redcarpet::Markdown.new(
-        Renderers::CodeRayRenderer,
+        config.renderer,
         autolink: true,
         space_after_headers: true,
         fenced_code_blocks: true,

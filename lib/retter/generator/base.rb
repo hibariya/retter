@@ -28,6 +28,7 @@ class Retter::Generator::Base < Thor::Group
     javascripts/.gitkeep
     stylesheets/base.css
     stylesheets/retter.css
+    stylesheets/pygments.css
 
     stylesheets/orange.css
     images/orange/bg_body.jpg
