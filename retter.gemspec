@@ -44,6 +44,8 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'builder', ['>= 3.0.0']
   s.add_runtime_dependency 'redcarpet', ['>= 2.0.0b3']
   s.add_runtime_dependency 'coderay', ['>= 0.9.8']
+  s.add_runtime_dependency 'albino', ['>= 1.3.3']
+  s.add_runtime_dependency 'pygmentize', ['>= 0.0.3']
   s.add_runtime_dependency 'nokogiri', ['>= 1.5.0']
   s.add_runtime_dependency 'launchy', ['>= 2.0.5']
   s.add_runtime_dependency 'haml', ['>= 3.1.3']

@@ -1,29 +1,29 @@
 # coding: utf-8
 
-require File.dirname(__FILE__) + '/../spec_helper'
+require 'spec_helper'
 
 describe 'Retter::Command#invoke_after', clean: :all do
-  let(:command) { Retter::Command.new }
-
   context 'invoke with proc' do
     before do
-      Retter.stub!(:config) { retter_config }
-
       retter_config.after(:edit) { commit }
-      command.should_receive(:commit).and_return(true)
     end
 
-    it { command.edit.should }
+    specify 'callback should called' do
+      command.should_receive(:commit)
+
+      command.edit
+    end
   end
 
   context 'invoke with symbol' do
     before do
-      Retter.stub!(:config) { retter_config }
-
       retter_config.after(:edit, :commit)
-      command.should_receive(:invoke).with(:commit).and_return(true)
     end
 
-    it { command.edit.should }
+    specify 'callback should called' do
+      command.should_receive(:invoke).with(:commit)
+
+      command.edit
+    end
   end
 end

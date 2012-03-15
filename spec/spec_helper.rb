@@ -17,16 +17,18 @@ RSpec.configure do |config|
   retter_home = RETTER_ROOT.join('tmp', 'test')
   skel        = RETTER_ROOT.join('lib', 'retter', 'generator', 'skel')
 
-  config.before(:each, clean: :all) do
+  config.before :each, clean: :all do
     FileUtils.cp_r skel, retter_home.dirname.join('test')
   end
 
-  config.after(:each, clean: :all) do
+  config.after :each, clean: :all do
     FileUtils.rm_rf retter_home
     Retter.reset_entries!
   end
 
-  config.include Retter::ConfigSupport
-  config.include Retter::HTMLSupport
-  config.include Retter::StreamSupport
+  config.before do
+    Retter.stub!(:config) { retter_config }
+  end
+
+  config.include ExampleGroupHelper
 end
