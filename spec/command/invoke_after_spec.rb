@@ -1,6 +1,6 @@
 # coding: utf-8
 
-require File.dirname(__FILE__) + '/../spec_helper'
+require 'spec_helper'
 
 describe 'Retter::Command#invoke_after', clean: :all do
   let(:command) { Retter::Command.new }
