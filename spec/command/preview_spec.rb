@@ -3,42 +3,42 @@
 require 'spec_helper'
 
 describe 'Retter::Command#preview', clean: :all do
-  let(:preview) { retter_config.retter_home.join('.preview.html').read }
-  let(:date_file) { retter_config.retter_file(Date.parse(date_str)) }
+  def preview_html
+    retter_config.retter_home.join('.preview.html').read
+  end
+
+  before do
+    Launchy.should_receive(:open).with(anything)
+  end
 
   context 'no options' do
-    let(:article) { 'w00t!' }
-
     before do
-      wip_file.open('w') {|f| f.puts article }
-
-      Launchy.stub!(:open).with(anything)
+      wip_file.open('w') {|f| f.puts 'w00t!' }
 
       command.preview
     end
 
-    subject { texts_of(preview, 'article p') }
+    subject { texts_of(preview_html, 'article p') }
 
-    it { should == [article] }
+    it { should include 'w00t!' }
   end
 
-  context 'with date' do
-    let(:article) { 'おはようございます' }
+  context 'with date option' do
     let(:date_str) { '20110101' }
+    let(:date_file) { retter_config.retter_file(Date.parse(date_str)) }
 
     before do
-      wip_file.open('w') {|f| f.puts 'おやすみなさい' }
-      date_file.open('w') {|f| f.puts article }
+      wip_file.open('w') {|f| f.puts 'w00t!' }
+      date_file.open('w') {|f| f.puts 'preview me' }
 
-      Launchy.stub!(:open).with(anything)
       command.stub!(:options) { {date: date_str} }
 
       command.preview
     end
 
-    subject { texts_of(preview, 'article p') }
+    subject { texts_of(preview_html, 'article p') }
 
-    it { should_not be_include('おやすみなさい') }
-    it { should be_include(article) }
+    it { should_not include 'w00t!' }
+    it { should include 'preview me' }
   end
 end
