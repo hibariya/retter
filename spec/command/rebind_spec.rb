@@ -140,4 +140,26 @@ sleep 1000
       command.rebind
     end
   end
+
+  describe 'performance' do
+    let(:article) { RETTER_ROOT.join('spec/fixtures/sample.md').read }
+
+    before do
+      10.times do |t|
+        retter_config.retter_file(t.days.ago).open('w') do |f|
+          f.puts article
+        end
+      end
+    end
+
+    specify 'normal 10 articles rebind time should less than 0.5 secs' do
+      start = Time.now.to_f
+
+      command.rebind
+
+      time = Time.now.to_f - start
+
+      time.should <= 150.0 # TODO せめて10秒以下にしたい
+    end
+  end
 end

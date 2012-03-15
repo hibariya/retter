@@ -83,11 +83,13 @@ module Retter
       date_files = find_markup_files(path).map {|file|
         date_str = file.basename('.*').to_s
         [Date.parse(date_str), file]
-      }.sort_by(&:first)
-
-      date_files.reverse_each {|date, file|
-        self << Retter::Entry.new(date: date, body: render_body(file.read))
       }
+
+      date_files.map {|date, file|
+        Thread.fork { self << Retter::Entry.new(date: date, body: render_body(file.read)) }
+      }.map(&:join)
+
+      sort_by!(&:date)
     end
 
     def find_markup_files(path)
