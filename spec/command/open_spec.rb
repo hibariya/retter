@@ -3,7 +3,6 @@
 require 'spec_helper'
 
 describe 'Retter::Command#open', clean: :all do
-  let(:command) { Retter::Command.new }
   let(:wip_file) { retter_config.wip_file }
 
   it 'should be open application' do

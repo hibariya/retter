@@ -1,6 +1,6 @@
 # coding: utf-8
 
-module Retter::StreamSupport
+module StreamSupport
   def capture(stream)
     begin
       stream = stream.to_s

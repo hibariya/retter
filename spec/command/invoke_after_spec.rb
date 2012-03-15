@@ -3,8 +3,6 @@
 require 'spec_helper'
 
 describe 'Retter::Command#invoke_after', clean: :all do
-  let(:command) { Retter::Command.new }
-
   context 'invoke with proc' do
     before do
       retter_config.after(:edit) { commit }

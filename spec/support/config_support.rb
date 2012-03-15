@@ -1,6 +1,6 @@
 # coding: utf-8
 
-module Retter::ConfigSupport
+module ConfigSupport
   def retter_config
     return @config if @config
 
