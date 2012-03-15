@@ -3,7 +3,6 @@
 require 'spec_helper'
 
 describe 'Retter::Command#rebind', clean: :all do
-  let(:wip_file) { retter_config.wip_file }
   let(:date_file) { retter_config.retter_file(Date.parse(date_str)) }
   let(:date_html) { retter_config.entry_file(Date.parse(date_str)) }
 

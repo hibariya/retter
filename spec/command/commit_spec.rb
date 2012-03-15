@@ -3,7 +3,6 @@
 require 'spec_helper'
 
 describe 'Retter::Command#commit', clean: :all do
-  let(:wip_file) { retter_config.wip_file }
   let(:repo) { Grit::Repo.new(retter_config.retter_home.to_s) }
   let(:article) { '今日の記事' }
 

@@ -3,8 +3,6 @@
 require 'spec_helper'
 
 describe 'Retter::Command#edit', clean: :all do
-  let(:wip_file) { retter_config.wip_file }
-
   context 'no options' do
     before do
       command.should_receive(:invoke_after).with(:edit)

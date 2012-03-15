@@ -30,8 +30,7 @@ RSpec.configure do |config|
     Retter.stub!(:config) { retter_config }
   end
 
-  config.include ConfigSupport
+  config.include ExampleGroupHelper
   config.include HTMLSupport
   config.include StreamSupport
-  config.include ExampleGroupHelper
 end
