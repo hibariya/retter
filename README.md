@@ -1,4 +1,4 @@
-# RETTER (レッター) Flyweight diary workflow.
+# RETTER (レッター) Flyweight diary workflow. [![Build Status](https://secure.travis-ci.org/hibariya/retter.png?branch=master)](http://travis-ci.org/hibariya/retter)
 
 手軽さを追求した記事作成ツール。以下のような特徴があります。
 
