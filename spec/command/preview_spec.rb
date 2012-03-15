@@ -8,10 +8,6 @@ describe 'Retter::Command#preview', clean: :all do
   let(:wip_file) { retter_config.wip_file }
   let(:date_file) { retter_config.retter_file(Date.parse(date_str)) }
 
-  before do
-    Retter.stub!(:config) { retter_config }
-  end
-
   context 'no options' do
     let(:article) { 'w00t!' }
 

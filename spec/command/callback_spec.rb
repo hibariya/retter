@@ -6,8 +6,6 @@ describe 'Retter::Command#callback', clean: :all do
   let(:command) { Retter::Command.new }
 
   before do
-    Retter.stub!(:config) { retter_config }
-
     retter_config.after(:edit) { commit }
     command.should_receive(:commit).and_return(true)
 

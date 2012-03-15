@@ -6,10 +6,6 @@ describe 'Retter::Command#list', clean: :all do
   let(:command) { Retter::Command.new }
   let(:wip_file) { retter_config.wip_file }
 
-  before do
-    Retter.stub!(:config) { retter_config }
-  end
-
   context 'happy case' do
     before do
       retter_config.retter_file(Date.parse('20110101')).open('w') do |f|

@@ -6,10 +6,6 @@ describe 'Retter::Command#edit', clean: :all do
   let(:command) { Retter::Command.new }
   let(:wip_file) { retter_config.wip_file }
 
-  before do
-    Retter.stub!(:config) { retter_config }
-  end
-
   context 'no options' do
     before do
       command.should_receive(:invoke_after).with(:edit)

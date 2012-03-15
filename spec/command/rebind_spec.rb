@@ -8,10 +8,6 @@ describe 'Retter::Command#rebind', clean: :all do
   let(:date_file) { retter_config.retter_file(Date.parse(date_str)) }
   let(:date_html) { retter_config.entry_file(Date.parse(date_str)) }
 
-  before do
-    Retter.stub!(:config) { retter_config }
-  end
-
   context 'first post' do
     let(:date_str) { '20110101' }
     let(:article) { <<-EOM }
