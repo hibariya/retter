@@ -31,6 +31,4 @@ RSpec.configure do |config|
   end
 
   config.include ExampleGroupHelper
-  config.include HTMLSupport
-  config.include StreamSupport
 end
