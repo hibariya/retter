@@ -13,10 +13,7 @@ module ExampleGroupHelper
     def retter_config
       return @config if @config
 
-      env = {
-        'EDITOR'      => 'echo written >',
-        'RETTER_HOME' => RETTER_ROOT.join('tmp', 'test').to_s
-      }
+      env = {'EDITOR' => 'echo written >', 'RETTER_HOME' => RETTER_ROOT.join('tmp', 'test').to_s}
 
       @config = Retter::Config.new(env)
     end
