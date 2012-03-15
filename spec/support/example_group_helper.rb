@@ -1,5 +1,5 @@
 module ExampleGroupHelper
-  module Shortcuts
+  module RetterShortcuts
     def command
       @command ||= Retter::Command.new
     end
@@ -7,9 +7,7 @@ module ExampleGroupHelper
     def wip_file
       retter_config.wip_file
     end
-  end
 
-  module Config
     def retter_config
       return @config if @config
 
@@ -46,8 +44,7 @@ module ExampleGroupHelper
     end
   end
 
-  include Config
-  include Shortcuts
+  include RetterShortcuts
   include HTML
   include Stream
 end
