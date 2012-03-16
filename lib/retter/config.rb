@@ -61,7 +61,7 @@ module Retter
     def load_defaults
       editor              @env['EDITOR']
       shell               @env['SHELL']
-      renderer            Renderers::CodeRayRenderer
+      renderer            Retter::Renderers::CodeRayRenderer
       url                 'http://example.com'
       retters_dir         retter_home.join('retters/')
       wip_file            retters_dir.join('today.md')

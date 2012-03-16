@@ -111,19 +111,35 @@ describe 'Retter::Command#rebind', clean: :all do
     let(:article) { <<-EOM }
 # コードを書きました
 
-````ruby
+```ruby
 sleep 1000
-````
+```
     EOM
 
     before do
       wip_file.open('w') {|f| f.puts article }
-
-      command.rebind
     end
 
-    specify 'code should be highlighted' do
-      nokogiri(index_html).search('.highlight').should_not be_empty
+    context 'use Albino' do
+      before do
+        retter_config.stub!(:renderer).and_return(Retter::Renderers::PygmentsRenderer)
+        command.rebind
+      end
+
+      specify 'code should be highlighted' do
+        nokogiri(index_html).search('.highlight').should_not be_empty
+      end
+    end
+
+    context 'use CodeRay' do
+      before do
+        retter_config.stub!(:renderer).and_return(Retter::Renderers::CodeRayRenderer)
+        command.rebind
+      end
+
+      specify 'code should be highlighted' do
+        nokogiri(index_html).search('.code').should_not be_empty
+      end
     end
   end
 
@@ -141,7 +157,7 @@ sleep 1000
     end
   end
 
-  describe 'performance' do
+  describe 'Pygments performance' do
     let(:article) { RETTER_ROOT.join('spec/fixtures/sample.md').read }
 
     before do
