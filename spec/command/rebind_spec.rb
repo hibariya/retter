@@ -122,7 +122,7 @@ sleep 1000
 
     context 'use Albino' do
       before do
-        retter_config.stub!(:renderer).and_return(Retter::Renderers::PygmentsRenderer)
+        retter_config.stub!(:renderer).and_return(Retter::Renderers::AlbinoRenderer)
         command.rebind
       end
 

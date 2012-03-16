@@ -10,7 +10,7 @@ module Retter
       end
     end
 
-    class PygmentsRenderer < Redcarpet::Render::HTML
+    class AlbinoRenderer < Redcarpet::Render::HTML
       def block_code(code, lang)
         Albino.colorize(code, (lang || 'text'))
       end
