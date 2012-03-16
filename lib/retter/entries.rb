@@ -89,7 +89,7 @@ module Retter
         Thread.fork { self << Retter::Entry.new(date: date, body: render_body(file.read)) }
       }.map(&:join)
 
-      sort_by!(&:date)
+      sort_by!(&:date).reverse!
     end
 
     def find_markup_files(path)
