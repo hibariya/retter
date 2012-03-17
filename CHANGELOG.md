@@ -8,7 +8,7 @@ Pygments syntax highlight is now available.
 To use, add a following line to Retterfile.
 
 ```ruby
-renderer Renderers::PygmentsRenderer
+renderer Retter::Renderers::PygmentsRenderer
 ```
 
 ## Improves
