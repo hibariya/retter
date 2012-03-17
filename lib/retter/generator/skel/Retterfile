@@ -24,5 +24,6 @@ renderer    Renderers::PygmentsRenderer
 #    end
 #
 #    after :edit do
-#      preview ARGV.pop if yes?("Preview now? [yes/no]")
+#      ident = ARGV.pop || 'today'
+#      preview ident if yes?("Preview now? [yes/no]")
 #    end
