@@ -171,7 +171,7 @@ Callback is enabled in `edit`, `bind`, `rebind` and `commit` sub-command.
 
 In Retterfile:
 
-~~~~ruby
+~~~~
   after [command], [invoke command or proc]
 ~~~~
 
