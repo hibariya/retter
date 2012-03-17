@@ -1,7 +1,9 @@
 # coding: utf-8
 
-require 'albino'
+require 'albino/multi'
 require 'digest/sha1'
+
+Albino::Multi.timeout_threshold = 60
 
 module Retter
   module Renderers
