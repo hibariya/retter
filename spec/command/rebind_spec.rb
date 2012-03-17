@@ -111,19 +111,35 @@ describe 'Retter::Command#rebind', clean: :all do
     let(:article) { <<-EOM }
 # コードを書きました
 
-````ruby
+```ruby
 sleep 1000
-````
+```
     EOM
 
     before do
       wip_file.open('w') {|f| f.puts article }
-
-      command.rebind
     end
 
-    specify 'code should be highlighted' do
-      nokogiri(index_html).search('.highlight').should_not be_empty
+    context 'use Albino' do
+      before do
+        retter_config.stub!(:renderer).and_return(Retter::Renderers::AlbinoRenderer)
+        command.rebind
+      end
+
+      specify 'code should be highlighted' do
+        nokogiri(index_html).search('.highlight').should_not be_empty
+      end
+    end
+
+    context 'use CodeRay' do
+      before do
+        retter_config.stub!(:renderer).and_return(Retter::Renderers::CodeRayRenderer)
+        command.rebind
+      end
+
+      specify 'code should be highlighted' do
+        nokogiri(index_html).search('.code').should_not be_empty
+      end
     end
   end
 
@@ -138,6 +154,30 @@ sleep 1000
       command.should_not_receive(:invoke_after)
 
       command.rebind
+    end
+  end
+
+  describe 'Pygments performance' do
+    let(:article) { RETTER_ROOT.join('spec/fixtures/sample.md').read }
+
+    before do
+      retter_config.stub!(:renderer).and_return(Retter::Renderers::AlbinoRenderer)
+
+      10.times do |t|
+        retter_config.retter_file(t.days.ago).open('w') do |f|
+          f.puts article
+        end
+      end
+    end
+
+    specify 'normal 10 articles rebind time should less than 0.5 secs' do
+      start = Time.now.to_f
+
+      command.rebind
+
+      time = Time.now.to_f - start
+
+      time.should <= 12.0
     end
   end
 end

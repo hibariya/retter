@@ -8,7 +8,6 @@ tmp/*
 lib/generator/skel/.gitignore
 lib/generator/skel/.preview.html
 lib/generator/skel/retters/*.md
-lib/generator/skel/tmp/*
 lib/generator/skel/entries.*
 lib/generator/skel/entries/*.html
 lib/generator/skel/vendor
