@@ -1,13 +1,13 @@
-# RETTER (レッター) Flyweight diary workflow. [![Build Status](https://secure.travis-ci.org/hibariya/retter.png?branch=master)](http://travis-ci.org/hibariya/retter)
+# RETTER - Flyweight diary workflow. [![Build Status](https://secure.travis-ci.org/hibariya/retter.png?branch=master)](http://travis-ci.org/hibariya/retter)
 
-手軽さを追求した記事作成ツール。以下のような特徴があります。
+手軽さを追求した記事作成ツール。
 
 * CLIでの操作を前提としています
-* どこ（cwd）にいてもすぐに記事を編集できます（Markdown）
+* どこ（cwd）にいてもすぐに記事をMarkdownで編集できます
 * オフラインで簡単にプレビューできます
-* だいたいどんなサーバ上でも動作します（Heroku, GitHub Pages, Dropbox などで、静的HTMLまたはRackアプリとして）
+* だいたいどこでも動作します（Heroku, GitHub Pages, Dropbox などで、静的HTMLまたはRackアプリとして）
 * RSSフィードを吐きます
-* トラックバック、**コメント**などの機能は外部のサービスを使用できます
+* トラックバック、**コメント**などの機能は外部のサービスを使う必要があります
 * コールバックを設定することでさらに手数を減らすことができます
 
 # Quick Start
@@ -26,14 +26,14 @@
   $ retter new my_sweet_diary
 ~~~~
 
-**Initial settings:**
+**Quick settings:**
 
 ~~~~
   $ export EDITOR=vim
   $ export RETTER_HOME=`pwd`/my_sweet_diary
 ~~~~
 
-**Writing today's article:**
+**Writing article:**
 
 ~~~~
   $ retter
@@ -49,7 +49,7 @@
 
 `preview` opens the draft article by your default browser.
 
-**Bind:**
+**Generate HTML:**
 
 ~~~~
   $ retter rebind
@@ -81,7 +81,9 @@
   $ retter preview e0
 ~~~~
 
-**Deploy example:**
+**How to Deploy**
+
+examle:
 
 ~~~~
   $ cd $RETTER_HOME
@@ -94,19 +96,11 @@ To publish, use the git command. Or, upload the file to your server.
 
 # Environment variables
 
-**retter requires `$EDITOR` variable.**
+**Important**
 
-Retterで記事を編集する際には任意のエディタが起動します。そのためには`$EDITOR`環境変数が設定されている必要があります。
-大抵の場合は設定されていると思いますが、もし設定されていなければ`~/.bash_profile`や`~/.zshenv`などに追記する必要があります。
-
-~~~~
-  $ echo "export EDITOR=vim" >> ~/.bash_profile
-  $ . ~/.bash_profile
-~~~~
+retter requires `$EDITOR` variable.
 
 ## $RETTER_HOME
-
-ファイルシステム上のどこに居ても`retter`コマンドを使って編集から公開まで行えるよう、 事前に`$RETTER_HOME`環境変数を設定することをおすすめします。
 
 You can use `retter` command anywhere, If you set `$RETTER_HOME` variable.
 
@@ -115,11 +109,14 @@ You can use `retter` command anywhere, If you set `$RETTER_HOME` variable.
   $ . ~/.bash_profile
 ~~~~
 
-作業ディレクトリにRetterfileがある場合は、そのディレクトリが`$RETTER_HOME`に指定されているものとして動作します。
+You have to cd to the directory, If you don't set `$RETTER_HOME` variable.
+
+~~~~
+  $ cd path/to/my_sweet_diary
+  $ retter
+~~~~
 
 # Using shortcuts
-
-いくつかのショートカットを使い、コミットメッセージを書くことを省略したりすることができます。
 
 ~~~~
   $ retter commit # Shortcut of `git add . ; git commit -m 'Retter commit'`
@@ -127,7 +124,7 @@ You can use `retter` command anywhere, If you set `$RETTER_HOME` variable.
   (retter) git push [remote] [branch] # heroku, github pages, etc..
 ~~~~
 
-# Specify a date
+# Command options
 
 Date is specify-able in `edit` `preview` sub-command.
 
@@ -139,17 +136,17 @@ Date is specify-able in `edit` `preview` sub-command.
 Relative date is available too.
 
 ~~~~
-  $ retter edit yesterday    # 昨日
-  $ retter edit today        # 今日
-  $ retter edit tommorow     # 明日
+  $ retter edit yesterday
+  $ retter edit today
+  $ retter edit tommorow
 
-  $ retter edit '3 days ago' # 3日前
-  $ retter edit 3.days.ago   # 3日前
-  $ retter edit 3.days.since # 3日後
-  $ retter edit 1.week.ago   # 1週間前
-  $ retter edit 3.weeks.ago  # 3週間前
-  $ retter edit 3.months.ago # 3カ月前
-  $ retter edit 3.years.ago  # 3年前
+  $ retter edit '3 days ago'
+  $ retter edit 3.days.ago
+  $ retter edit 3.days.since
+  $ retter edit 1.week.ago
+  $ retter edit 3.weeks.ago
+  $ retter edit 3.months.ago
+  $ retter edit 3.years.ago
 ~~~~
 
 And file name.
@@ -162,12 +159,7 @@ And file name.
 
 # Callbacks
 
-コールバックはいくつかのサブコマンド（edit bind rebind commit）の実行直後に自動的に実行されます。
-コールバックを定義しておくことで、手数の多い割に代わり映えのしない作業を自動化することができます。
-
-Callback is enabled in `edit`, `bind`, `rebind` and `commit` sub-command.
-
-### Syntax
+Some command (edit bind rebind commit) will call callback if you defined callbacks.
 
 In Retterfile:
 
@@ -175,21 +167,18 @@ In Retterfile:
   after [command], [invoke command or proc]
 ~~~~
 
-## Auto preview
-
-記事を編集しエディタを終了したあとブラウザでプレビューしたい場合は、`edit`へのコールバックを設定できます。
+## Example1: Auto preview
 
 In Retterfile:
 
 ~~~~ruby
   after :edit do
-    preview ARGV.pop if yes?("Preview now? [yes/no]")
+    ident = ARGV.pop || 'today'
+    preview ident if yes?("Preview now? [yes/no]")
   end
 ~~~~
 
-## Auto deploying
-
-以下のような内容を Retterfile に記述しておくことで、rebind または bind が実行されると即座に公開までの処理も実行されます。
+## Example2: Auto deploying
 
 In Retterfile:
 
@@ -202,9 +191,9 @@ In Retterfile:
   end
 ~~~~
 
-もし毎回デプロイするのが煩わしい場合は、`--silent`オプションを付けることでコールバックを回避できます。
+## Skipping callback
 
-`--silent` option skip those callback.
+`--silent` option skips those callback.
 
 ## Run callback
 
@@ -214,7 +203,7 @@ In Retterfile:
   $ retter callback --after edit
 ~~~~
 
-## コメントシステム（DISQUS）の導入 - Install DISQUS
+## Install DISQUS (Comment tool)
 
 ### Prepare
 
@@ -241,10 +230,19 @@ in layouts/article.html.haml
 -# abbrev
 ~~~~
 
-## 組込みテーマ - Pre-installed themes
+# Code Highlight
 
-スタイルシートを変更することでテーマを変更できます。HTMLのヘッダを変更するには `layouts/retter.html.haml` を編集します。
-スタイルシートの指定を変更し、`retter rebind`コマンドを実行するとすべてのページが更新されます。
+Pygments is available.
+To use, add a following line to Retterfile.
+
+```ruby
+renderer Retter::Renderers::PygmentsRenderer
+```
+
+## Built-in themes
+
+Retter has some themes.
+You can switch the theme by replacing stylesheet.
 
 ### Default
 
@@ -262,25 +260,19 @@ in layouts/article.html.haml
 
 ![Orange](http://hibariya.github.com/images/theme_samples/retter_orange.jpg)
 
-## HTMLの修正 - HTML Layout
+## HTML Layout
 
-HTMLのレイアウト自体を変更するには`layouts/`ディレクトリ以下のHAMLファイルを修正します。
-これらのファイルを変更したとしても、`retter rebind`コマンドを実行するまでは反映されません。
+To customize layout, edit following files.
 
 ~~~~
 layouts
-  |-- article.html.haml
-  |-- entries.html.haml
-  |-- entry.html.haml
-  |-- index.html.haml
-  |-- profile.html.haml
-  `-- retter.html.haml
+  |-- article.html.haml # Article page
+  |-- entries.html.haml # Entries list page
+  |-- entry.html.haml   # Entry (by day) page
+  |-- index.html.haml   # Front page
+  |-- profile.html.haml # Profile page
+  `-- retter.html.haml  # Basic layout
 ~~~~
-
-`retter.html.haml`はHTML宣言を含めた全体のHTMLが含まれています。
-`entry.html.haml`を変更することで日別のページのレイアウトを変更することができます。
-`article.html.haml`を変更することで個々の記事のレイアウトを変更することができます。
-その他のファイルは実際のURLと名前が対応しています。
 
 # LICENSE
 
