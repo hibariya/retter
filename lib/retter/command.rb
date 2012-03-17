@@ -147,11 +147,10 @@ Usage:
   cd $RETTER_HOME
   git push [remote] [branch] # or sftp, rsync, etc...
 
-  # Specific date
+  # Command options
   retter edit 20110101
   retter preview 20110101
 
-  # Specific file
   retter edit today.md
   retter edit 20110101.md
   retter preview 20110101.md
