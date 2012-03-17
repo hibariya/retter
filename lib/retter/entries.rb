@@ -67,7 +67,7 @@ module Retter
       wip_date = date || Date.today
       wip_body = wip_file.exist? ? wip_file.read : ''
 
-      Retter::Entry.new date: wip_date, body: render_body(wip_body), pathname: wip_file
+      Retter::Entry.new date: wip_date, body: rendered_body(wip_body), pathname: wip_file
     end
 
     def commit_wip_entry!
@@ -87,7 +87,7 @@ module Retter
       }
 
       date_files.map {|date, file|
-        self << Retter::Entry.new(date: date, body: render_body(file.read))
+        self << Retter::Entry.new(date: date, body: rendered_body(file.read))
       }
 
       sort_by!(&:date).reverse!
@@ -98,7 +98,7 @@ module Retter
       Dir.open(path, &:to_a).grep(/^\d{4}(?:0[1-9]|1[012])(?:0[1-9]|[12][0-9]|3[01])\.(md)$/).map {|f| path.join f }
     end
 
-    def render_body(body)
+    def rendered_body(body)
       key = Digest::SHA1.hexdigest('entry_' + body)
 
       config.cache.fetch(key) do
