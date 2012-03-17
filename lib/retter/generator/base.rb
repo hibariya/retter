@@ -25,6 +25,7 @@ class Retter::Generator::Base < Thor::Group
     retters/.gitkeep
     images/.gitkeep
     entries/.gitkeep
+    tmp/cache/.gitkeep
     javascripts/.gitkeep
     stylesheets/base.css
     stylesheets/retter.css

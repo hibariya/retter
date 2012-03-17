@@ -161,6 +161,8 @@ sleep 1000
     let(:article) { RETTER_ROOT.join('spec/fixtures/sample.md').read }
 
     before do
+      retter_config.stub!(:renderer).and_return(Retter::Renderers::AlbinoRenderer)
+
       10.times do |t|
         retter_config.retter_file(t.days.ago).open('w') do |f|
           f.puts article
@@ -175,7 +177,7 @@ sleep 1000
 
       time = Time.now.to_f - start
 
-      time.should <= 150.0 # TODO せめて10秒以下にしたい
+      time.should <= 12.0
     end
   end
 end

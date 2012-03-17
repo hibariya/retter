@@ -1,6 +1,7 @@
 # coding: utf-8
 
 require 'active_support/core_ext/object'
+require 'digest/sha1'
 
 module Retter
   class EntryLoadError < RetterError; end
@@ -86,8 +87,8 @@ module Retter
       }
 
       date_files.map {|date, file|
-        Thread.fork { self << Retter::Entry.new(date: date, body: render_body(file.read)) }
-      }.map(&:join)
+        self << Retter::Entry.new(date: date, body: render_body(file.read))
+      }
 
       sort_by!(&:date).reverse!
     end
@@ -98,16 +99,20 @@ module Retter
     end
 
     def render_body(body)
-      Redcarpet::Markdown.new(
-        config.renderer,
-        autolink: true,
-        space_after_headers: true,
-        fenced_code_blocks: true,
-        strikethrough: true,
-        superscript: true,
-        fenced_code_blocks: true,
-        tables: true
-      ).render(body)
+      key = Digest::SHA1.hexdigest('entry_' + body)
+
+      config.cache.fetch(key) do
+        Redcarpet::Markdown.new(
+          config.renderer,
+          autolink: true,
+          space_after_headers: true,
+          fenced_code_blocks: true,
+          strikethrough: true,
+          superscript: true,
+          fenced_code_blocks: true,
+          tables: true
+        ).render(body)
+      end
     end
   end
 end
