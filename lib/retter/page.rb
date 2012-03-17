@@ -1,5 +1,8 @@
 # coding: utf-8
 
+require 'haml'
+require 'nokogiri'
+
 module Retter
   module Page
     require 'retter/page/view_helper'

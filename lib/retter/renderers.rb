@@ -1,6 +1,8 @@
 # coding: utf-8
 
+require 'redcarpet'
 require 'pygments'
+require 'coderay'
 require 'digest/sha1'
 require 'set'
 

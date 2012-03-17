@@ -1,5 +1,8 @@
 # coding: utf-8
 
+require 'thor'
+require 'launchy'
+
 class Retter::Command < Thor
   include Retter::Stationery
 

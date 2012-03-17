@@ -2,6 +2,7 @@
 
 require 'active_support/core_ext/object'
 require 'digest/sha1'
+require 'redcarpet'
 
 module Retter
   class EntryLoadError < RetterError; end

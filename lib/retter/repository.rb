@@ -1,5 +1,7 @@
 # coding: utf-8
 
+require 'grit'
+
 module Retter
   class Repository
     include Retter::Stationery

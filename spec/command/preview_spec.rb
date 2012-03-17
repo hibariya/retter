@@ -1,6 +1,7 @@
 # coding: utf-8
 
 require 'spec_helper'
+require 'launchy'
 
 describe 'Retter::Command#preview', clean: :all do
   def preview_html

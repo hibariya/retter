@@ -1,5 +1,7 @@
 # coding: utf-8
 
+require 'nokogiri'
+
 class Retter::Entry
   class Article
     attr_accessor :entry, :id, :title, :body

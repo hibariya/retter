@@ -1,5 +1,8 @@
 # coding: utf-8
 
+require 'builder'
+require 'uri'
+
 class Retter::Pages::Feed
   include Retter::Page
 

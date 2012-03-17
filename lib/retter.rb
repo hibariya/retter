@@ -35,30 +35,20 @@ module Retter
     end
   end
 
-  autoload :Generator, 'retter/generator'
+  autoload :Generator,  'retter/generator'
+
+  autoload :Version,    'retter/version'
+  autoload :Config,     'retter/config'
+  autoload :Renderers,  'retter/renderers'
+  autoload :Entry,      'retter/entry'
+  autoload :Entries,    'retter/entries'
+  autoload :Page,       'retter/page'
+  autoload :Pages,      'retter/pages'
+  autoload :Preprint,   'retter/preprint'
+  autoload :Repository, 'retter/repository'
+  autoload :Command,    'retter/command'
 end
 
 require 'date'
 require 'time'
-require 'builder'
 require 'pathname'
-require 'thor'
-require 'redcarpet'
-require 'coderay'
-require 'nokogiri'
-require 'launchy'
-require 'haml'
-require 'uri'
-require 'forwardable'
-require 'grit'
-
-require 'retter/version'
-require 'retter/config'
-require 'retter/renderer'
-require 'retter/entry'
-require 'retter/entries'
-require 'retter/page'
-require 'retter/pages'
-require 'retter/preprint'
-require 'retter/repository'
-require 'retter/command'

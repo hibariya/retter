@@ -1,6 +1,7 @@
 # coding: utf-8
 
 require 'spec_helper'
+require 'grit'
 
 describe 'Retter::Command#commit', clean: :all do
   let(:repo) { Grit::Repo.new(retter_config.retter_home.to_s) }

@@ -55,10 +55,11 @@ module Retter
       @retter_home = Pathname.new(@env['RETTER_HOME'])
       load_defaults
       load_retterfile_if_exists
-      rescue Retter::EnvError
-        $stderr.puts 'Set $RETTER_HOME and $EDITOR, first.'
-        say Retter::Command.usage, :green
-        exit 1
+    rescue Retter::EnvError
+      $stderr.puts 'Set $RETTER_HOME and $EDITOR, first.'
+      say Retter::Command.usage, :green
+
+      exit 1
     end
 
     def load_defaults
@@ -103,10 +104,6 @@ module Retter
 
     def entry_dir(date)
       entries_dir.join date.strftime('%Y%m%d')
-    end
-
-    def self.delegatables
-      ATTRIBUTES + [:retter_file, :entry_file, :entry_dir]
     end
 
     def after(name, sym = nil, &block)

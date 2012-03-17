@@ -1,6 +1,7 @@
 # coding: utf-8
 
 require 'time'
+require 'nokogiri'
 
 module ExampleGroupHelper
   module RetterShortcuts
