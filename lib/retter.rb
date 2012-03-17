@@ -37,7 +37,7 @@ module Retter
 
   autoload :Generator,  'retter/generator'
 
-  autoload :Version,    'retter/version'
+  autoload :VERSION,    'retter/version'
   autoload :Config,     'retter/config'
   autoload :Renderers,  'retter/renderers'
   autoload :Entry,      'retter/entry'
