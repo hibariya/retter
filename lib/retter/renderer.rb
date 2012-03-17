@@ -1,9 +1,8 @@
 # coding: utf-8
 
-require 'albino/multi'
+require 'pygments'
 require 'digest/sha1'
-
-Albino::Multi.timeout_threshold = 60
+require 'set'
 
 module Retter
   module Renderers
@@ -13,36 +12,13 @@ module Retter
       end
     end
 
-    class AlbinoRenderer < Redcarpet::Render::HTML
-      def preprocess(doc)
-        @block_codes = {}
-
-        doc
-      end
+    class PygmentsRenderer < Redcarpet::Render::HTML
+      LANGUAGES = Set.new(Pygments.lexers.map {|_, l| l[:aliases] }.flatten)
 
       def block_code(code, lang)
-        key = Digest::SHA1.hexdigest("#{lang} #{code}")
-        @block_codes[key] = [code, lang]
+        lang = LANGUAGES.include?(lang) ? lang : 'text'
 
-        key
-      end
-
-      def postprocess(doc)
-        process_block_codes
-
-        @block_codes.each do |key, code|
-          doc.gsub! key, code
-        end
-
-        doc
-      end
-
-      def process_block_codes
-        @block_codes.map { |key, (code, lang)|
-          Thread.fork {
-            @block_codes[key] = Albino.colorize(code, (lang || 'text'))
-          }
-        }.map(&:join)
+        Pygments.highlight(code, lexer: lang, formatter: 'html', options: {encoding: 'utf-8'})
       end
     end
   end

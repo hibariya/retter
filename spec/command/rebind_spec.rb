@@ -120,9 +120,9 @@ sleep 1000
       wip_file.open('w') {|f| f.puts article }
     end
 
-    context 'use Albino' do
+    context 'use Pygments' do
       before do
-        retter_config.stub!(:renderer).and_return(Retter::Renderers::AlbinoRenderer)
+        retter_config.stub!(:renderer).and_return(Retter::Renderers::PygmentsRenderer)
         command.rebind
       end
 
@@ -154,30 +154,6 @@ sleep 1000
       command.should_not_receive(:invoke_after)
 
       command.rebind
-    end
-  end
-
-  describe 'Pygments performance' do
-    let(:article) { RETTER_ROOT.join('spec/fixtures/sample.md').read }
-
-    before do
-      retter_config.stub!(:renderer).and_return(Retter::Renderers::AlbinoRenderer)
-
-      10.times do |t|
-        retter_config.retter_file(t.days.ago).open('w') do |f|
-          f.puts article
-        end
-      end
-    end
-
-    specify 'normal 10 articles rebind time should less than 0.5 secs' do
-      start = Time.now.to_f
-
-      command.rebind
-
-      time = Time.now.to_f - start
-
-      time.should <= 12.0
     end
   end
 end
