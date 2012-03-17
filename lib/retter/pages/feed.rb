@@ -32,7 +32,7 @@ class Retter::Pages::Feed
         xml.items { xml.rdf(:Seq) { entries.each {|e| xml.rdf:li, :'rdf:resource' => entry_url(e.date) } } }
       end
 
-      entries.each do |entry|
+      entries[0...20].each do |entry| # XXX hardcoding
         xml.item about: entry_url(entry.date) do
           xml.title entry.date.strftime('%Y/%m/%d')
           xml.description { xml.cdata! entry.body }
