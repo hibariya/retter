@@ -156,28 +156,4 @@ sleep 1000
       command.rebind
     end
   end
-
-  describe 'Pygments performance' do
-    let(:article) { RETTER_ROOT.join('spec/fixtures/sample.md').read }
-
-    before do
-      retter_config.stub!(:renderer).and_return(Retter::Renderers::PygmentsRenderer)
-
-      10.times do |t|
-        retter_config.retter_file(t.days.ago).open('w') do |f|
-          f.puts article
-        end
-      end
-    end
-
-    specify 'required time should less than 10 secs' do
-      start = Time.now.to_f
-
-      command.rebind
-
-      time = Time.now.to_f - start
-
-      time.should <= 10.0
-    end
-  end
 end
