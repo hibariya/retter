@@ -1,5 +1,6 @@
 # coding: utf-8
 
+require 'tilt'
 require 'haml'
 require 'nokogiri'
 
@@ -17,8 +18,8 @@ module Retter
     end
 
     def print
-      part = Haml::Engine.new(
-        part_layout_pathname.read,
+      part = Tilt.new(
+        part_layout_pathname.to_path,
         ugly: true,
         filename: part_layout_pathname.to_s
       ).render(view_scope)
@@ -48,7 +49,7 @@ module Retter
     end
 
     def layout_renderer
-      @layout_renderer ||= Haml::Engine.new(config.layout_file.read, ugly: true, filename: config.layout_file.to_s)
+      @layout_renderer ||= Tilt.new(config.layout_file.to_path, ugly: true, filename: config.layout_file.to_s)
     end
 
     def fix_path(html, prefix='./')

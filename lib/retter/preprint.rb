@@ -13,8 +13,8 @@ module Retter
     end
 
     def print(entry)
-      part = Haml::Engine.new(
-        part_layout_pathname.read,
+      part = Tilt.new(
+        part_layout_pathname.to_path,
         ugly: true,
         filename: part_layout_pathname.to_s
       ).render(view_scope, entry: entry)
