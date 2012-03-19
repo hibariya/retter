@@ -36,6 +36,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'nokogiri', ['>= 1.5.0']
   s.add_runtime_dependency 'launchy', ['>= 2.0.5']
   s.add_runtime_dependency 'haml', ['>= 3.1.3']
+  s.add_runtime_dependency 'tilt', ['>= 1.1.3']
   s.add_runtime_dependency 'bundler', ['>= 1.0']
   s.add_runtime_dependency 'grit', ['>= 2.4.1']
   s.add_runtime_dependency 'activesupport', ['>= 3.1.0']
