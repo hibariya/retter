@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
 
     Pygments syntax highlight is now available.
     To use, add a following line to Retterfile.
-    
+
     ```ruby
     renderer Retter::Renderers::PygmentsRenderer
     ```
