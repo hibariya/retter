@@ -9,9 +9,16 @@ module Retter
 
   class Entries < Array
     include Retter::Stationery
+    extend Configurable
+
+    configurable :renderer, :retters_dir, :wip_file
 
     def initialize
-      load_entries config.retters_dir
+      load_entries retters_dir
+    end
+
+    def retter_file(date)
+      retters_dir.join(date ? date.strftime('%Y%m%d.md') : 'today.md')
     end
 
     def detect_by_string(str)
@@ -36,7 +43,7 @@ module Retter
 
     def detect_by_filename(filename)
       case filename
-      when config.wip_file.basename.to_s
+      when wip_file.basename.to_s
         wip_entry
       else
         detect {|e| e.pathname.basename.to_s == filename }
@@ -64,18 +71,18 @@ module Retter
     end
 
     def wip_entry(date = nil)
-      wip_file = config.retter_file(date)
-      wip_date = date || Date.today
-      wip_body = wip_file.exist? ? wip_file.read : ''
+      file = retter_file(date)
+      date = date || Date.today
+      body = file.exist? ? file.read : ''
 
-      Retter::Entry.new date: wip_date, body: rendered_body(wip_body), pathname: wip_file
+      Retter::Entry.new date: date, body: rendered_body(body), pathname: file
     end
 
     def commit_wip_entry!
-      if config.wip_file.exist?
-        copy = config.wip_file.read
-        config.retter_file(Date.today).open('a') {|f| f.puts copy }
-        config.wip_file.unlink
+      if wip_file.exist?
+        copy = wip_file.read
+        retter_file(Date.today).open('a') {|f| f.puts copy }
+        wip_file.unlink
       end
 
       Retter.reset_entries!
@@ -102,7 +109,7 @@ module Retter
 
       config.cache.fetch(key) do
         Redcarpet::Markdown.new(
-          config.renderer,
+          renderer,
           autolink: true,
           space_after_headers: true,
           fenced_code_blocks: true,

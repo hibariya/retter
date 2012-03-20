@@ -40,7 +40,7 @@ describe 'Retter::Command#edit', clean: :all do
     it { wip_file.should_not written }
 
     describe 'date file' do
-      subject { retter_config.retter_file(date) }
+      subject { Retter.entries.retter_file(date) }
 
       it { should written }
     end
@@ -56,7 +56,7 @@ describe 'Retter::Command#edit', clean: :all do
     describe 'target date file' do
       let(:one_day_ago) { Date.parse('2011/04/01') }
 
-      subject { retter_config.retter_file(one_day_ago) }
+      subject { Retter.entries.retter_file(one_day_ago) }
 
       it { should written }
     end
@@ -72,7 +72,7 @@ describe 'Retter::Command#edit', clean: :all do
     describe 'target date file' do
       let(:yesterday) { Date.parse('2011/04/01') }
 
-      subject { retter_config.retter_file(yesterday) }
+      subject { Retter.entries.retter_file(yesterday) }
 
       it { should written }
     end
@@ -82,13 +82,15 @@ describe 'Retter::Command#edit', clean: :all do
     let(:a_day) { Date.parse('20110401') }
 
     before do
-      FileUtils.touch retter_config.retter_file(a_day)
+      FileUtils.touch Retter.entries.retter_file(a_day)
+
+      Retter.reset_entries! # XXX
 
       command.edit '20110401.md'
     end
 
     describe 'target date file' do
-      subject { retter_config.retter_file(a_day) }
+      subject { Retter.entries.retter_file(a_day) }
 
       it { should written }
     end

@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Retter::Command#list', clean: :all do
   context 'happy case' do
     before do
-      retter_config.retter_file(Date.parse('20110101')).open('w') do |f|
+      Retter.entries.retter_file(Date.parse('20110101')).open('w') do |f|
         f.puts <<-EOM
 # 朝11時
 
@@ -17,7 +17,7 @@ describe 'Retter::Command#list', clean: :all do
         EOM
       end
 
-      retter_config.retter_file(Date.parse('20110222')).open('w') do |f|
+      Retter.entries.retter_file(Date.parse('20110222')).open('w') do |f|
         f.puts <<-EOM
 # 朝11時30分
 
@@ -28,6 +28,8 @@ describe 'Retter::Command#list', clean: :all do
 おやすみなさい
         EOM
       end
+
+      Retter.reset_entries! # XXX
     end
 
     subject { capture(:stdout) { command.list }.split(/\n+/) }

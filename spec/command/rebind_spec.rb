@@ -6,7 +6,7 @@ describe 'Retter::Command#rebind', clean: :all do
   context 'first post' do
     let(:date_str) { '20110101' }
     let(:date) { Date.parse(date_str) }
-    let(:date_file) { retter_config.retter_file(date) }
+    let(:date_file) { Retter.entries.retter_file(date) }
     let(:date_html) { retter_config.entry_file(date) }
     let(:article) { <<-EOM }
 # 朝11時
@@ -122,7 +122,7 @@ sleep 1000
 
     context 'use Pygments' do
       before do
-        retter_config.stub!(:renderer).and_return(Retter::Renderers::PygmentsRenderer)
+        retter_config.renderer Retter::Renderers::PygmentsRenderer
         command.rebind
       end
 
@@ -133,7 +133,7 @@ sleep 1000
 
     context 'use CodeRay' do
       before do
-        retter_config.stub!(:renderer).and_return(Retter::Renderers::CodeRayRenderer)
+        retter_config.renderer Retter::Renderers::CodeRayRenderer
         command.rebind
       end
 

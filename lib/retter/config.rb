@@ -1,22 +1,25 @@
 # coding: utf-8
 
 require 'active_support/cache'
+require 'forwardable'
 
 module Retter
   class EnvError < RetterError; end
 
   class Config
+    extend Forwardable
+
+    def_delegators Retter::Entries, :renderer, :retters_dir, :wip_file
+
     ATTRIBUTES = [
       :editor,
       :shell,
-      :renderer,
       :cache,
       :title,
       :description,
       :url,
       :author,
-      :retters_dir,
-      :wip_file,
+
       :layouts_dir,
       :layout_file,
       :profile_layout_file,
@@ -65,11 +68,13 @@ module Retter
     def load_defaults
       editor              @env['EDITOR']
       shell               @env['SHELL']
-      renderer            Retter::Renderers::CodeRayRenderer
       cache               ActiveSupport::Cache::FileStore.new(retter_home.join('tmp/cache').to_s)
       url                 'http://example.com'
+
+      renderer            Retter::Renderers::CodeRayRenderer
       retters_dir         retter_home.join('retters/')
       wip_file            retters_dir.join('today.md')
+
       layouts_dir         retter_home.join('layouts/')
       layout_file         layouts_dir.join('retter.html.haml')
       profile_layout_file layouts_dir.join('profile.html.haml')
@@ -92,10 +97,6 @@ module Retter
     def detect_retter_home
       # TODO こういうの上のディレクトリも見て判断するのを何か参考にして書く
       @env['RETTER_HOME'] = Dir.pwd if File.exist? 'Retterfile'
-    end
-
-    def retter_file(date)
-      retters_dir.join(date ? date.strftime("%Y%m%d.md") : "today.md")
     end
 
     def entry_file(date)

@@ -18,7 +18,7 @@ module ExampleGroupHelper
     end
 
     def wip_file
-      retter_config.wip_file
+      Retter.entries.wip_file
     end
   end
 

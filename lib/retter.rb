@@ -32,18 +32,19 @@ module Retter
     end
   end
 
-  autoload :Generator,  'retter/generator'
+  autoload :Generator,    'retter/generator'
 
-  autoload :VERSION,    'retter/version'
-  autoload :Config,     'retter/config'
-  autoload :Renderers,  'retter/renderers'
-  autoload :Entry,      'retter/entry'
-  autoload :Entries,    'retter/entries'
-  autoload :Page,       'retter/page'
-  autoload :Pages,      'retter/pages'
-  autoload :Preprint,   'retter/preprint'
-  autoload :Repository, 'retter/repository'
-  autoload :Command,    'retter/command'
+  autoload :VERSION,      'retter/version'
+  autoload :Configurable, 'retter/configurable'
+  autoload :Config,       'retter/config'
+  autoload :Renderers,    'retter/renderers'
+  autoload :Entry,        'retter/entry'
+  autoload :Entries,      'retter/entries'
+  autoload :Page,         'retter/page'
+  autoload :Pages,        'retter/pages'
+  autoload :Preprint,     'retter/preprint'
+  autoload :Repository,   'retter/repository'
+  autoload :Command,      'retter/command'
 end
 
 require 'date'

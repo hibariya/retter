@@ -27,7 +27,7 @@ RSpec.configure do |config|
   end
 
   config.before do
-    Retter.stub!(:config) { retter_config }
+    Retter.stub!(:config).and_return(retter_config)
   end
 
   config.include ExampleGroupHelper

@@ -26,7 +26,7 @@ describe 'Retter::Command#preview', clean: :all do
 
   context 'with date option' do
     let(:date_str) { '20110101' }
-    let(:date_file) { retter_config.retter_file(Date.parse(date_str)) }
+    let(:date_file) { Retter.entries.retter_file(Date.parse(date_str)) }
 
     before do
       wip_file.open('w') {|f| f.puts 'w00t!' }
