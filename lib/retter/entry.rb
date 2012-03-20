@@ -39,7 +39,7 @@ class Retter::Entry
   def initialize(attrs={})
     @date, @body = attrs.values_at(:date, :body)
 
-    pathname_by_date = Retter.config.retters_dir.join(date.strftime('%Y%m%d.md'))
+    pathname_by_date = config.retters_dir.join(date.strftime('%Y%m%d.md'))
     @pathname = attrs[:pathname] || pathname_by_date
 
     attach_titles
