@@ -110,6 +110,10 @@ class Retter::Command < Thor
 
   private
 
+  def pages
+    @pages ||= Retter::Pages.new
+  end
+
   def silent?
     !options[:silent].nil?
   end
