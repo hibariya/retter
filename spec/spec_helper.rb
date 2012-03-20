@@ -27,6 +27,7 @@ RSpec.configure do |config|
   end
 
   config.before do
+    # FIXME stubじゃなくてもいいかも
     Retter.stub!(:config).and_return(retter_config)
   end
 

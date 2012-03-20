@@ -15,14 +15,17 @@ module Retter
   end
 
   class << self
+    # FIXME load でもいいかも
     def load_config(env)
       @config = Config.new(env)
     end
 
+    # FIXME 要るのか
     def config
       @config
     end
 
+    # FIXME reset! でもいいかも
     def reset_entries!
       @entries = nil
     end
