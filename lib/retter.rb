@@ -27,11 +27,8 @@ module Retter
       @entries = nil
     end
 
-    singletons = [:entries]
-    singletons.each do |sym|
-      define_method sym do
-        eval "@#{sym} ||= #{sym.capitalize}.new"
-      end
+    def entries
+      @entries ||= Entries.new
     end
   end
 
