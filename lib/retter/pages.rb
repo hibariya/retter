@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module Retter
-  class Pages
+  class Pages # XXX 名前が気に食わない
     require 'retter/pages/index'
     require 'retter/pages/profile'
     require 'retter/pages/archive'
