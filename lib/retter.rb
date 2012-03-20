@@ -7,7 +7,7 @@ module Retter
   class RetterError < RuntimeError; end
 
   module Stationery
-    [:config, :entries, :preprint, :pages, :repository].each do |meth|
+    [:config, :entries, :pages].each do |meth|
       define_method meth do
         Retter.send meth
       end
@@ -27,7 +27,7 @@ module Retter
       @entries = nil
     end
 
-    singletons = [:entries, :preprint, :pages, :repository]
+    singletons = [:entries, :pages]
     singletons.each do |sym|
       define_method sym do
         eval "@#{sym} ||= #{sym.capitalize}.new"

@@ -28,6 +28,7 @@ class Retter::Command < Thor
   desc 'preview', 'Preview the draft article (browser will open).'
   method_options date: :string, key: :string
   def preview(identifier = options[:date] || options[:key])
+    preprint = Retter::Preprint.new
     entry = entries.detect_by_string(identifier)
 
     preprint.print entry
@@ -60,7 +61,7 @@ class Retter::Command < Thor
   desc 'commit', "cd $RETTER_HOME && git add . && git commit -m 'Retter commit'"
   method_options silent: :boolean
   def commit
-    repository.open do |git|
+    Retter::Repository.open config.retter_home do |git|
       say git.add(config.retter_home), :green
       say git.commit_all('Retter commit'), :green
     end
