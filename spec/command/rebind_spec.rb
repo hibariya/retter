@@ -7,7 +7,7 @@ describe 'Retter::Command#rebind', clean: :all do
     let(:date_str) { '20110101' }
     let(:date) { Date.parse(date_str) }
     let(:date_file) { Retter.entries.retter_file(date) }
-    let(:date_html) { retter_config.entry_file(date) }
+    let(:date_html) { Retter::Pages.entry_file(date) }
     let(:article) { <<-EOM }
 # 朝11時
 
@@ -50,7 +50,7 @@ describe 'Retter::Command#rebind', clean: :all do
     end
 
     describe 'entry.html' do
-      let(:entry_html) { retter_config.entry_file(date).read }
+      let(:entry_html) { Retter::Pages.entry_file(date).read }
 
       it { texts_of(entry_html, 'article p').should == %w(おはようございます おやすみなさい) }
       it { texts_of(entry_html, 'article h1.date').should == %w(2011-01-01) }
@@ -58,7 +58,7 @@ describe 'Retter::Command#rebind', clean: :all do
     end
 
     describe 'entry part(first)' do
-      let(:part_html) { retter_config.entry_dir(date).join('a0.html').read }
+      let(:part_html) { Retter::Pages.entry_dir(date).join('a0.html').read }
 
       describe 'body' do
         subject { texts_of(part_html, 'article p') }
@@ -82,7 +82,7 @@ describe 'Retter::Command#rebind', clean: :all do
     end
 
     describe 'entry part(last)' do
-      let(:part_html) { retter_config.entry_dir(date).join('a1.html').read }
+      let(:part_html) { Retter::Pages.entry_dir(date).join('a1.html').read }
 
       describe 'body' do
         subject { texts_of(part_html, 'article p') }

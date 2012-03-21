@@ -1,13 +1,18 @@
 # coding: utf-8
 
-class Retter::Pages::Profile
-  include Retter::Page
+module Retter
+  class Pages::Profile
+    include Retter::Page
+    extend Configurable
 
-  def pathname
-    config.profile_file
-  end
+    configurable :profile_layout_file, :profile_file
 
-  def part_layout_pathname
-    config.profile_layout_file
+    def pathname
+      profile_file
+    end
+
+    def part_layout_pathname
+      profile_layout_file
+    end
   end
 end

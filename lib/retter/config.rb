@@ -9,7 +9,14 @@ module Retter
   class Config
     extend Forwardable
 
-    def_delegators Retter::Entries, :renderer, :retters_dir, :wip_file
+    def_delegators Retter::Entries,        :renderer, :retters_dir, :wip_file
+    def_delegators Retter::Pages,          :layouts_dir, :layout_file, :entries_dir
+    def_delegators Retter::Pages::Profile, :profile_layout_file, :profile_file
+    def_delegators Retter::Pages::Entry,   :entry_layout_file
+    def_delegators Retter::Pages::Article, :article_layout_file
+    def_delegators Retter::Pages::Archive, :entries_file, :entries_layout_file
+    def_delegators Retter::Pages::Index,   :index_file, :index_layout_file
+    def_delegators Retter::Pages::Feed,    :feed_file
 
     ATTRIBUTES = [
       :editor,
@@ -18,20 +25,7 @@ module Retter
       :title,
       :description,
       :url,
-      :author,
-
-      :layouts_dir,
-      :layout_file,
-      :profile_layout_file,
-      :entry_layout_file,
-      :article_layout_file,
-      :entries_layout_file,
-      :index_layout_file,
-      :entries_dir,
-      :profile_file,
-      :index_file,
-      :entries_file,
-      :feed_file
+      :author
     ] + [ # extras
       :disqus_shortname
     ]
@@ -97,14 +91,6 @@ module Retter
     def detect_retter_home
       # TODO こういうの上のディレクトリも見て判断するのを何か参考にして書く
       @env['RETTER_HOME'] = Dir.pwd if File.exist? 'Retterfile'
-    end
-
-    def entry_file(date)
-      entries_dir.join date.strftime('%Y%m%d.html')
-    end
-
-    def entry_dir(date)
-      entries_dir.join date.strftime('%Y%m%d')
     end
 
     def after(name, sym = nil, &block)

@@ -1,39 +1,44 @@
 # coding: utf-8
 
-class Retter::Pages::Article
-  include Retter::Page
+module Retter
+  class Pages::Article
+    include Page
+    extend Configurable
 
-  attr_reader :article
+    configurable :article_layout_file
 
-  def initialize(article)
-    super()
-    @path_prefix = '../../'
-    @article     = article
-    @title       = "#{article.title} - #{config.title}"
-  end
+    attr_reader :article
 
-  def pathname
-    config.entry_dir(article.entry.date).join("#{article.id}.html")
-  end
+    def initialize(article)
+      super()
+      @path_prefix = '../../'
+      @article     = article
+      @title       = "#{article.title} - #{config.title}"
+    end
 
-  def part_layout_pathname
-    config.article_layout_file
-  end
+    def pathname
+      Pages.entry_dir(article.entry.date).join("#{article.id}.html")
+    end
 
-  def print
-    options = {entry: article.entry, article: article}
-    part = Tilt.new(
-      part_layout_pathname.to_path,
-      ugly: true,
-      filename: part_layout_pathname.to_s
-    ).render(view_scope, options)
+    def part_layout_pathname
+      article_layout_file
+    end
 
-    mkdir
-    print_with_layout part
-  end
+    def print
+      options = {entry: article.entry, article: article}
+      part = Tilt.new(
+        part_layout_pathname.to_path,
+        ugly: true,
+        filename: part_layout_pathname.to_s
+      ).render(view_scope, options)
 
-  def mkdir
-    entry_dir = config.entry_dir(article.entry.date)
-    entry_dir.mkdir unless entry_dir.directory?
+      mkdir
+      print_with_layout part
+    end
+
+    def mkdir
+      entry_dir = Pages.entry_dir(article.entry.date)
+      entry_dir.mkdir unless entry_dir.directory?
+    end
   end
 end

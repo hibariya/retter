@@ -1,32 +1,37 @@
 # coding: utf-8
 
-class Retter::Pages::Entry
-  include Retter::Page
+module Retter
+  class Pages::Entry
+    include Page
+    extend Configurable
 
-  attr_reader :entry
+    configurable :entry_layout_file
 
-  def initialize(entry)
-    super()
-    @path_prefix = '../'
-    @entry       = entry
-    @title       = "#{entry.date} - #{config.title}"
-  end
+    attr_reader :entry
 
-  def pathname
-    config.entry_file(entry.date)
-  end
+    def initialize(entry)
+      super()
+      @path_prefix = '../'
+      @entry       = entry
+      @title       = "#{entry.date} - #{config.title}"
+    end
 
-  def part_layout_pathname
-    config.entry_layout_file
-  end
+    def pathname
+      Pages.entry_file(entry.date)
+    end
 
-  def print
-    part = Tilt.new(
-      part_layout_pathname.to_path,
-      ugly: true,
-      filename: part_layout_pathname.to_s
-    ).render(view_scope, entry: entry)
+    def part_layout_pathname
+      entry_layout_file
+    end
 
-    print_with_layout part
+    def print
+      part = Tilt.new(
+        part_layout_pathname.to_path,
+        ugly: true,
+        filename: part_layout_pathname.to_path
+      ).render(view_scope, entry: entry)
+
+      print_with_layout part
+    end
   end
 end

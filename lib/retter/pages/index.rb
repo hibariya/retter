@@ -1,13 +1,18 @@
 # coding: utf-8
 
-class Retter::Pages::Index
-  include Retter::Page
+module Retter
+  class Pages::Index
+    include Retter::Page
+    extend Configurable
 
-  def pathname
-    config.index_file
-  end
+    configurable :index_file, :index_layout_file
 
-  def part_layout_pathname
-    config.index_layout_file
+    def pathname
+      index_file
+    end
+
+    def part_layout_pathname
+      index_layout_file
+    end
   end
 end

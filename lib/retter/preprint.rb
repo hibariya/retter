@@ -9,7 +9,7 @@ module Retter
     end
 
     def part_layout_pathname
-      config.entry_layout_file
+      Pages::Entry.entry_layout_file
     end
 
     def print(entry)
