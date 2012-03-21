@@ -71,15 +71,19 @@ module Retter
 
       layouts_dir         retter_home.join('layouts/')
       layout_file         layouts_dir.join('retter.html.haml')
+
       profile_layout_file layouts_dir.join('profile.html.haml')
+      profile_file        retter_home.join('profile.html')
+
+      entries_dir         retter_home.join('entries/')
+      entries_layout_file layouts_dir.join('entries.html.haml')
+      entries_file        retter_home.join('entries.html')
       entry_layout_file   layouts_dir.join('entry.html.haml')
       article_layout_file layouts_dir.join('article.html.haml')
-      entries_layout_file layouts_dir.join('entries.html.haml')
+
       index_layout_file   layouts_dir.join('index.html.haml')
-      entries_dir         retter_home.join('entries/')
-      profile_file        retter_home.join('profile.html')
       index_file          retter_home.join('index.html')
-      entries_file        retter_home.join('entries.html')
+
       feed_file           retter_home.join('entries.rss')
     end
 
