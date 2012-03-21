@@ -3,6 +3,7 @@
 require 'active_support/core_ext/object'
 require 'digest/sha1'
 require 'redcarpet'
+require 'chronic'
 
 module Retter
   class EntryLoadError < RetterError; end
@@ -59,15 +60,9 @@ module Retter
     end
 
     def parse_date_string(date_str)
-      case date_str
-      when /^yesterday$/i then 1.day.ago
-      when /^today$/i     then 0.day.ago
-      when /^tomorrow$/i  then 1.day.since
-      when /^[0-9]+[\.\s](?:days?|weeks?|months?|years?)[\.\s](?:ago|since)$/i
-        eval(date_str.gsub(/\s+/, '.')).to_date
-      else
-        Date.parse(date_str)
-      end
+      normalized = date_str.gsub(/\./, ' ')
+
+      (Chronic.parse(normalized) || Date.parse(normalized)).to_date
     end
 
     def wip_entry(date = nil)
