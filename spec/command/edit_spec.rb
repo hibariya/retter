@@ -84,7 +84,7 @@ describe 'Retter::Command#edit', clean: :all do
     before do
       FileUtils.touch Retter.entries.retter_file(a_day)
 
-      Retter.reset_entries! # XXX
+      Retter.reset! # XXX
 
       command.edit '20110401.md'
     end
@@ -104,13 +104,13 @@ describe 'Retter::Command#edit', clean: :all do
 
   context 'with filename (today.md) option' do
     before do
-      FileUtils.touch retter_config.wip_file.to_s
+      FileUtils.touch Retter.config.wip_file.to_path
 
       command.edit 'today.md'
     end
 
     describe 'target file' do
-      subject { retter_config.wip_file }
+      subject { Retter.config.wip_file }
 
       it { should written }
     end

@@ -85,7 +85,7 @@ module Retter
         wip_file.unlink
       end
 
-      Retter.reset_entries!
+      Retter.reset!
     end
 
     def load_entries(path)

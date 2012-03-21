@@ -35,7 +35,7 @@ describe 'Retter::Command#rebind', clean: :all do
     end
 
     describe 'index.html' do
-      let(:index_html) { retter_config.index_file.read }
+      let(:index_html) { Retter.config.index_file.read }
 
       it { texts_of(index_html, 'article p').should include('おはようございます') }
       it { texts_of(index_html, 'article h1.date').should == %w(2011-01-01) }
@@ -43,7 +43,7 @@ describe 'Retter::Command#rebind', clean: :all do
     end
 
     describe 'entries.html' do
-      let(:entries_html) { retter_config.entries_file.read }
+      let(:entries_html) { Retter.config.entries_file.read }
 
       it { texts_of(entries_html, 'a.entry').first.should == '2011-01-01' }
       it { texts_of(entries_html, 'a.title').should == %w(朝11時 夜1時) }
@@ -107,7 +107,7 @@ describe 'Retter::Command#rebind', clean: :all do
   end
 
   context 'includes code block' do
-    let(:index_html) { retter_config.index_file.read }
+    let(:index_html) { Retter.config.index_file.read }
     let(:article) { <<-EOM }
 # コードを書きました
 
@@ -122,7 +122,7 @@ sleep 1000
 
     context 'use Pygments' do
       before do
-        retter_config.renderer Retter::Renderers::PygmentsRenderer
+        Retter.config.renderer Retter::Renderers::PygmentsRenderer
         command.rebind
       end
 
@@ -133,7 +133,7 @@ sleep 1000
 
     context 'use CodeRay' do
       before do
-        retter_config.renderer Retter::Renderers::CodeRayRenderer
+        Retter.config.renderer Retter::Renderers::CodeRayRenderer
         command.rebind
       end
 

@@ -23,12 +23,13 @@ RSpec.configure do |config|
 
   config.after :each, clean: :all do
     FileUtils.rm_rf retter_home
-    Retter.reset_entries!
+    Retter.reset!
   end
 
   config.before do
-    # FIXME stubじゃなくてもいいかも
-    Retter.stub!(:config).and_return(retter_config)
+    env = {'EDITOR' => 'echo written >', 'RETTER_HOME' => RETTER_ROOT.join('tmp', 'test').to_s}
+
+    Retter.load env
   end
 
   config.include ExampleGroupHelper

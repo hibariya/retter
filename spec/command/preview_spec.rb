@@ -5,7 +5,7 @@ require 'launchy'
 
 describe 'Retter::Command#preview', clean: :all do
   def preview_html
-    retter_config.retter_home.join('.preview.html').read
+    Retter.config.retter_home.join('.preview.html').read
   end
 
   before do

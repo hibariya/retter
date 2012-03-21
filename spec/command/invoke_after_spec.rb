@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'Retter::Command#invoke_after', clean: :all do
   context 'invoke with proc' do
     before do
-      retter_config.after(:edit) { commit }
+      Retter.config.after(:edit) { commit }
     end
 
     specify 'callback should called' do
@@ -17,7 +17,7 @@ describe 'Retter::Command#invoke_after', clean: :all do
 
   context 'invoke with symbol' do
     before do
-      retter_config.after(:edit, :commit)
+      Retter.config.after(:edit, :commit)
     end
 
     specify 'callback should called' do

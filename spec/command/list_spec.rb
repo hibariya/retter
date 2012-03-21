@@ -29,7 +29,7 @@ describe 'Retter::Command#list', clean: :all do
         EOM
       end
 
-      Retter.reset_entries! # XXX
+      Retter.reset! # XXX
     end
 
     subject { capture(:stdout) { command.list }.split(/\n+/) }
