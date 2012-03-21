@@ -39,6 +39,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'tilt', ['>= 1.1.3']
   s.add_runtime_dependency 'bundler', ['>= 1.0']
   s.add_runtime_dependency 'grit', ['>= 2.4.1']
+  s.add_runtime_dependency 'chronic', ['>= 0.6.7']
   s.add_runtime_dependency 'activesupport', ['>= 3.1.0']
 
   # XXX for ActiveSupport dependency
