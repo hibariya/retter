@@ -1,6 +1,6 @@
 # coding: utf-8
 
-require 'active_support/core_ext/object'
+require 'active_support/cache'
 require 'digest/sha1'
 require 'redcarpet'
 require 'chronic'
