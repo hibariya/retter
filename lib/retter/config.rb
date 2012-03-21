@@ -93,7 +93,6 @@ module Retter
     end
 
     def detect_retter_home
-      # TODO こういうの上のディレクトリも見て判断するのを何か参考にして書く
       @env['RETTER_HOME'] = Dir.pwd if File.exist? 'Retterfile'
     end
 
