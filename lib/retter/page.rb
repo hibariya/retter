@@ -49,7 +49,8 @@ module Retter
     end
 
     def layout_renderer
-      @layout_renderer ||= Tilt.new(Pages.layout_file.to_path, ugly: true, filename: config.layout_file.to_path)
+      layout_file = Pages.layout_file.to_path
+      @layout_renderer ||= Tilt.new(layout_file, ugly: true, filename: layout_file)
     end
 
     def fix_path(html, prefix='./')

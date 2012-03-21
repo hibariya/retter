@@ -3,16 +3,13 @@
 module Retter
   class Pages::Archive
     include Retter::Page
-    extend Configurable
-
-    configurable :entries_file, :entries_layout_file
 
     def pathname
-      entries_file
+      config.retter_home.join('entries.html')
     end
 
     def part_layout_pathname
-      entries_layout_file
+      Pages.find_layout_path('entries')
     end
   end
 end

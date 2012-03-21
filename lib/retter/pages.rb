@@ -13,11 +13,21 @@ module Retter
 
     extend Configurable
 
-    configurable :layouts_dir, :layout_file, :entries_dir
+    configurable :layouts_dir, :entries_dir
 
     attr_reader :index, :profile, :archive, :feed, :singleton_pages
 
     class << self
+      def find_layout_path(name)
+        detected = Dir.glob(layouts_dir.join("#{name}.*.*")).first
+
+        Pathname.new(detected)
+      end
+
+      def layout_file
+        @layout_file ||= find_layout_path('retter')
+      end
+
       def entry_file(date)
         entries_dir.join date.strftime('%Y%m%d.html')
       end

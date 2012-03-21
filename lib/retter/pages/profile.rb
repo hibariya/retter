@@ -3,16 +3,13 @@
 module Retter
   class Pages::Profile
     include Retter::Page
-    extend Configurable
-
-    configurable :profile_layout_file, :profile_file
 
     def pathname
-      profile_file
+      config.retter_home.join('profile.html')
     end
 
     def part_layout_pathname
-      profile_layout_file
+      Pages.find_layout_path('profile')
     end
   end
 end

@@ -3,16 +3,13 @@
 module Retter
   class Pages::Index
     include Retter::Page
-    extend Configurable
-
-    configurable :index_file, :index_layout_file
 
     def pathname
-      index_file
+      config.retter_home.join('index.html')
     end
 
     def part_layout_pathname
-      index_layout_file
+      Pages.find_layout_path('index')
     end
   end
 end

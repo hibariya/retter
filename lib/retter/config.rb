@@ -9,14 +9,8 @@ module Retter
   class Config
     extend Forwardable
 
-    def_delegators Retter::Entries,        :renderer, :retters_dir, :wip_file
-    def_delegators Retter::Pages,          :layouts_dir, :layout_file, :entries_dir
-    def_delegators Retter::Pages::Profile, :profile_layout_file, :profile_file
-    def_delegators Retter::Pages::Entry,   :entry_layout_file
-    def_delegators Retter::Pages::Article, :article_layout_file
-    def_delegators Retter::Pages::Archive, :entries_file, :entries_layout_file
-    def_delegators Retter::Pages::Index,   :index_file, :index_layout_file
-    def_delegators Retter::Pages::Feed,    :feed_file
+    def_delegators Retter::Entries, :renderer, :retters_dir, :wip_file
+    def_delegators Retter::Pages,   :layouts_dir, :entries_dir
 
     ATTRIBUTES = [
       :editor,
@@ -70,21 +64,7 @@ module Retter
       wip_file            retters_dir.join('today.md')
 
       layouts_dir         retter_home.join('layouts/')
-      layout_file         layouts_dir.join('retter.html.haml')
-
-      profile_layout_file layouts_dir.join('profile.html.haml')
-      profile_file        retter_home.join('profile.html')
-
       entries_dir         retter_home.join('entries/')
-      entries_layout_file layouts_dir.join('entries.html.haml')
-      entries_file        retter_home.join('entries.html')
-      entry_layout_file   layouts_dir.join('entry.html.haml')
-      article_layout_file layouts_dir.join('article.html.haml')
-
-      index_layout_file   layouts_dir.join('index.html.haml')
-      index_file          retter_home.join('index.html')
-
-      feed_file           retter_home.join('entries.rss')
     end
 
     def load_retterfile_if_exists

@@ -3,14 +3,12 @@
 module Retter
   class Pages::Entry
     include Page
-    extend Configurable
-
-    configurable :entry_layout_file
 
     attr_reader :entry
 
     def initialize(entry)
       super()
+
       @path_prefix = '../'
       @entry       = entry
       @title       = "#{entry.date} - #{config.title}"
@@ -21,7 +19,7 @@ module Retter
     end
 
     def part_layout_pathname
-      entry_layout_file
+      Pages.find_layout_path('entry')
     end
 
     def print

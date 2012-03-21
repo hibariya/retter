@@ -3,9 +3,6 @@
 module Retter
   class Pages::Article
     include Page
-    extend Configurable
-
-    configurable :article_layout_file
 
     attr_reader :article
 
@@ -21,7 +18,7 @@ module Retter
     end
 
     def part_layout_pathname
-      article_layout_file
+      Pages.find_layout_path('article')
     end
 
     def print

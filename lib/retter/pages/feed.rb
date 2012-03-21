@@ -6,12 +6,9 @@ require 'uri'
 module Retter
   class Pages::Feed
     include Retter::Page
-    extend Configurable
-
-    configurable :feed_file
 
     def pathname
-      feed_file
+      config.retter_home.join('entries.rss')
     end
 
     def print
