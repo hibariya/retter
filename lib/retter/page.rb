@@ -21,7 +21,7 @@ module Retter
       part = Tilt.new(
         part_layout_pathname.to_path,
         ugly: true,
-        filename: part_layout_pathname.to_s
+        filename: part_layout_pathname.to_path
       ).render(view_scope)
 
       print_with_layout part
@@ -32,7 +32,7 @@ module Retter
     end
 
     def path
-      pathname.to_s
+      pathname.to_path
     end
 
     def part_layout_pathname
@@ -49,7 +49,7 @@ module Retter
     end
 
     def layout_renderer
-      @layout_renderer ||= Tilt.new(Pages.layout_file.to_path, ugly: true, filename: config.layout_file.to_s)
+      @layout_renderer ||= Tilt.new(Pages.layout_file.to_path, ugly: true, filename: config.layout_file.to_path)
     end
 
     def fix_path(html, prefix='./')

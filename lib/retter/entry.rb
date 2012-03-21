@@ -48,7 +48,7 @@ class Retter::Entry
   end
 
   def path
-    pathname.to_s
+    pathname.to_path
   end
 
   def to_s

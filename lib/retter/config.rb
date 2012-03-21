@@ -62,7 +62,7 @@ module Retter
     def load_defaults
       editor              @env['EDITOR']
       shell               @env['SHELL']
-      cache               ActiveSupport::Cache::FileStore.new(retter_home.join('tmp/cache').to_s)
+      cache               ActiveSupport::Cache::FileStore.new(retter_home.join('tmp/cache').to_path)
       url                 'http://example.com'
 
       renderer            Retter::Renderers::CodeRayRenderer
@@ -85,7 +85,7 @@ module Retter
 
     def load_retterfile_if_exists
       retterfile = retter_home.join('Retterfile')
-      instance_eval retterfile.read, retterfile.to_s if retterfile.exist?
+      instance_eval retterfile.read, retterfile.to_path if retterfile.exist?
     end
 
     def detect_retter_home

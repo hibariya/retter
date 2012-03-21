@@ -16,7 +16,7 @@ module Retter
       part = Tilt.new(
         part_layout_pathname.to_path,
         ugly: true,
-        filename: part_layout_pathname.to_s
+        filename: part_layout_pathname.to_path
       ).render(view_scope, entry: entry)
 
       print_with_layout part

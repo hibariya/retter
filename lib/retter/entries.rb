@@ -43,10 +43,10 @@ module Retter
 
     def detect_by_filename(filename)
       case filename
-      when wip_file.basename.to_s
+      when wip_file.basename.to_path
         wip_entry
       else
-        detect {|e| e.pathname.basename.to_s == filename }
+        detect {|e| e.pathname.basename.to_path == filename }
       end
     end
 
@@ -90,7 +90,7 @@ module Retter
 
     def load_entries(path)
       date_files = find_markup_files(path).map {|file|
-        date_str = file.basename('.*').to_s
+        date_str = file.basename('.*').to_path
         [Date.parse(date_str), file]
       }.sort_by(&:first)
 

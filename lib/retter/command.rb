@@ -80,7 +80,7 @@ class Retter::Command < Thor
 
   desc 'home', 'Open a new shell in $RETTER_HOME'
   def home
-    Dir.chdir config.retter_home.to_s
+    Dir.chdir config.retter_home.to_path
 
     system %(PS1="(retter) " #{config.shell})
     say 'bye', :green
