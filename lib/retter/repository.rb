@@ -4,11 +4,12 @@ require 'grit'
 
 module Retter
   class Repository
-    include Retter::Stationery
+    def self.open(working_dir, &block)
+      new(working_dir).open(&block)
+    end
 
-    def initialize
-      working_dir = config.retter_home.to_s
-      @repo = Grit::Repo.new(working_dir)
+    def initialize(working_dir)
+      @repo = Grit::Repo.new(working_dir.to_s)
     end
 
     def open

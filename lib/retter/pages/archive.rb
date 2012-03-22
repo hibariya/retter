@@ -1,13 +1,15 @@
 # coding: utf-8
 
-class Retter::Pages::Archive
-  include Retter::Page
+module Retter
+  class Pages::Archive
+    include Retter::Page
 
-  def pathname
-    config.entries_file
-  end
+    def pathname
+      config.retter_home.join('entries.html')
+    end
 
-  def part_layout_pathname
-    config.entries_layout_file
+    def part_layout_pathname
+      Pages.find_layout_path('entries')
+    end
   end
 end

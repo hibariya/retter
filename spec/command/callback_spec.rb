@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'Retter::Command#callback', clean: :all do
   before do
-    retter_config.after(:edit) { commit }
+    Retter.config.after(:edit) { commit }
 
     command.stub!(:options) { {after: :edit} }
   end

@@ -9,14 +9,14 @@ module Retter
     end
 
     def part_layout_pathname
-      config.entry_layout_file
+      Pages.find_layout_path('entry')
     end
 
     def print(entry)
-      part = Haml::Engine.new(
-        part_layout_pathname.read,
+      part = Tilt.new(
+        part_layout_pathname.to_path,
         ugly: true,
-        filename: part_layout_pathname.to_s
+        filename: part_layout_pathname.to_path
       ).render(view_scope, entry: entry)
 
       print_with_layout part

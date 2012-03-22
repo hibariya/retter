@@ -1,32 +1,35 @@
 # coding: utf-8
 
-class Retter::Pages::Entry
-  include Retter::Page
+module Retter
+  class Pages::Entry
+    include Page
 
-  attr_reader :entry
+    attr_reader :entry
 
-  def initialize(entry)
-    super()
-    @path_prefix = '../'
-    @entry       = entry
-    @title       = "#{entry.date} - #{config.title}"
-  end
+    def initialize(entry)
+      super()
 
-  def pathname
-    config.entry_file(entry.date)
-  end
+      @path_prefix = '../'
+      @entry       = entry
+      @title       = "#{entry.date} - #{config.title}"
+    end
 
-  def part_layout_pathname
-    config.entry_layout_file
-  end
+    def pathname
+      Pages.entry_file(entry.date)
+    end
 
-  def print
-    part = Haml::Engine.new(
-      part_layout_pathname.read,
-      ugly: true,
-      filename: part_layout_pathname.to_s
-    ).render(view_scope, entry: entry)
+    def part_layout_pathname
+      Pages.find_layout_path('entry')
+    end
 
-    print_with_layout part
+    def print
+      part = Tilt.new(
+        part_layout_pathname.to_path,
+        ugly: true,
+        filename: part_layout_pathname.to_path
+      ).render(view_scope, entry: entry)
+
+      print_with_layout part
+    end
   end
 end

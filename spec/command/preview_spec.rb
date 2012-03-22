@@ -5,7 +5,7 @@ require 'launchy'
 
 describe 'Retter::Command#preview', clean: :all do
   def preview_html
-    retter_config.retter_home.join('.preview.html').read
+    Retter.config.retter_home.join('.preview.html').read
   end
 
   before do
@@ -26,7 +26,7 @@ describe 'Retter::Command#preview', clean: :all do
 
   context 'with date option' do
     let(:date_str) { '20110101' }
-    let(:date_file) { retter_config.retter_file(Date.parse(date_str)) }
+    let(:date_file) { Retter.entries.retter_file(Date.parse(date_str)) }
 
     before do
       wip_file.open('w') {|f| f.puts 'w00t!' }

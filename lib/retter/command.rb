@@ -28,6 +28,7 @@ class Retter::Command < Thor
   desc 'preview', 'Preview the draft article (browser will open).'
   method_options date: :string, key: :string
   def preview(identifier = options[:date] || options[:key])
+    preprint = Retter::Preprint.new
     entry = entries.detect_by_string(identifier)
 
     preprint.print entry
@@ -60,7 +61,7 @@ class Retter::Command < Thor
   desc 'commit', "cd $RETTER_HOME && git add . && git commit -m 'Retter commit'"
   method_options silent: :boolean
   def commit
-    repository.open do |git|
+    Retter::Repository.open config.retter_home do |git|
       say git.add(config.retter_home), :green
       say git.commit_all('Retter commit'), :green
     end
@@ -79,7 +80,7 @@ class Retter::Command < Thor
 
   desc 'home', 'Open a new shell in $RETTER_HOME'
   def home
-    Dir.chdir config.retter_home.to_s
+    Dir.chdir config.retter_home.to_path
 
     system %(PS1="(retter) " #{config.shell})
     say 'bye', :green
@@ -108,6 +109,10 @@ class Retter::Command < Thor
   end
 
   private
+
+  def pages
+    @pages ||= Retter::Pages.new
+  end
 
   def silent?
     !options[:silent].nil?

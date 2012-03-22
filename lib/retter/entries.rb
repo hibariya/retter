@@ -1,17 +1,25 @@
 # coding: utf-8
 
-require 'active_support/core_ext/object'
+require 'active_support/cache'
 require 'digest/sha1'
 require 'redcarpet'
+require 'chronic'
 
 module Retter
   class EntryLoadError < RetterError; end
 
   class Entries < Array
     include Retter::Stationery
+    extend Configurable
+
+    configurable :renderer, :retters_dir, :wip_file
 
     def initialize
-      load_entries config.retters_dir
+      load_entries retters_dir
+    end
+
+    def retter_file(date)
+      retters_dir.join(date ? date.strftime('%Y%m%d.md') : 'today.md')
     end
 
     def detect_by_string(str)
@@ -36,10 +44,10 @@ module Retter
 
     def detect_by_filename(filename)
       case filename
-      when config.wip_file.basename.to_s
+      when wip_file.basename.to_path
         wip_entry
       else
-        detect {|e| e.pathname.basename.to_s == filename }
+        detect {|e| e.pathname.basename.to_path == filename }
       end
     end
 
@@ -52,38 +60,32 @@ module Retter
     end
 
     def parse_date_string(date_str)
-      case date_str
-      when /^yesterday$/i then 1.day.ago
-      when /^today$/i     then 0.day.ago
-      when /^tomorrow$/i  then 1.day.since
-      when /^[0-9]+[\.\s](?:days?|weeks?|months?|years?)[\.\s](?:ago|since)$/i
-        eval(date_str.gsub(/\s+/, '.')).to_date
-      else
-        Date.parse(date_str)
-      end
+      normalized = date_str.gsub(/\./, ' ')
+
+      (Chronic.parse(normalized) || Date.parse(normalized)).to_date
     end
 
     def wip_entry(date = nil)
-      wip_file = config.retter_file(date)
-      wip_date = date || Date.today
-      wip_body = wip_file.exist? ? wip_file.read : ''
+      file = retter_file(date)
+      date = date || Date.today
+      body = file.exist? ? file.read : ''
 
-      Retter::Entry.new date: wip_date, body: rendered_body(wip_body), pathname: wip_file
+      Retter::Entry.new date: date, body: rendered_body(body), pathname: file
     end
 
     def commit_wip_entry!
-      if config.wip_file.exist?
-        copy = config.wip_file.read
-        config.retter_file(Date.today).open('a') {|f| f.puts copy }
-        config.wip_file.unlink
+      if wip_file.exist?
+        copy = wip_file.read
+        retter_file(Date.today).open('a') {|f| f.puts copy }
+        wip_file.unlink
       end
 
-      Retter.reset_entries!
+      Retter.reset!
     end
 
     def load_entries(path)
       date_files = find_markup_files(path).map {|file|
-        date_str = file.basename('.*').to_s
+        date_str = file.basename('.*').to_path
         [Date.parse(date_str), file]
       }.sort_by(&:first)
 
@@ -102,7 +104,7 @@ module Retter
 
       config.cache.fetch(key) do
         Redcarpet::Markdown.new(
-          config.renderer,
+          renderer,
           autolink: true,
           space_after_headers: true,
           fenced_code_blocks: true,

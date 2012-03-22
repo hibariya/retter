@@ -7,7 +7,7 @@ module Retter
   class RetterError < RuntimeError; end
 
   module Stationery
-    [:config, :entries, :preprint, :pages, :repository].each do |meth|
+    [:config, :entries].each do |meth|
       define_method meth do
         Retter.send meth
       end
@@ -15,38 +15,34 @@ module Retter
   end
 
   class << self
-    def load_config(env)
+    attr_reader :config
+
+    def load(env)
       @config = Config.new(env)
     end
 
-    def config
-      @config
-    end
-
-    def reset_entries!
+    def reset!
       @entries = nil
     end
 
-    singletons = [:entries, :preprint, :pages, :repository]
-    singletons.each do |sym|
-      define_method sym do
-        eval "@#{sym} ||= #{sym.capitalize}.new"
-      end
+    def entries
+      @entries ||= Entries.new
     end
   end
 
-  autoload :Generator,  'retter/generator'
+  autoload :Generator,    'retter/generator'
 
-  autoload :VERSION,    'retter/version'
-  autoload :Config,     'retter/config'
-  autoload :Renderers,  'retter/renderers'
-  autoload :Entry,      'retter/entry'
-  autoload :Entries,    'retter/entries'
-  autoload :Page,       'retter/page'
-  autoload :Pages,      'retter/pages'
-  autoload :Preprint,   'retter/preprint'
-  autoload :Repository, 'retter/repository'
-  autoload :Command,    'retter/command'
+  autoload :VERSION,      'retter/version'
+  autoload :Configurable, 'retter/configurable'
+  autoload :Config,       'retter/config'
+  autoload :Renderers,    'retter/renderers'
+  autoload :Entry,        'retter/entry'
+  autoload :Entries,      'retter/entries'
+  autoload :Page,         'retter/page'
+  autoload :Pages,        'retter/pages'
+  autoload :Preprint,     'retter/preprint'
+  autoload :Repository,   'retter/repository'
+  autoload :Command,      'retter/command'
 end
 
 require 'date'

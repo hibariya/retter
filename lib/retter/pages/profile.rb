@@ -1,13 +1,15 @@
 # coding: utf-8
 
-class Retter::Pages::Profile
-  include Retter::Page
+module Retter
+  class Pages::Profile
+    include Retter::Page
 
-  def pathname
-    config.profile_file
-  end
+    def pathname
+      config.retter_home.join('profile.html')
+    end
 
-  def part_layout_pathname
-    config.profile_layout_file
+    def part_layout_pathname
+      Pages.find_layout_path('profile')
+    end
   end
 end

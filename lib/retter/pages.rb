@@ -1,17 +1,41 @@
 # coding: utf-8
 
 module Retter
-  class Pages
-    require 'retter/pages/index'
-    require 'retter/pages/profile'
-    require 'retter/pages/archive'
-    require 'retter/pages/feed'
-    require 'retter/pages/entry'
-    require 'retter/pages/article'
+  class Pages # XXX 名前が気に食わない
+    autoload :Index,   'retter/pages/index'
+    autoload :Profile, 'retter/pages/profile'
+    autoload :Archive, 'retter/pages/archive'
+    autoload :Feed,    'retter/pages/feed'
+    autoload :Entry,   'retter/pages/entry'
+    autoload :Article, 'retter/pages/article'
 
     include Retter::Stationery
 
+    extend Configurable
+
+    configurable :layouts_dir, :entries_dir
+
     attr_reader :index, :profile, :archive, :feed, :singleton_pages
+
+    class << self
+      def find_layout_path(name)
+        detected = Dir.glob(layouts_dir.join("#{name}.*.*")).first
+
+        Pathname.new(detected)
+      end
+
+      def layout_file
+        @layout_file ||= find_layout_path('retter')
+      end
+
+      def entry_file(date)
+        entries_dir.join date.strftime('%Y%m%d.html')
+      end
+
+      def entry_dir(date)
+        entries_dir.join date.strftime('%Y%m%d')
+      end
+    end
 
     def initialize
       @singleton_pages = [Index, Profile, Archive, Feed].map(&:new)
@@ -23,7 +47,6 @@ module Retter
 
       singleton_pages.each(&:print)
     end
-
 
     def print_entries
       entries.each do |entry|

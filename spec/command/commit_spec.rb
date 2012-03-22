@@ -4,7 +4,7 @@ require 'spec_helper'
 require 'grit'
 
 describe 'Retter::Command#commit', clean: :all do
-  let(:repo) { Grit::Repo.new(retter_config.retter_home.to_s) }
+  let(:repo) { Grit::Repo.new(Retter.config.retter_home) }
   let(:article) { '今日の記事' }
 
   before do
@@ -12,7 +12,7 @@ describe 'Retter::Command#commit', clean: :all do
     wip_file.open('w') {|f| f.puts article }
     command.rebind
 
-    Grit::Repo.init retter_config.retter_home.to_s
+    Grit::Repo.init Retter.config.retter_home.to_path
   end
 
   context 'with no options' do

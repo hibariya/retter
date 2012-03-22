@@ -3,7 +3,6 @@
 require 'redcarpet'
 require 'pygments'
 require 'coderay'
-require 'digest/sha1'
 require 'set'
 
 module Retter

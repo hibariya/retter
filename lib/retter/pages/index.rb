@@ -1,13 +1,15 @@
 # coding: utf-8
 
-class Retter::Pages::Index
-  include Retter::Page
+module Retter
+  class Pages::Index
+    include Retter::Page
 
-  def pathname
-    config.index_file
-  end
+    def pathname
+      config.retter_home.join('index.html')
+    end
 
-  def part_layout_pathname
-    config.index_layout_file
+    def part_layout_pathname
+      Pages.find_layout_path('index')
+    end
   end
 end

@@ -5,7 +5,7 @@ $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
 require 'retter'
 
-Retter.load_config ENV
+Retter.load ENV
 
 case ARGV[0]
 when 'new'
