@@ -1,9 +1,11 @@
 # coding: utf-8
 
 require 'tapp'
-require 'simplecov'
 
-SimpleCov.start
+if ENV['COVERAGE']
+  require 'simplecov'
+  SimpleCov.start
+end
 
 RETTER_ROOT = Pathname.new(File.dirname(__FILE__) + '/../').realpath
 require RETTER_ROOT.join('lib', 'retter')
