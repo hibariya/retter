@@ -1,3 +1,14 @@
+# 0.2.1
+
+## Features
+
+* Multiple template engine support.
+
+## Bugfix
+
+* Fix cache bugs.
+** Retter creates cache directory if not exists.
+
 # 0.2.0
 
 ## Features
