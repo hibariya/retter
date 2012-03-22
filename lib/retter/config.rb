@@ -2,6 +2,7 @@
 
 require 'active_support/cache'
 require 'forwardable'
+require 'fileutils'
 
 module Retter
   class EnvError < RetterError; end
@@ -56,7 +57,6 @@ module Retter
     def load_defaults
       editor              @env['EDITOR']
       shell               @env['SHELL']
-      cache               ActiveSupport::Cache::FileStore.new(retter_home.join('tmp/cache').to_path)
       url                 'http://example.com'
 
       renderer            Retter::Renderers::CodeRayRenderer
@@ -65,6 +65,12 @@ module Retter
 
       layouts_dir         retter_home.join('layouts/')
       entries_dir         retter_home.join('entries/')
+
+
+      cache_dir = retter_home.join('tmp/cache')
+      cache ActiveSupport::Cache::FileStore.new(cache_dir.to_path)
+
+      FileUtils.mkdir_p cache_dir.to_path unless cache_dir.directory? # for old versions
     end
 
     def load_retterfile_if_exists
