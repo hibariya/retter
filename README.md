@@ -239,6 +239,16 @@ To use, add a following line to Retterfile.
 renderer Retter::Renderers::PygmentsRenderer
 ```
 
+# Remove caches
+
+When change the renderer, you have to remove cache files.
+Cache files is in `tmp/cache`.
+Please remove these files manually.
+
+```
+  $ rm -rf tmp/cache/*
+```
+
 # Built-in themes
 
 Retter has some themes.
