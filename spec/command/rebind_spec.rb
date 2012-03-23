@@ -156,4 +156,39 @@ sleep 1000
       command.rebind
     end
   end
+
+  context 'skipping some singleton pages binding' do
+    let(:retter_home) { Retter.config.retter_home }
+    let(:profile_html) { retter_home.join('profile.html') }
+    let(:entries_html) { retter_home.join('entries.html') }
+    let(:feed_file) { retter_home.join('feed.rss') }
+
+    before do
+      command.edit
+    end
+
+    context 'skipping all' do
+      before do
+        Retter::Pages.allow_binding :none
+
+        command.rebind
+      end
+
+      it { profile_html.should_not be_exist }
+      it { entries_html.should_not be_exist }
+      it { feed_file.should_not be_exist }
+    end
+
+    context 'skipping only :feed' do
+      before do
+        Retter::Pages.allow_binding [:profile, :entries]
+
+        command.rebind
+      end
+
+      it { profile_html.should be_exist }
+      it { entries_html.should be_exist }
+      it { feed_file.should_not be_exist }
+    end
+  end
 end
