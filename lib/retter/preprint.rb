@@ -2,7 +2,7 @@
 
 module Retter
   class Preprint
-    include Retter::Page
+    include Page
 
     def pathname
       config.retter_home.join '.preview.html'

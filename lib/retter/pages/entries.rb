@@ -2,7 +2,7 @@
 
 module Retter
   class Pages::Entries
-    include Retter::Page
+    include Page
 
     def pathname
       config.retter_home.join('entries.html')

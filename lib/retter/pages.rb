@@ -9,7 +9,7 @@ module Retter
     autoload :Entry,   'retter/pages/entry'
     autoload :Article, 'retter/pages/article'
 
-    include Retter::Stationery
+    include Stationery
     extend Configurable
 
     configurable :layouts_dir, :entries_dir, :allow_binding
@@ -60,7 +60,7 @@ module Retter
 
     def load_singleton_pages
       @singleton_pages = available_singleton_page_names.map {|name|
-        Retter::Pages.const_get(name.capitalize).new
+        Pages.const_get(name.capitalize).new
       }
     end
 

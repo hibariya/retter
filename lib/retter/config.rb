@@ -10,8 +10,8 @@ module Retter
   class Config
     extend Forwardable
 
-    def_delegators Retter::Entries, :renderer, :retters_dir, :wip_file
-    def_delegators Retter::Pages,   :layouts_dir, :entries_dir, :allow_binding
+    def_delegators Entries, :renderer, :retters_dir, :wip_file
+    def_delegators Pages,   :layouts_dir, :entries_dir, :allow_binding
 
     ATTRIBUTES = [
       :editor,
@@ -41,15 +41,16 @@ module Retter
 
       detect_retter_home
       unless env.values_at('EDITOR', 'RETTER_HOME').all?
-        raise Retter::EnvError, 'Set $RETTER_HOME and $EDITOR, first.'
+        raise EnvError, 'Set $RETTER_HOME and $EDITOR, first.'
       end
 
       @retter_home = Pathname.new(@env['RETTER_HOME'])
       load_defaults
       load_retterfile_if_exists
-    rescue Retter::EnvError
-      $stderr.puts 'Set $RETTER_HOME and $EDITOR, first.'
-      say Retter::Command.usage, :green
+    rescue EnvError => e
+      $stderr.puts e.message
+
+      say Command.usage, :green
 
       exit 1
     end

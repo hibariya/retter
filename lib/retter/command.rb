@@ -5,7 +5,7 @@ require 'launchy'
 
 module Retter
   class Command < Thor
-    include Retter::Stationery
+    include Stationery
 
     map '-v' => :version,
         '-e' => :edit,
