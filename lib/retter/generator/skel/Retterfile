@@ -7,23 +7,30 @@ description '<%= name %>'
 author      '<%= ENV["USER"] %>'
 renderer    Retter::Renderers::PygmentsRenderer
 
-## Callbacks for retter sub-command: edit, rebind, commit
-##
-## Syntax:
-##   after [command], [invoke command or proc]
+# Callbacks for retter sub-command: edit, rebind, commit
 #
-## Using symbol example:
-#    after :rebind, :commit
+#   Syntax:
+#     after [command], [invoke command or proc]
 #
-## Using proc example:
-#    after :commit do
-#      if yes?("Deploy now? [yes/no]")
-#        system "cd #{config.retter_home}"
-#        system 'git push origin master'
-#      end
-#    end
+#   Using symbol example:
+#     after :rebind, :commit
 #
-#    after :edit do
-#      ident = ARGV.pop || 'today'
-#      preview ident if yes?("Preview now? [yes/no]")
-#    end
+#   Using proc example:
+#     after :commit do
+#       if yes?("Deploy now? [yes/no]")
+#         system "cd #{config.retter_home}"
+#         system 'git push origin master'
+#       end
+#     end
+#
+#     after :edit do
+#       ident = ARGV.pop || 'today'
+#       preview ident if yes?("Preview now? [yes/no]")
+#     end
+#
+# Skip binding:
+#  examples:
+#    allow_binding :none
+#    allow_binding [:profile, :entries, :feed]
+#
+#  Anyway index page will be bound.

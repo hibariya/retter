@@ -1,8 +1,8 @@
 # coding: utf-8
 
 module Retter
-  class Pages::Archive
-    include Retter::Page
+  class Pages::Entries
+    include Page
 
     def pathname
       config.retter_home.join('entries.html')

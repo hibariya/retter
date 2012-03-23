@@ -9,7 +9,7 @@ module Retter
   class EntryLoadError < RetterError; end
 
   class Entries < Array
-    include Retter::Stationery
+    include Stationery
     extend Configurable
 
     configurable :renderer, :retters_dir, :wip_file
@@ -70,7 +70,7 @@ module Retter
       date = date || Date.today
       body = file.exist? ? file.read : ''
 
-      Retter::Entry.new date: date, body: rendered_body(body), pathname: file
+      Entry.new date: date, body: rendered_body(body), pathname: file
     end
 
     def commit_wip_entry!
@@ -90,7 +90,7 @@ module Retter
       }.sort_by(&:first)
 
       date_files.reverse_each {|date, file|
-        self << Retter::Entry.new(date: date, body: rendered_body(file.read))
+        self << Entry.new(date: date, body: rendered_body(file.read))
       }
     end
 

@@ -1,14 +1,14 @@
 # coding: utf-8
 
-module Retter::Page
-  module ViewHelper
-    include Retter::Stationery
+module Retter
+  module Page::ViewHelper
+    include Stationery
 
     def entry_path(*args)
       case args.first
       when Date, Time
         entry_path_by_date(*args)
-      when Retter::Entry
+      when Entry
         entry_path_by_entry(args.first)
       else
         raise TypeError, "wrong argument type #{args.first.class} (expected Date, Time or Retter::Entry)"
@@ -19,7 +19,7 @@ module Retter::Page
       case args.first
       when Date, Time
         article_path_by_date_and_id(*args)
-      when Retter::Entry::Article
+      when Entry::Article
         article_path_by_article(args.first)
       else
         raise TypeError, "wrong argument type #{args.first.class} (expected Date, Time or Retter::Entry::Article)"

@@ -2,7 +2,7 @@
 
 module Retter
   class Pages::Profile
-    include Retter::Page
+    include Page
 
     def pathname
       config.retter_home.join('profile.html')

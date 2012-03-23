@@ -4,18 +4,15 @@ module Retter
   class Pages # XXX 名前が気に食わない
     autoload :Index,   'retter/pages/index'
     autoload :Profile, 'retter/pages/profile'
-    autoload :Archive, 'retter/pages/archive'
+    autoload :Entries, 'retter/pages/entries'
     autoload :Feed,    'retter/pages/feed'
     autoload :Entry,   'retter/pages/entry'
     autoload :Article, 'retter/pages/article'
 
-    include Retter::Stationery
-
+    include Stationery
     extend Configurable
 
-    configurable :layouts_dir, :entries_dir
-
-    attr_reader :index, :profile, :archive, :feed, :singleton_pages
+    configurable :layouts_dir, :entries_dir, :allow_binding
 
     class << self
       def find_layout_path(name)
@@ -38,14 +35,13 @@ module Retter
     end
 
     def initialize
-      @singleton_pages = [Index, Profile, Archive, Feed].map(&:new)
-      @index, @profile, @archive, @feed = *singleton_pages
+      load_singleton_pages
     end
 
     def bind!
       print_entries
 
-      singleton_pages.each(&:print)
+      @singleton_pages.each(&:print)
     end
 
     def print_entries
@@ -58,6 +54,24 @@ module Retter
           article_page.print
         end
       end
+    end
+
+    private
+
+    def load_singleton_pages
+      @singleton_pages = available_singleton_page_names.map {|name|
+        Pages.const_get(name.capitalize).new
+      }
+    end
+
+    def available_singleton_page_names
+      availables = [:index]
+
+      unless allow_binding == :none
+        availables += allow_binding || [:profile, :entries, :feed]
+      end
+
+      availables.map(&:downcase).uniq
     end
   end
 end

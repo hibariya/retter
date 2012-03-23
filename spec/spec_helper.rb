@@ -16,8 +16,9 @@ RSpec.configure do |config|
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true
 
-  retter_home = RETTER_ROOT.join('tmp', 'test')
-  skel        = RETTER_ROOT.join('lib', 'retter', 'generator', 'skel')
+  retter_home = RETTER_ROOT.join('tmp/test')
+  skel        = RETTER_ROOT.join('lib/retter/generator/skel')
+  fake_editor = RETTER_ROOT.join('spec/bin/fake_editor')
 
   config.before :each, clean: :all do
     FileUtils.cp_r skel, retter_home.dirname.join('test')
@@ -29,7 +30,7 @@ RSpec.configure do |config|
   end
 
   config.before do
-    env = {'EDITOR' => 'echo written >', 'RETTER_HOME' => RETTER_ROOT.join('tmp', 'test').to_s}
+    env = {'EDITOR' => fake_editor.to_path, 'RETTER_HOME' => RETTER_ROOT.join('tmp', 'test').to_s}
 
     Retter.load env
   end

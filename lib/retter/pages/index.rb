@@ -2,7 +2,7 @@
 
 module Retter
   class Pages::Index
-    include Retter::Page
+    include Page
 
     def pathname
       config.retter_home.join('index.html')

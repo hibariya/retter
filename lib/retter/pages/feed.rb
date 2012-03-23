@@ -5,7 +5,7 @@ require 'uri'
 
 module Retter
   class Pages::Feed
-    include Retter::Page
+    include Page
 
     def pathname
       config.retter_home.join('entries.rss')
