@@ -2,12 +2,33 @@
 
 ## Features
 
-* Multiple template engine support.
+### Multiple template engine support.
+
+To change, remove existing template and create new template (e.g. retter.html.haml -> retter.html.erb).
+
+### Skipping page binding.
+
+You can skip following pages bind.
+
+* profile.html
+* entries.html
+* feed.rss
+
+If you want, add `allow_binding` configuration to Retterfile.
+
+```ruby
+# skip all pages
+allow_binding :none
+
+# allow only entries.html and feed.html
+allow_binding [:profile, :entries, :feed]
+```
 
 ## Bugfix
 
-* Fix cache bugs.
-** Retter creates cache directory if not exists.
+### Fix cache bugs.
+
+Retter creates cache directory if not exists.
 
 # 0.2.0
 

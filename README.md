@@ -203,14 +203,14 @@ In Retterfile:
   $ retter callback --after edit
 ~~~~
 
-## Install DISQUS (Comment tool)
+# Install DISQUS (Comment tool)
 
-### Prepare
+## Prepare
 
 1. Create DISQUS Account
 2. Add new site for retter
 
-### Install
+## Install
 
 First, Add your `disqus_shortname` to Retterfile.
 
@@ -239,12 +239,12 @@ To use, add a following line to Retterfile.
 renderer Retter::Renderers::PygmentsRenderer
 ```
 
-## Built-in themes
+# Built-in themes
 
 Retter has some themes.
 You can switch the theme by replacing stylesheet.
 
-### Default
+## Default
 
 ~~~~haml
     %link{href: '/stylesheets/default.css', media: 'screen', rel: 'stylesheet', type: 'text/css'}
@@ -252,7 +252,7 @@ You can switch the theme by replacing stylesheet.
 
 ![Default](http://hibariya.github.com/images/theme_samples/retter_default.jpg)
 
-### Orange
+## Orange
 
 ~~~~haml
     %link{href: '/stylesheets/orange.css', media: 'screen', rel: 'stylesheet', type: 'text/css'}
@@ -260,7 +260,7 @@ You can switch the theme by replacing stylesheet.
 
 ![Orange](http://hibariya.github.com/images/theme_samples/retter_orange.jpg)
 
-## HTML Layout
+# HTML Layout
 
 To customize layout, edit following files.
 
@@ -273,6 +273,24 @@ layouts
   |-- profile.html.haml # Profile page
   `-- retter.html.haml  # Basic layout
 ~~~~
+
+# Skipping page binding.
+
+You can skip following pages bind.
+
+* profile.html
+* entries.html
+* feed.rss
+
+If you want, add `allow_binding` configuration to Retterfile.
+
+```ruby
+# skip all pages
+allow_binding :none
+
+# allow only entries.html and feed.html
+allow_binding [:profile, :entries, :feed]
+```
 
 # LICENSE
 
