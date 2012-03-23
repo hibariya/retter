@@ -11,7 +11,7 @@ module Retter
     extend Forwardable
 
     def_delegators Retter::Entries, :renderer, :retters_dir, :wip_file
-    def_delegators Retter::Pages,   :layouts_dir, :entries_dir
+    def_delegators Retter::Pages,   :layouts_dir, :entries_dir, :allow_binding
 
     ATTRIBUTES = [
       :editor,
@@ -75,6 +75,7 @@ module Retter
 
     def load_retterfile_if_exists
       retterfile = retter_home.join('Retterfile')
+
       instance_eval retterfile.read, retterfile.to_path if retterfile.exist?
     end
 
@@ -82,12 +83,14 @@ module Retter
       @env['RETTER_HOME'] = Dir.pwd if File.exist? 'Retterfile'
     end
 
-    def after(name, sym = nil, &block)
+    def after_callback(name, sym = nil, &block)
       if callback = sym || block
         @after_callbacks[name] = callback
       else
         @after_callbacks[name]
       end
     end
+
+    alias_method :after, :after_callback
   end
 end

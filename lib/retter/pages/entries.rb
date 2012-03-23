@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module Retter
-  class Pages::Archive
+  class Pages::Entries
     include Retter::Page
 
     def pathname
