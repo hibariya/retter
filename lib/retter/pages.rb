@@ -65,10 +65,11 @@ module Retter
     end
 
     def available_singleton_page_names
-      return [] if allow_binding == :none
+      availables = [:index]
 
-      availables = allow_binding || [:profile, :entries, :feed]
-      availables << :index
+      unless allow_binding == :none
+        availables += allow_binding || [:profile, :entries, :feed]
+      end
 
       availables.map(&:downcase).uniq
     end
