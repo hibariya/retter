@@ -274,7 +274,7 @@ layouts
   `-- retter.html.haml  # Basic layout
 ~~~~
 
-# Skipping page binding.
+# Skipping page binding
 
 You can skip following pages bind.
 
@@ -291,6 +291,10 @@ allow_binding :none
 # allow only entries.html and feed.html
 allow_binding [:profile, :entries, :feed]
 ```
+
+# Other template engines
+
+If you want change the template engine, remove existing template and create new template (e.g. retter.html.haml to retter.html.erb).
 
 # LICENSE
 
