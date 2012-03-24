@@ -21,7 +21,7 @@ If you want, add `allow_binding` configuration to Retterfile.
 allow_binding :none
 
 # allow only entries.html and feed.html
-allow_binding [:profile, :entries, :feed]
+allow_binding [:entries, :feed]
 ```
 
 ## Bugfix

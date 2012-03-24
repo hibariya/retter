@@ -25,7 +25,7 @@ renderer    Retter::Renderers::PygmentsRenderer
 #
 #     after :edit do
 #       Retter.reset!
-#       ident = ARGV.pop || 'today'
+#       ident = ARGV.pop
 #
 #       preview ident if yes?("Preview now? [yes/no]")
 #     end
