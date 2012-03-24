@@ -1,3 +1,7 @@
+# 0.2.2
+
+Sidebar added to built-in themes.
+
 # 0.2.1
 
 ## Features
