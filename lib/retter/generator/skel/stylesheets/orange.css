@@ -12,10 +12,10 @@ body {
   background-image: url("../images/orange/bg_body.jpg");
   background-attachment: fixed;
   height: 100%;
-  line-height: 1.4;
+  line-height: 1.5em;
 }
 
-ul {
+#header ul {
   list-style: none;
 }
 
@@ -24,22 +24,18 @@ a {
   color: rgb(25,30,10);
 }
 
-code{
-	padding: 0 5px;
-}
-
 #header {
-  padding: 0;
-  margin: 0;
-}
-
-#header h1 {
-  margin: 0;
-  padding: 0.2em 0 0.2em 1em;
-  color: rgb(77,144,253);
   height: 40px;
   background-image: url("../images/orange/bg_header.png");
   background-repeat: repeat-x;
+  margin: 0;
+  padding: 0.2em 0 0.2em 1em;
+}
+
+#header h1 {
+  color: rgb(77,144,253);
+  margin: 0;
+  padding-top: 0.2em;
 }
 
 #header h1 a {
@@ -47,11 +43,8 @@ code{
 }
 
 #header ul#menu {
-  margin: 0.5em 0 6em 0;
-  padding: 0 0 0 2em;
-}
-
-#header ul#menu{
+  margin: 0.5em 0 0 0;
+  padding: 1em 0 0 2em;
 }
 
 #header ul#menu li {
@@ -71,10 +64,57 @@ code{
 
 #page {
   clear: both;
-  margin: 0 auto 0 auto;
-  width: 800px;
-  position: relative;
+  margin: 6em auto 0 auto;
+  width: 1200px;
   min-height: 100%;
+  position: relative;
+}
+
+#page #content {
+  width: 800px;
+}
+
+#page #sidebar {
+  width: 250px;
+  position: absolute;
+  top: 0;
+  margin-left: 830px;
+
+  color: #603;
+  border: 3px #FFC solid;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  padding: 0em 1em 1em 1em;
+  background-image: url("../images/orange/bg_entry.jpg");
+}
+
+#page #sidebar h3 {
+  margin-bottom: 0;
+  padding-bottom: 0.25em;
+  border-bottom: 1px solid #603;
+}
+
+#page #sidebar .author {
+  margin-top: 0.25em;
+}
+
+#page #sidebar .recent-entries ul {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  padding-left: 0;
+  list-style: none;
+}
+
+#page #sidebar .recent-entries ul li {
+  font-size: 0.9em;
+  margin-bottom: 1em;
+  line-height: 1.3em;
+}
+
+#page #sidebar .recent-entries .archives {
+  text-align: right;
+  font-size: 0.9em;
 }
 
 article {
@@ -83,13 +123,17 @@ article {
   border: 3px #FFC solid;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
-  padding: 2em 3em;
+  padding: 1em 3em;
   background-image: url("../images/orange/bg_entry.jpg");
   position: relative;
-  margin-top:60px;
 }
 
-article ul li {
+article.article {
+  margin-top: 60px;
+  padding: 2em 3em;
+}
+
+article.article ul li {
 	list-style-image: url("../images/orange/ic_li01.gif");
 }
 
@@ -125,15 +169,28 @@ article .date a:hover {
   color: #669;
 }
 
+article ul#entries {
+  list-style: none;
+  padding-left: 0;
+}
+
+article ul#entries h2 {
+  padding-bottom: 0.25em;
+  margin-bottom: 0.5em;
+  border-bottom: 1px solid #191E0A;
+}
+
+article ul#entries ul {
+  list-style: none;
+  margin-top: -1.5em;
+  padding-left: 3em;
+}
+
 article ul#entries > li {
   margin-top: 1em;
 }
 
-article ul#entries {
-  line-height: 1.5em;
-}
-
-article img{
+article img {
 	max-width: 100%
 }
 
@@ -169,7 +226,8 @@ pre {
   padding: 0.5em 0.5em 0.5em 1em;
   background: #036;
   color: #FFF;
-  position: relative; bottom: 0;
+  position: relative;
+  bottom: 0;
 }
 
 #footer a {

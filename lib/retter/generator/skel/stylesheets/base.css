@@ -1,8 +1,12 @@
-
 dl dd {
   margin-bottom: 1em;
 }
 
 pre {
   overflow: hidden;
+  line-height: 1.3em;
+}
+
+code {
+	padding: 0 5px;
 }

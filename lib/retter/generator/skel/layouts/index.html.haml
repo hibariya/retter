@@ -1,7 +1,7 @@
 #entries.autopagerize_page_element
   - recent_entries = entries[0..4]
   - recent_entries.each do |entry|
-    %article
+    %article.article
       %h1.date
         %a{href: entry_path(entry)}= entry.date
 

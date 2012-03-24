@@ -45,8 +45,8 @@ describe 'Retter::Command#rebind', clean: :all do
     describe 'entries.html' do
       let(:entries_html) { Retter.config.retter_home.join('entries.html').read }
 
-      it { texts_of(entries_html, 'a.entry').first.should == '2011-01-01' }
-      it { texts_of(entries_html, 'a.title').should == %w(朝11時 夜1時) }
+      it { texts_of(entries_html, 'a.entry').first.should == '01/01' }
+      it { texts_of(entries_html, 'a.article').should == %w(朝11時 夜1時) }
     end
 
     describe 'entry.html' do

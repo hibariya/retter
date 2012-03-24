@@ -1,9 +1,14 @@
 %article
+  %h1 Archives
   %ul#entries
+    - current = nil
     - entries.each do |entry|
       %li
-        %a.entry{href: entry_path(entry)}= entry.date
+        - unless current == entry.date.year
+          - current = entry.date.year
+          %h2= current
+        %a.entry{href: entry_path(entry)}= entry.date.strftime('%m/%d')
         %ul.titles
           - entry.articles.each do |article|
             %li
-              %a.title{href: article_path(article)}= article.title
+              %a.article{href: article_path(article)}= article.title
