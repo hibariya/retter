@@ -8,5 +8,15 @@ pre {
 }
 
 code {
-	padding: 0 5px;
+  padding: 0 5px;
+}
+
+.clearfix {
+  width: 100%;
+}
+
+.clearfix:after {
+  content: "";
+  display: block;
+  clear: both;
 }

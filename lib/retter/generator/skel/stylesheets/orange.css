@@ -30,6 +30,7 @@ a {
   background-repeat: repeat-x;
   margin: 0;
   padding: 0.2em 0 0.2em 1em;
+  box-shadow: 0 2px 2px rgba(0,0,0,0.4);
 }
 
 #header h1 {
@@ -92,7 +93,8 @@ a {
 #page #sidebar h3 {
   margin-bottom: 0;
   padding-bottom: 0.25em;
-  border-bottom: 1px solid #603;
+  border-bottom: 1px solid #e4d7b3;
+  box-shadow: 0 1px 0 #FFF;
 }
 
 #page #sidebar .author {
@@ -108,13 +110,29 @@ a {
 
 #page #sidebar .recent-entries ul li {
   font-size: 0.9em;
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
   line-height: 1.3em;
+}
+
+#page #sidebar .recent-entries ul li a{
+  color: #ab4d01;
+}
+
+#page #sidebar .recent-entries ul li a:hover{
+  color: #ca600a;
 }
 
 #page #sidebar .recent-entries .archives {
   text-align: right;
   font-size: 0.9em;
+}
+
+#page #sidebar .recent-entries .archives a{
+  color: #C00;
+}
+
+#page #sidebar .recent-entries .archives a:hover{
+  color: #F33;
 }
 
 article {
@@ -134,7 +152,7 @@ article.article {
 }
 
 article.article ul li {
-	list-style-image: url("../images/orange/ic_li01.gif");
+  list-style-image: url("../images/orange/ic_li01.gif");
 }
 
 article p a {
@@ -177,7 +195,8 @@ article ul#entries {
 article ul#entries h2 {
   padding-bottom: 0.25em;
   margin-bottom: 0.5em;
-  border-bottom: 1px solid #191E0A;
+  border-bottom: 1px solid #e4d7b3;
+  box-shadow: 0 1px 0 #FFF;
 }
 
 article ul#entries ul {
@@ -191,7 +210,7 @@ article ul#entries > li {
 }
 
 article img {
-	max-width: 100%
+  max-width: 100%
 }
 
 #entries {
@@ -241,4 +260,3 @@ pre {
 #footer a:hover {
   color: #669;
 }
-
