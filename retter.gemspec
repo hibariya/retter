@@ -1,13 +1,13 @@
 # -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
-require "retter/version"
+$:.push File.expand_path('../lib', __FILE__)
+require 'retter/version'
 
 Gem::Specification.new do |s|
-  s.name        = "retter"
+  s.name        = 'retter'
   s.version     = Retter::VERSION
-  s.authors     = ["hibariya", "uzura29"]
-  s.email       = ["celluloid.key@gmail.com"]
-  s.homepage    = "https://github.com/hibariya/retter"
+  s.authors     = ['hibariya', 'uzura29']
+  s.email       = ['celluloid.key@gmail.com']
+  s.homepage    = 'https://github.com/hibariya/retter'
   s.summary     = %q{Flyweight diary workflow}
   s.description = %q{Flyweight diary workflow. ruby-1.9.2 or later is required.}
 
