@@ -10,7 +10,7 @@ module Retter
   class Config
     extend Forwardable
 
-    def_delegators Entries, :renderer, :retters_dir, :wip_file
+    def_delegators Entries, :renderer, :retters_dir, :wip_file, :markup
     def_delegators Pages,   :layouts_dir, :entries_dir, :allow_binding
 
     attr_reader :retter_home
