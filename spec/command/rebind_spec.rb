@@ -143,6 +143,22 @@ sleep 1000
     end
   end
 
+  context 'use custom markup' do
+    let(:index_html) { Retter.config.retter_home.join('index.html').read }
+    let(:custom_markup) { Object.new.tap {|o| o.define_singleton_method(:render, &:upcase) } }
+
+    before do
+      Retter.config.markup custom_markup
+
+      wip_file.open('w') {|f| f.puts 'hi' }
+      command.rebind
+    end
+
+    subject { texts_of(index_html, 'article p') }
+
+    it { should include 'HI' }
+  end
+
   context 'with silent option' do
     before do
       wip_file.open('w') {|f| f.puts 'article' }
