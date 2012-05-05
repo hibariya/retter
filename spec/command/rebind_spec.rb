@@ -37,7 +37,7 @@ describe 'Retter::Command#rebind', clean: :all do
     describe 'index.html' do
       let(:index_html) { Retter.config.retter_home.join('index.html').read }
 
-      it { texts_of(index_html, 'article p').should include('おはようございます') }
+      it { texts_of(index_html, 'article p').should include 'おはようございます' }
       it { texts_of(index_html, 'article h1.date').should == %w(2011-01-01) }
       it { texts_of(index_html, 'article h1').should == %w(2011-01-01 朝11時 夜1時) }
     end
@@ -63,8 +63,8 @@ describe 'Retter::Command#rebind', clean: :all do
       describe 'body' do
         subject { texts_of(part_html, 'article p') }
 
-        it { should include('おはようございます') }
-        it { should_not include('おやすみなさい') }
+        it { should include 'おはようございます' }
+        it { should_not include 'おやすみなさい' }
       end
 
       describe 'date' do
@@ -76,8 +76,8 @@ describe 'Retter::Command#rebind', clean: :all do
       describe 'headings' do
         subject { texts_of(part_html, 'article h1') }
 
-        it { should include('朝11時') }
-        it { should_not include('夜1時') }
+        it { should include '朝11時' }
+        it { should_not include '夜1時' }
       end
     end
 
@@ -87,8 +87,8 @@ describe 'Retter::Command#rebind', clean: :all do
       describe 'body' do
         subject { texts_of(part_html, 'article p') }
 
-        it { should include('おやすみなさい') }
-        it { should_not include('おはようございます') }
+        it { should include 'おやすみなさい' }
+        it { should_not include 'おはようございます' }
       end
 
       describe 'date' do
@@ -100,8 +100,8 @@ describe 'Retter::Command#rebind', clean: :all do
       describe 'headings' do
         subject { texts_of(part_html, 'article h1') }
 
-        it { should include('夜1時') }
-        it { should_not include('朝11時') }
+        it { should include '夜1時' }
+        it { should_not include '朝11時' }
       end
     end
   end
