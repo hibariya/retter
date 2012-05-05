@@ -12,7 +12,7 @@ module Retter
     include Stationery
     extend Configurable
 
-    configurable :renderer, :retters_dir, :wip_file
+    configurable :renderer, :retters_dir, :wip_file, :markup
 
     def initialize
       load_entries retters_dir
@@ -103,17 +103,21 @@ module Retter
       key = Digest::SHA1.hexdigest('entry_' + body)
 
       config.cache.fetch(key) do
-        Redcarpet::Markdown.new(
-          renderer,
-          autolink: true,
-          space_after_headers: true,
-          fenced_code_blocks: true,
-          strikethrough: true,
-          superscript: true,
-          fenced_code_blocks: true,
-          tables: true
-        ).render(body)
+        (markup || markup_builtin).render(body)
       end
+    end
+
+    def markup_builtin
+      Redcarpet::Markdown.new(
+        renderer,
+        autolink: true,
+        space_after_headers: true,
+        fenced_code_blocks: true,
+        strikethrough: true,
+        superscript: true,
+        fenced_code_blocks: true,
+        tables: true
+      )
     end
   end
 end
