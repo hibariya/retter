@@ -3,6 +3,11 @@
 
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
+trap :INT do
+  print "\r"
+  exit
+end
+
 require 'retter'
 
 Retter.load ENV
