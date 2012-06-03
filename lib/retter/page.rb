@@ -61,10 +61,10 @@ module Retter
 
     def fix_src_path(elements, prefix = './')
       elements.search("[src!=''][src!='']").each do |el|
-        src = el.attr('src').scan(/[^\.\/]{3}.*/).first
-        next if src =~ /^(?:http|https):\/\//
+        src = el.attr('src')
+        next if src =~ /^(?:http:|https:|\/\/)/
 
-        el.set_attribute 'src', [prefix, src].join
+        el.set_attribute 'src', normarize_path(prefix, src)
       end
 
       elements
@@ -73,16 +73,26 @@ module Retter
     def fix_href_path(elements, prefix = './')
       elements.search("[href][href!='#']").each do |el|
         href = el.attr('href')
-        next if href =~ /^(?:http|https):\/\//
+        next if href =~ /^(?:http:|https:|\/\/)/
 
         if href == '/'
           el.set_attribute 'href', [prefix, 'index.html'].join
         else
-          el.set_attribute 'href', [prefix, href.scan(/[^\.\/]{3}.*/).first].join
+          el.set_attribute 'href', normarize_path(prefix, href)
         end
       end
 
       elements
+    end
+
+    def normarize_path(prefix, path)
+      absolute = /^\//
+
+      if path =~ absolute
+        [prefix, path.gsub(absolute, '')].join
+      else
+        path
+      end
     end
 
     view_scope = Object.new
