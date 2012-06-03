@@ -154,6 +154,10 @@ sleep 1000
       command.rebind
     end
 
+    after do
+      Retter::Entries.instance_variable_set :@markup, nil
+    end
+
     subject { texts_of(index_html, 'article p') }
 
     it { should include 'HI' }
@@ -210,6 +214,65 @@ sleep 1000
       it { entries_html.should be_exist }
       it { feed_file.should_not be_exist }
       it { index_html.should be_exist }
+    end
+  end
+
+  context 'with link or image' do
+    let(:index_html) { Retter.config.retter_home.join('index.html').read }
+    let(:elements) { nokogiri(index_html) }
+
+    before do
+      wip_file.open('w') {|f| f.puts article }
+
+      command.rebind
+    end
+
+    describe 'a href="//example.com/foo/bar"' do
+      let(:article) { '[title](//example.com/foo/bar)' }
+
+      it { elements.search("a[href='//example.com/foo/bar']").should_not be_empty }
+    end
+
+    describe 'img src="//example.com/foo/bar.png"' do
+      let(:article) { '![title](//example.com/foo/bar.png)' }
+
+      it { elements.search("img[src='//example.com/foo/bar.png']").should_not be_empty }
+    end
+
+    describe 'a href="/foo/bar"' do
+      let(:article) { '[title](/foo/bar)' }
+
+      it { elements.search("a[href='./foo/bar']").should_not be_empty }
+    end
+
+    describe 'img src="/foo/bar.png"' do
+      let(:article) { '![title](/foo/bar.png)' }
+
+      it { elements.search("img[src='./foo/bar.png']").should_not be_empty }
+    end
+
+    describe 'a href="./foo/bar"' do
+      let(:article) { '[title](./foo/bar)' }
+
+      it { elements.search("a[href='./foo/bar']").should_not be_empty }
+    end
+
+    describe 'img src="./foo/bar.png"' do
+      let(:article) { '![title](./foo/bar.png)' }
+
+      it { elements.search("img[src='./foo/bar.png']").should_not be_empty }
+    end
+
+    describe 'a href="../foo/bar"' do
+      let(:article) { '[title](../foo/bar)' }
+
+      it { elements.search("a[href='../foo/bar']").should_not be_empty }
+    end
+
+    describe 'img src="../foo/bar.png"' do
+      let(:article) { '![title](../foo/bar.png)' }
+
+      it { elements.search("img[src='../foo/bar.png']").should_not be_empty }
     end
   end
 end
