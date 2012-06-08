@@ -30,6 +30,16 @@ module Retter
       def articles
         @articles ||= entry.articles
       end
+
+      def snippet(length = 200)
+        snip = tags_stripped_body[0, length]
+
+        tags_stripped_body.length > length ? "#{snip}..." : snip
+      end
+
+      def tags_stripped_body
+        @tags_stripped_body ||= body.gsub(/<\/?\s?[^>]+>/, '')
+      end
     end
 
     include Stationery
@@ -66,6 +76,10 @@ module Retter
 
     def index
       entries.index(self) || 0
+    end
+
+    def has_articles?
+      !articles.empty?
     end
 
     private
