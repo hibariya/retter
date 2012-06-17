@@ -15,6 +15,14 @@ module Retter
       end
     end
 
+    def entry_url(*args)
+      URI.parse(config.url) + entry_path(*args)
+    end
+
+    def article_url(*args)
+      URI.parse(config.url) + article_path(*args)
+    end
+
     def article_path(*args)
       case args.first
       when Date, Time
