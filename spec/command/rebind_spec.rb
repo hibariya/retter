@@ -19,7 +19,7 @@ describe 'Retter::Command#rebind', clean: :all do
     EOM
 
     before do
-      stub_time date_str
+      time_travel_to date
 
       wip_file.open('w') {|f| f.puts article }
 

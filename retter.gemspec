@@ -30,7 +30,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'chronic', ['>= 0.6.7']
   gem.add_runtime_dependency 'activesupport', ['>= 3.2.5']
 
-  # XXX for ActiveSupport dependency
+  # XXX for ActiveSupport dependencies
   gem.add_runtime_dependency 'rack', ['>= 1.4.1']
   gem.add_runtime_dependency 'i18n', ['>= 0.6.0']
 
@@ -40,4 +40,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rspec', ['>= 2.10.0']
   gem.add_development_dependency 'fuubar', ['>= 1.0.0']
   gem.add_development_dependency 'simplecov', ['>= 0.6.4']
+  gem.add_development_dependency 'delorean', ['>= 2.0.0']
 end

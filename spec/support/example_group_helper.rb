@@ -41,18 +41,7 @@ module ExampleGroupHelper
     end
   end
 
-  module StubTime
-    def stub_time(time_str)
-      date = Date.parse(time_str)
-      time = Time.parse(time_str)
-
-      Date.stub!(:today).and_return(date)
-      Time.stub!(:now).and_return(time)
-    end
-  end
-
   include RetterShortcuts
   include HTML
   include Stream
-  include StubTime
 end

@@ -13,11 +13,12 @@ describe 'Retter::Command#edit', clean: :all do
   end
 
   context 'after edit and rebind (no options)' do
-    let(:today) { '20110101' }
-    let(:today_entry) { Retter.entries.detect_by_string(today) }
+    let(:date_str) { '20110101' }
+    let(:today_entry) { Retter.entries.detect_by_string(date_str) }
 
     before do
-      stub_time today
+      time_travel_to Date.parse(date_str)
+
       today_entry.pathname.open('w') { |f| f.puts 'written' }
       command.rebind
 
@@ -48,7 +49,7 @@ describe 'Retter::Command#edit', clean: :all do
 
   context 'with date (1.day.ago) option' do
     before do
-      stub_time '2011/04/02'
+      time_travel_to '2011/04/02'
 
       command.edit '1.day.ago'
     end
@@ -64,7 +65,7 @@ describe 'Retter::Command#edit', clean: :all do
 
   context 'with date (yesterday) option' do
     before do
-      stub_time '2011/04/02'
+      time_travel_to '2011/04/02'
 
       command.edit 'yesterday'
     end
