@@ -1,7 +1,7 @@
 # coding: utf-8
 
-require 'time'
 require 'nokogiri'
+require 'stringio'
 
 module ExampleGroupHelper
   module RetterShortcuts
@@ -29,12 +29,13 @@ module ExampleGroupHelper
   module Stream
     def capture(stream)
       begin
-        stream = stream.to_s
         eval "$#{stream} = StringIO.new"
+
         yield
+
         result = eval("$#{stream}").string
       ensure
-        eval("$#{stream} = #{stream.upcase}")
+        eval %($#{stream} = #{stream.upcase})
       end
 
       result
