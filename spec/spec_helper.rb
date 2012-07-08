@@ -27,6 +27,7 @@ RSpec.configure do |config|
 
   config.after :each, clean: :all do
     FileUtils.rm_rf retter_home
+
     Retter.reset!
   end
 
@@ -36,10 +37,10 @@ RSpec.configure do |config|
     Retter.load env
   end
 
+  config.include Delorean
   config.after :each do
     back_to_the_present
   end
 
   config.include ExampleGroupHelper
-  config.include Delorean
 end

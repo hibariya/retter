@@ -6,23 +6,24 @@ describe 'Retter::Command#edit', clean: :all do
   context 'no options' do
     before do
       command.should_receive(:invoke_after).with(:edit)
-      command.edit
+
+      invoke_command :edit
     end
 
     it { wip_file.should written }
   end
 
   context 'after edit and rebind (no options)' do
-    let(:date_str) { '20110101' }
-    let(:today_entry) { Retter.entries.detect_by_string(date_str) }
+    let(:date_str)    { '2011/01/01' }
+    let(:today_entry) { find_entry_by_string(date_str) }
 
     before do
-      time_travel_to Date.parse(date_str)
+      time_travel_to date_str
 
       today_entry.pathname.open('w') { |f| f.puts 'written' }
-      command.rebind
 
-      command.edit
+      invoke_command :rebind
+      invoke_command :edit
     end
 
     specify 'wip file should not be written' do
@@ -31,17 +32,14 @@ describe 'Retter::Command#edit', clean: :all do
   end
 
   context 'with date (YYYYMMDD) option' do
-    let(:date_str) { '20110101' }
-    let(:date) { Date.parse(date_str) }
-
     before do
-      command.edit date_str
+      invoke_command :edit, '20110101'
     end
 
     it { wip_file.should_not written }
 
     describe 'date file' do
-      subject { Retter.entries.retter_file(date) }
+      subject { markdown_file('20110101' ) }
 
       it { should written }
     end
@@ -51,13 +49,11 @@ describe 'Retter::Command#edit', clean: :all do
     before do
       time_travel_to '2011/04/02'
 
-      command.edit '1.day.ago'
+      invoke_command :edit, '1.day.ago'
     end
 
     describe 'target date file' do
-      let(:one_day_ago) { Date.parse('2011/04/01') }
-
-      subject { Retter.entries.retter_file(one_day_ago) }
+      subject { markdown_file('2011/04/01') }
 
       it { should written }
     end
@@ -67,31 +63,27 @@ describe 'Retter::Command#edit', clean: :all do
     before do
       time_travel_to '2011/04/02'
 
-      command.edit 'yesterday'
+      invoke_command :edit, 'yesterday'
     end
 
     describe 'target date file' do
-      let(:yesterday) { Date.parse('2011/04/01') }
-
-      subject { Retter.entries.retter_file(yesterday) }
+      subject { markdown_file('2011/04/01') }
 
       it { should written }
     end
   end
 
   context 'with filename (20110401.md) option' do
-    let(:a_day) { Date.parse('20110401') }
-
     before do
-      FileUtils.touch Retter.entries.retter_file(a_day)
+      FileUtils.touch markdown_file('20110401')
 
       Retter.reset! # XXX
 
-      command.edit '20110401.md'
+      invoke_command :edit, '20110401.md'
     end
 
     describe 'target date file' do
-      subject { Retter.entries.retter_file(a_day) }
+      subject { markdown_file('20110401') }
 
       it { should written }
     end
@@ -99,30 +91,27 @@ describe 'Retter::Command#edit', clean: :all do
 
   context 'with no exist filename option' do
     it {
-      -> { command.edit '19850126.md' }.should raise_error(Retter::EntryLoadError)
+      -> { invoke_command :edit, '19850126.md' }.should raise_error(Retter::EntryLoadError)
     }
   end
 
   context 'with filename (today.md) option' do
     before do
-      FileUtils.touch Retter.config.wip_file.to_path
+      FileUtils.touch wip_file.to_path
 
-      command.edit 'today.md'
+      invoke_command :edit, 'today.md'
     end
 
     describe 'target file' do
-      subject { Retter.config.wip_file }
-
-      it { should written }
+      it { wip_file.should written }
     end
   end
 
   context 'with silent option' do
     before do
-      command.stub!(:options) { {silent: true} }
-
       command.should_not_receive(:invoke_after)
-      command.edit
+
+      invoke_command :edit, silent: true
     end
 
     it { wip_file.should written }

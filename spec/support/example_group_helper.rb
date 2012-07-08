@@ -9,8 +9,58 @@ module ExampleGroupHelper
       @command ||= Retter::Command.new
     end
 
+    def invoke_command(command_name, *args)
+      @command ||= Retter::Command.new
+
+      yield Retter.config if block_given?
+
+      if args.last.is_a?(Hash)
+        options = args.pop
+
+        @command.stub!(:options) { options }
+      end
+
+      @command.__send__ command_name, *args
+    end
+
     def wip_file
       Retter.entries.wip_file
+    end
+
+    def write_to_wip_file(body)
+      wip_file.open('w') {|f| f.write body }
+    end
+
+    def generated_file(path)
+      Retter.config.retter_home.join(path)
+    end
+
+    def markdown_file(date)
+      date = date_wrap(date)
+
+      Retter.entries.retter_file(date)
+    end
+
+    def find_entry_by_string(str)
+      Retter.entries.detect_by_string(str) 
+    end
+
+    def entry_html_file(date)
+      date = date_wrap(date)
+
+      Retter::Pages.entry_file(date)
+    end
+
+    def article_html_file(date, id)
+      date = date_wrap(date)
+
+      Retter::Pages.entry_dir(date).join("#{id}.html")
+    end
+
+    private
+
+    def date_wrap(str)
+      Date.parse(str.to_s)
     end
   end
 

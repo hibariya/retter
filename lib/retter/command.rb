@@ -128,8 +128,8 @@ module Retter
       case callback
       when Proc
         instance_eval &callback
-      when Symbol
-        invoke callback
+      when Symbol, String
+        __send__ callback
       else
         # noop
       end
