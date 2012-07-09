@@ -77,7 +77,7 @@ describe 'Retter::Command#edit', clean: :all do
     before do
       FileUtils.touch markdown_file('20110401')
 
-      Retter.reset! # XXX
+      Retter::Site.reset! # XXX
 
       invoke_command :edit, '20110401.md'
     end

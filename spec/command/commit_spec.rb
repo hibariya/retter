@@ -4,7 +4,7 @@ require 'spec_helper'
 require 'grit'
 
 describe 'Retter::Command#commit', clean: :all do
-  let(:retter_home) { Retter.config.retter_home }
+  let(:retter_home) { Retter::Site.config.retter_home }
   let(:repo) { Grit::Repo.new(retter_home) }
   let(:article) { '今日の記事' }
 

@@ -120,7 +120,7 @@ sleep 1000
 
     context 'use Pygments' do
       before do
-        Retter.config.renderer Retter::Renderers::PygmentsRenderer
+        Retter::Site.config.renderer Retter::Renderers::PygmentsRenderer
 
         invoke_command :rebind
       end
@@ -132,7 +132,7 @@ sleep 1000
 
     context 'use CodeRay' do
       before do
-        Retter.config.renderer Retter::Renderers::CodeRayRenderer
+        Retter::Site.config.renderer Retter::Renderers::CodeRayRenderer
 
         invoke_command :rebind
       end
@@ -148,7 +148,7 @@ sleep 1000
     let(:custom_markup) { Object.new.tap {|o| o.define_singleton_method(:render, &:upcase) } }
 
     before do
-      Retter.config.markup custom_markup
+      Retter::Site.config.markup custom_markup
 
       write_to_wip_file 'hi'
 

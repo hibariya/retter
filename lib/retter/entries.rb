@@ -9,8 +9,8 @@ module Retter
   class EntryLoadError < RetterError; end
 
   class Entries < Array
-    include Stationery
     extend Configurable
+    include Site
 
     configurable :renderer, :retters_dir, :wip_file, :markup
 
@@ -80,7 +80,7 @@ module Retter
         wip_file.unlink
       end
 
-      Retter.reset!
+      reset!
     end
 
     def load_entries(path)

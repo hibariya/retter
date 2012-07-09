@@ -10,7 +10,7 @@ end
 
 require 'retter'
 
-Retter.load ENV
+Retter::Site.load ENV
 
 case ARGV[0]
 when 'new'

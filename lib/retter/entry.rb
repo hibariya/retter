@@ -42,7 +42,7 @@ module Retter
       end
     end
 
-    include Stationery
+    include Site
 
     attr_accessor :date, :lede, :body, :articles
     attr_reader :pathname

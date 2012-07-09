@@ -29,7 +29,7 @@ describe 'Retter::Command#list', clean: :all do
         EOM
       end
 
-      Retter.reset! # XXX
+      Retter::Site.reset! # XXX
     end
 
     subject { capture(:stdout) { invoke_command :list }.split(/\n+/) }

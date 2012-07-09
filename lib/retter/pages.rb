@@ -9,8 +9,8 @@ module Retter
     autoload :Entry,   'retter/pages/entry'
     autoload :Article, 'retter/pages/article'
 
-    include Stationery
     extend Configurable
+    include Site
 
     configurable :layouts_dir, :entries_dir, :allow_binding
 

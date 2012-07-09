@@ -12,7 +12,7 @@ module ExampleGroupHelper
     def invoke_command(command_name, *args)
       @command ||= Retter::Command.new
 
-      yield Retter.config if block_given?
+      yield Retter::Site.config if block_given?
 
       if args.last.is_a?(Hash)
         options = args.pop
@@ -24,7 +24,7 @@ module ExampleGroupHelper
     end
 
     def wip_file
-      Retter.entries.wip_file
+      Retter::Site.entries.wip_file
     end
 
     def write_to_wip_file(body)
@@ -32,17 +32,17 @@ module ExampleGroupHelper
     end
 
     def generated_file(path)
-      Retter.config.retter_home.join(path)
+      Retter::Site.config.retter_home.join(path)
     end
 
     def markdown_file(date)
       date = date_wrap(date)
 
-      Retter.entries.retter_file(date)
+      Retter::Site.entries.retter_file(date)
     end
 
     def find_entry_by_string(str)
-      Retter.entries.detect_by_string(str) 
+      Retter::Site.entries.detect_by_string(str)
     end
 
     def entry_html_file(date)

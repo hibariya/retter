@@ -28,13 +28,13 @@ RSpec.configure do |config|
   config.after :each, clean: :all do
     FileUtils.rm_rf retter_home
 
-    Retter.reset!
+    Retter::Site.reset!
   end
 
   config.before :each do
     env = {'EDITOR' => fake_editor.to_path, 'RETTER_HOME' => RETTER_ROOT.join('tmp', 'test').to_s}
 
-    Retter.load env
+    Retter::Site.load env
   end
 
   config.include Delorean

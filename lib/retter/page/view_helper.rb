@@ -4,7 +4,7 @@ require 'active_support/time_with_zone'
 
 module Retter
   module Page::ViewHelper
-    include Stationery
+    include Site
 
     def entry_path(*args)
       case args.first

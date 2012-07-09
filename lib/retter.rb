@@ -3,30 +3,30 @@
 here = File.dirname(__FILE__)
 $LOAD_PATH.unshift here unless $LOAD_PATH.include?(here)
 
+require 'date'
+require 'time'
+require 'pathname'
+
 module Retter
   class RetterError < RuntimeError; end
 
-  module Stationery
-    [:config, :entries].each do |meth|
-      define_method meth do
-        Retter.send meth
-      end
-    end
-  end
-
-  class << self
-    attr_reader :config
+  module Site
+    extend self
 
     def load(env)
-      @config = Config.new(env)
+      @@config = Config.new(env)
     end
 
     def reset!
-      @entries = nil
+      @@entries = nil
     end
 
     def entries
-      @entries ||= Entries.new
+      @@entries ||= Entries.new
+    end
+
+    def config
+      @@config
     end
   end
 
@@ -44,7 +44,3 @@ module Retter
   autoload :Repository,   'retter/repository'
   autoload :Command,      'retter/command'
 end
-
-require 'date'
-require 'time'
-require 'pathname'

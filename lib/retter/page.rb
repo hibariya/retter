@@ -8,7 +8,7 @@ module Retter
   module Page
     require 'retter/page/view_helper'
 
-    include Stationery
+    include Site
 
     attr_reader :path_prefix, :title
 
