@@ -2,6 +2,7 @@
 
 require 'thor'
 require 'launchy'
+require 'pathname'
 
 module Retter
   class Command < Thor
@@ -77,6 +78,14 @@ module Retter
         say "  #{entry.articles.map(&:title).join(', ')}"
         say
       end
+    end
+
+    desc 'clean', 'Clear all cache files'
+    def clean
+      return unless config.cache.respond_to?(:cache_path)
+
+      cache_path = Pathname.glob("#{config.cache.cache_path}/*")
+      cache_path.entries.map(&:rmtree)
     end
 
     desc 'home', 'Open a new shell in $RETTER_HOME'
