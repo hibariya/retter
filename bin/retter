@@ -10,7 +10,7 @@ end
 
 require 'retter'
 
-Retter.load ENV
+Retter::Site.load ENV
 
 case ARGV[0]
 when 'new'
@@ -22,6 +22,7 @@ else
     Retter::Command.start
   rescue Errno::ENOENT
     $stderr.puts "Some files might be broken. run `retter gen $RETTER_HOME`"
+
     raise
   end
 end

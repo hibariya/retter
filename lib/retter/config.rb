@@ -10,10 +10,12 @@ module Retter
   class Config
     extend Forwardable
 
-    def_delegators Entries, :renderer, :retters_dir, :wip_file, :markup
-    def_delegators Pages,   :layouts_dir, :entries_dir, :allow_binding
-
-    attr_reader :retter_home
+    def_delegators Entries,      :retters_dir, :wip_file, :markup, :cache
+    def_delegators Markdown,     :renderer
+    def_delegators Binder,       :allow_binding
+    def_delegators Page,         :layouts_dir, :entries_dir
+    def_delegators Retter::Site, :title, :description, :url, :author
+    def_delegator  Retter::Site, :home, :retter_home
 
     def initialize(env)
       @env             = env
@@ -23,13 +25,10 @@ module Retter
       detect_retter_home
       environments_required
 
-      @retter_home = Pathname.new(@env['RETTER_HOME'])
       load_defaults
-      load_retterfile_if_exists
+      load_retterfile
     rescue EnvError => e
-      $stderr.puts e.message
-
-      say Command.usage, :green
+      $stderr.puts e.message, Command.usage
 
       exit 1
     end
@@ -45,7 +44,7 @@ module Retter
     alias_method :after, :after_callback
 
     [ # base
-      :editor, :shell, :cache, :title, :description, :url, :author,
+      :editor, :shell,
       # extra
       :disqus_shortname
     ].each do |att|
@@ -62,12 +61,26 @@ module Retter
       @env['RETTER_HOME'] = Dir.pwd if File.exist? 'Retterfile'
     end
 
+    def load_retterfile
+      retterfile = retter_home.join('Retterfile')
+
+      instance_eval retterfile.read, retterfile.to_path if retterfile.exist?
+    end
+
+    def environments_required
+      unless @env.values_at('EDITOR', 'RETTER_HOME').all?
+        raise EnvError, 'Set $RETTER_HOME and $EDITOR, first.'
+      end
+    end
+
     def load_defaults
+      retter_home Pathname.new(@env['RETTER_HOME'])
+
       editor @env['EDITOR']
       shell  @env['SHELL']
       url    'http://example.com'
 
-      renderer    Retter::Renderers::CodeRayRenderer
+      renderer    Retter::Markdown::CodeRayRenderer
       retters_dir retter_home.join('retters/')
       wip_file    retters_dir.join('today.md')
 
@@ -78,18 +91,6 @@ module Retter
       cache ActiveSupport::Cache::FileStore.new(cache_dir.to_path)
 
       FileUtils.mkdir_p cache_dir.to_path unless cache_dir.directory? # for old versions
-    end
-
-    def load_retterfile_if_exists
-      retterfile = retter_home.join('Retterfile')
-
-      instance_eval retterfile.read, retterfile.to_path if retterfile.exist?
-    end
-
-    def environments_required
-      unless @env.values_at('EDITOR', 'RETTER_HOME').all?
-        raise EnvError, 'Set $RETTER_HOME and $EDITOR, first.'
-      end
     end
   end
 end

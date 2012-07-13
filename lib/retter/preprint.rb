@@ -2,24 +2,33 @@
 
 module Retter
   class Preprint
-    include Page
+    class ViewContext < Page::Base::ViewContext
+      attr_reader :entry
 
-    def pathname
+      def initialize(entry)
+        @entry = entry
+      end
+    end
+
+    include Page::Base
+
+    def path
       config.retter_home.join '.preview.html'
     end
 
-    def part_layout_pathname
-      Pages.find_layout_path('entry')
+    def template_path
+      Page.find_template_path('entry')
     end
 
-    def print(entry)
-      part = Tilt.new(
-        part_layout_pathname.to_path,
+    def bind(entry)
+      context = ViewContext.new(entry)
+      part    = Tilt.new(
+        template_path.to_path,
         ugly: true,
-        filename: part_layout_pathname.to_path
-      ).render(view_scope, entry: entry)
+        filename: template_path.to_path
+      ).render(context)
 
-      print_with_layout part
+      print part
     end
   end
 end

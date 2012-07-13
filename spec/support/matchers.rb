@@ -5,4 +5,3 @@ RSpec::Matchers.define :written do
     file.exist? && !file.size.zero?
   end
 end
-

@@ -5,7 +5,7 @@ url         'http://retter.example.com/'
 title       '<%= name %>'
 description '<%= name %>'
 author      '<%= ENV["USER"] %>'
-renderer    Retter::Renderers::PygmentsRenderer
+renderer    Retter::Markdown::PygmentsRenderer
 
 # Callbacks for retter sub-command: edit, rebind, commit
 #
@@ -24,7 +24,7 @@ renderer    Retter::Renderers::PygmentsRenderer
 #     end
 #
 #     after :edit do
-#       Retter.reset!
+#       Retter::Site.reset!
 #       ident = ARGV.pop
 #
 #       preview ident if yes?("Preview now? [yes/no]")

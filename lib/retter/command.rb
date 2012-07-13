@@ -5,7 +5,7 @@ require 'launchy'
 
 module Retter
   class Command < Thor
-    include Stationery
+    include Site
 
     map '-v' => :version,
         '-e' => :edit,
@@ -19,9 +19,9 @@ module Retter
     def edit(identifier = options[:date] || options[:key])
       entry = entries.detect_by_string(identifier)
 
-      system config.editor, entry.path
+      system config.editor, entry.path.to_path
 
-      invoke_after :edit unless silent?
+      invoke_after :edit
     end
 
     default_task :edit
@@ -30,18 +30,18 @@ module Retter
     method_options date: :string, key: :string
     def preview(identifier = options[:date] || options[:key])
       preprint = Preprint.new
-      entry = entries.detect_by_string(identifier)
+      entry    = entries.detect_by_string(identifier)
 
-      preprint.print entry
+      preprint.bind entry
 
-      Launchy.open preprint.path
+      Launchy.open preprint.path.to_path
     end
 
     desc 'open', 'Open your (static) site top page (browser will open).'
     def open
-      index_page = Pages::Index.new
+      index_page = Page::Index.new
 
-      Launchy.open index_page.path
+      Launchy.open index_page.path.to_path
     end
 
     desc 'rebind', 'Bind the draft article, re-generate all html pages.'
@@ -49,12 +49,10 @@ module Retter
     def rebind
       entries.commit_wip_entry!
 
-      pages.bind!
+      Binder.new(entries).bind!
 
-      unless silent?
-        invoke_after :bind
-        invoke_after :rebind
-      end
+      invoke_after :bind
+      invoke_after :rebind
     end
 
     desc 'bind', 'Alias of rebind'
@@ -69,7 +67,7 @@ module Retter
         say git.commit_all('Retter commit'), :green
       end
 
-      invoke_after :commit unless silent?
+      invoke_after :commit
     end
 
     desc 'list', 'List retters'
@@ -114,25 +112,25 @@ module Retter
 
     private
 
-    def pages
-      @pages ||= Pages.new
-    end
-
     def silent?
       !options[:silent].nil?
     end
 
     def invoke_after(name)
-      callback = config.after_callback(name)
+      return if silent?
 
-      case callback
+      case callback = after_callback(name)
       when Proc
         instance_eval &callback
-      when Symbol
-        invoke callback
+      when Symbol, String
+        __send__ callback
       else
         # noop
       end
+    end
+
+    def after_callback(name)
+      config.after_callback(name)
     end
 
     def self.usage

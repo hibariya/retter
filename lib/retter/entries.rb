@@ -9,10 +9,9 @@ module Retter
   class EntryLoadError < RetterError; end
 
   class Entries < Array
-    include Stationery
     extend Configurable
 
-    configurable :renderer, :retters_dir, :wip_file, :markup
+    configurable :retters_dir, :wip_file, :markup, :cache
 
     def initialize
       load_entries retters_dir
@@ -47,7 +46,7 @@ module Retter
       when wip_file.basename.to_path
         wip_entry
       else
-        detect {|e| e.pathname.basename.to_path == filename }
+        detect {|e| e.path.basename.to_path == filename }
       end
     end
 
@@ -70,7 +69,7 @@ module Retter
       date = date || Date.today
       body = file.exist? ? file.read : ''
 
-      Entry.new date: date, body: rendered_body(body), pathname: file
+      Entry.new date: date, body: rendered_body(body), path: file, entries: self
     end
 
     def commit_wip_entry!
@@ -80,7 +79,7 @@ module Retter
         wip_file.unlink
       end
 
-      Retter.reset!
+      reload
     end
 
     def load_entries(path)
@@ -90,34 +89,27 @@ module Retter
       }.sort_by(&:first)
 
       date_files.reverse_each {|date, file|
-        self << Entry.new(date: date, body: rendered_body(file.read))
+        self << Entry.new(date: date, body: rendered_body(file.read), entries: self)
       }
+    end
+
+    def reload
+      clear
+
+      load_entries retters_dir
     end
 
     def find_markup_files(path)
       path = Pathname.new(path).realpath
-      Dir.open(path, &:to_a).grep(/^\d{4}(?:0[1-9]|1[012])(?:0[1-9]|[12][0-9]|3[01])\.(md)$/).map {|f| path.join f }
+      Dir.open(path, &:to_a).grep(/^\d{4}(?:0[1-9]|1[012])(?:0[1-9]|[12][0-9]|3[01])\..*$/).map {|f| path.join f }
     end
 
     def rendered_body(body)
       key = Digest::SHA1.hexdigest('entry_' + body)
 
-      config.cache.fetch(key) do
-        (markup || markup_builtin).render(body)
+      cache.fetch(key) do
+        (markup || Markdown.instance).render(body)
       end
-    end
-
-    def markup_builtin
-      Redcarpet::Markdown.new(
-        renderer,
-        autolink: true,
-        space_after_headers: true,
-        fenced_code_blocks: true,
-        strikethrough: true,
-        superscript: true,
-        fenced_code_blocks: true,
-        tables: true
-      )
     end
   end
 end

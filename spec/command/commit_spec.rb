@@ -4,22 +4,25 @@ require 'spec_helper'
 require 'grit'
 
 describe 'Retter::Command#commit', clean: :all do
-  let(:repo) { Grit::Repo.new(Retter.config.retter_home) }
+  let(:retter_home) { Retter::Site.config.retter_home }
+  let(:repo) { Grit::Repo.new(retter_home) }
   let(:article) { '今日の記事' }
 
   before do
     command.stub!(:say) { true }
-    wip_file.open('w') {|f| f.puts article }
-    command.rebind
 
-    Grit::Repo.init Retter.config.retter_home.to_path
+    write_to_wip_file article
+
+    invoke_command :rebind
+
+    Grit::Repo.init retter_home.to_path
   end
 
   context 'with no options' do
     before do
-      command.should_receive(:invoke_after).with(:commit)
+      command.should_receive(:after_callback).with(:commit)
 
-      command.commit
+      invoke_command :commit
     end
 
     subject { repo.commits.first }
@@ -28,14 +31,10 @@ describe 'Retter::Command#commit', clean: :all do
   end
 
   context 'with silent option' do
-    before do
-      command.stub!(:options) { {silent: true} }
-    end
-
     specify 'callback should not called' do
-      command.should_not_receive(:invoke_after)
+      command.should_not_receive(:after_callback).with(:commit)
 
-      command.commit
+      invoke_command :commit, silent: :true
     end
   end
 end

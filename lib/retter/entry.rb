@@ -42,24 +42,17 @@ module Retter
       end
     end
 
-    include Stationery
-
     attr_accessor :date, :lede, :body, :articles
-    attr_reader :pathname
+    attr_reader :path
 
-    def initialize(attrs={})
-      @date, @body = attrs.values_at(:date, :body)
+    def initialize(attrs = {})
+      @entries, @date, @body = attrs.values_at(:entries, :date, :body)
 
-      pathname_by_date = Entries.retters_dir.join(date.strftime('%Y%m%d.md'))
-      @pathname = attrs[:pathname] || pathname_by_date
+      path_by_date = Entries.retters_dir.join(date.strftime('%Y%m%d.md'))
+      @path = attrs[:path] || path_by_date
 
-      attach_titles
       extract_articles
-      load_lede
-    end
-
-    def path
-      pathname.to_path
+      assign_lede
     end
 
     def to_s
@@ -67,19 +60,23 @@ module Retter
     end
 
     def next
-      entries[index.next]
+      @entries[index.next]
     end
 
     def prev
-      entries[index.pred] unless index.pred < 0
+      @entries[index.pred] unless index.pred < 0
     end
 
     def index
-      entries.index(self) || 0
+      @entries.index(self) || 0
     end
 
     def has_articles?
       !articles.empty?
+    end
+
+    def to_article
+      Article.new(entry: self, id: 'a0', title: '', body: body)
     end
 
     private
@@ -88,7 +85,7 @@ module Retter
       Nokogiri::HTML(body)
     end
 
-    def attach_titles
+    def assign_ids
       html = body_elements
       html.search('//h1').each_with_index do |h1, seq|
         h1.set_attribute 'id', "a#{seq}"
@@ -98,19 +95,23 @@ module Retter
     end
 
     def extract_articles
-      @articles = body_elements.search('body > *').each_with_object([]) {|c, r|
-        if c.name == 'h1'
-          r << Article.new(entry: self, id: c.attr('id'), title: c.text, body: '')
-        else
-          next if r.empty?
+      assign_ids
 
-          article = r.last
+      @articles = body_elements.search('body > *').each_with_object([]) {|c, articles|
+        if c.name == 'h1'
+          articles << Article.new(entry: self, id: c.attr('id'), title: c.text, body: '')
+        else
+          next if articles.empty?
+
+          article = articles.last
           article.body += c.to_s
         end
-      } || []
+      }
+
+      @articles << to_article if @articles.empty?
     end
 
-    def load_lede
+    def assign_lede
       @lede = body_elements.search('body > *').each_with_object('') {|c, r|
         break r if c.name == 'h1'
         r << c.to_s
