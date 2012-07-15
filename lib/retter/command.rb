@@ -80,12 +80,11 @@ module Retter
       end
     end
 
-    desc 'clean', 'Clear all cache files'
+    desc 'clean', 'Clear all caches'
     def clean
-      return unless config.cache.respond_to?(:cache_path)
+      return unless config.cache.respond_to?(:clear)
 
-      cache_path = Pathname.glob("#{config.cache.cache_path}/*")
-      cache_path.entries.map(&:rmtree)
+      config.cache.clear
     end
 
     desc 'home', 'Open a new shell in $RETTER_HOME'
