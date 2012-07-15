@@ -1,3 +1,13 @@
+# 0.2.3
+
+## clean sub command
+
+clean sub command wraps cache clear method.
+
+```
+retter clean
+```
+
 # 0.2.2
 
 Sidebar added to built-in themes.
