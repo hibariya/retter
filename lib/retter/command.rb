@@ -15,7 +15,7 @@ module Retter
         '-r' => :rebind,
         '-b' => :bind
 
-    desc 'edit', 'Open $EDITOR. Write an article with Markdown.'
+    desc :edit,    %(Open $EDITOR. Write an article with Markdown.)
     method_options date: :string, key: :string, silent: :boolean
     def edit(identifier = options[:date] || options[:key])
       entry = entries.detect_by_string(identifier)
@@ -27,7 +27,7 @@ module Retter
 
     default_task :edit
 
-    desc 'preview', 'Preview the draft article (browser will open).'
+    desc :preview, %(Preview the draft article (browser will open).)
     method_options date: :string, key: :string
     def preview(identifier = options[:date] || options[:key])
       preprint = Preprint.new
@@ -38,14 +38,14 @@ module Retter
       Launchy.open preprint.path.to_path
     end
 
-    desc 'open', 'Open your (static) site top page (browser will open).'
+    desc :open, %(Open your (static) site top page (browser will open).)
     def open
       index_page = Page::Index.new
 
       Launchy.open index_page.path.to_path
     end
 
-    desc 'rebind', 'Bind the draft article, re-generate all html pages.'
+    desc :rebind,  %(Bind the draft article, re-generate all html pages.)
     method_options silent: :boolean
     def rebind
       entries.commit_wip_entry!
@@ -56,11 +56,11 @@ module Retter
       invoke_after :rebind
     end
 
-    desc 'bind', 'Alias of rebind'
+    desc 'bind',   %(Alias of rebind)
     method_options silent: :boolean
-    alias_method :bind, :rebind
+    alias_method   :bind, :rebind
 
-    desc 'commit', "cd $RETTER_HOME && git add . && git commit -m 'Retter commit'"
+    desc :commit,  %(cd $RETTER_HOME && git add . && git commit -m 'Retter commit')
     method_options silent: :boolean
     def commit
       Repository.open config.retter_home do |git|
@@ -71,7 +71,7 @@ module Retter
       invoke_after :commit
     end
 
-    desc 'list', 'List retters'
+    desc :list, %(List retters)
     def list
       entries.each_with_index do |entry, n|
         say "[e#{n}] #{entry.date}"
@@ -80,14 +80,14 @@ module Retter
       end
     end
 
-    desc 'clean', 'Clear all caches'
+    desc :clean, %(Clear all caches)
     def clean
       return unless config.cache.respond_to?(:clear)
 
       config.cache.clear
     end
 
-    desc 'home', 'Open a new shell in $RETTER_HOME'
+    desc :home, %(Open a new shell in $RETTER_HOME)
     def home
       Dir.chdir config.retter_home.to_path
 
@@ -96,24 +96,24 @@ module Retter
       say 'bye', :green
     end
 
-    desc 'callback', 'Call a callback process only'
-    method_options after: :string
+    desc :callback, %(Call a callback process only)
+    method_options  after: :string
     def callback
       invoke_after options[:after].intern
     end
 
-    desc 'new', 'Create a new site'
+    desc :new, %(Create a new site)
     def new; end
 
-    desc 'gen', 'Generate initial files'
+    desc :gen, %(Generate initial files)
     def gen; end
 
-    desc 'usage', 'Show usage.'
+    desc :usage, %(Show usage.)
     def usage
       say Command.usage, :green
     end
 
-    desc 'version', 'Show version.'
+    desc :version, %(Show version.)
     def version
       say "Retter version #{VERSION}"
     end
