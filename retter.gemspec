@@ -16,6 +16,8 @@ Gem::Specification.new do |gem|
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   gem.require_paths = ['lib']
 
+  gem.required_ruby_version = '>= 1.9.1'
+
   gem.add_runtime_dependency 'thor',          ['>= 0.15.2']
   gem.add_runtime_dependency 'builder',       ['>= 3.0.0']
   gem.add_runtime_dependency 'redcarpet',     ['>= 2.1.1']
