@@ -1,6 +1,5 @@
 source :rubygems
 
+gem 'retter', '~> 0.2.2'
 gem 'rack'
 gem 'thin' # for heroku
-gem 'retter'
-
