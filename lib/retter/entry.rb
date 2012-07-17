@@ -71,8 +71,8 @@ module Retter
       @entries.index(self) || 0
     end
 
-    def has_articles?
-      !articles.empty?
+    def has_actual_articles?
+      @has_actual_articles ||= body_elements.search('h1').any?
     end
 
     def to_article
@@ -112,10 +112,15 @@ module Retter
     end
 
     def assign_lede
-      @lede = body_elements.search('body > *').each_with_object('') {|c, r|
-        break r if c.name == 'h1'
-        r << c.to_s
-      }
+      @lede =
+        if has_actual_articles?
+          body_elements.search('body > *').each_with_object('') {|c, r|
+            break r if c.name == 'h1'
+            r << c.to_s
+          }
+        else
+          ''
+        end
     end
   end
 end
