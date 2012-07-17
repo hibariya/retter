@@ -1,7 +1,5 @@
 # coding: utf-8
 
-require 'active_support/time_with_zone'
-
 module Retter
   module Page::ViewHelper
     include Site

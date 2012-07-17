@@ -47,20 +47,19 @@ class Retter::Generator::Base < Thor::Group
 
   def create_files
     FILES.each do |file|
-      copy_file("skel/#{file}", "#{name}/#{file}")
+      copy_file %(skel/#{file}), %(#{name}/#{file})
     end
 
     TEMPLATES.each do |file|
-      template("skel/#{file}", "#{name}/#{file}")
+      template %(skel/#{file}), %(#{name}/#{file})
     end
   end
 
   def bundle_install
-    pwd = Dir.pwd
-    FileUtils.cd name
+    Dir.chdir name do
+      cli = Bundler::CLI.new
 
-    Bundler::CLI.new.install
-
-    FileUtils.cd pwd
+      cli.install
+    end
   end
 end
