@@ -6,7 +6,7 @@ $LOAD_PATH.unshift here unless $LOAD_PATH.include?(here)
 require 'date'
 require 'time'
 require 'pathname'
-require 'active_support/time_with_zone' # TODO: workaround for uninitialized constant ActiveSupport::TimeWithZone (NameError)
+require 'active_support/time_with_zone' # XXX: workaround for uninitialized constant ActiveSupport::TimeWithZone (NameError)
 
 module Retter
   autoload :Generator,    'retter/generator'
