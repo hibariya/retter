@@ -76,7 +76,7 @@ module Retter
     end
 
     def to_article
-      Article.new(entry: self, id: 'a0', title: '', body: body)
+      Article.new(entry: self, id: 'a0', title: date.to_s, body: body)
     end
 
     private
