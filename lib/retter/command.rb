@@ -105,9 +105,6 @@ module Retter
     desc :new, %(Create a new site)
     def new; end
 
-    desc :gen, %(Generate initial files)
-    def gen; end
-
     desc :usage, %(Show usage.)
     def usage
       say Command.usage, :green
