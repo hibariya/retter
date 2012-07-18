@@ -6,8 +6,9 @@
     = entry.lede
 
   - entry.articles.each do |article|
-    %h1{id: article.id}
-      %a{href: article_path(article)}= article.title
+    - if article.actual?
+      %h1{id: article.id}
+        %a{href: article_path(article)}= article.title
 
     = article
 
