@@ -1,5 +1,5 @@
 source :rubygems
 
-gem 'retter', '~> 0.2.3'
+gem 'retter', '~> <%= Retter::VERSION %>'
 gem 'rack'
 gem 'thin' # for heroku
