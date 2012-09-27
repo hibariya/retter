@@ -22,7 +22,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'builder',       ['~> 3.1.3']
   gem.add_runtime_dependency 'redcarpet',     ['~> 2.1.1']
   gem.add_runtime_dependency 'coderay',       ['~> 1.0.7']
-  gem.add_runtime_dependency 'pygments.rb',   ['~> 0.2.13']
+  gem.add_runtime_dependency 'pygments.rb',   ['~> 0.3.1']
   gem.add_runtime_dependency 'nokogiri',      ['~> 1.5.5']
   gem.add_runtime_dependency 'launchy',       ['~> 2.1.2']
   gem.add_runtime_dependency 'haml',          ['~> 3.1.7']

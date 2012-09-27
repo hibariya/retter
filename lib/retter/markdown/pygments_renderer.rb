@@ -1,4 +1,3 @@
-require 'retter/monkey/rubypython'
 require 'pygments'
 require 'set'
 
