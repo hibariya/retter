@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Retter::VERSION
   spec.authors       = ['hibariya', 'uzura29']
   spec.email         = ['celluloid.key@gmail.com']
-  spec.summary       = %q{Flyweight diary workflow}
-  spec.description   = %q{Flyweight diary workflow. ruby-1.9.2 or later is required.}
+  spec.summary       = %q{A diary workflow}
+  spec.description   = %q{A diary workflow for shell users.}
   spec.homepage      = 'https://github.com/hibariya/retter'
   spec.license       = 'MIT'
 
@@ -20,24 +20,24 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 1.9.1'
 
-  spec.add_runtime_dependency 'coffee-rails', '~> 4.0.1'
-  spec.add_runtime_dependency 'haml-rails', '~> 0.5.3'
-  spec.add_runtime_dependency 'jquery-rails', '~> 3.0.4'
-  spec.add_runtime_dependency 'rails', '~> 4.0.2'
-  spec.add_runtime_dependency 'sass-rails', '~> 4.0.0'
-  spec.add_runtime_dependency 'uglifier', '>= 1.3.0'
+  spec.add_runtime_dependency 'coffee-rails',     '~> 4.0.1'
+  spec.add_runtime_dependency 'haml-rails',       '~> 0.5.3'
+  spec.add_runtime_dependency 'jquery-rails',     '~> 3.0.4'
+  spec.add_runtime_dependency 'rails',            '~> 4.0.2'
+  spec.add_runtime_dependency 'sass-rails',       '~> 4.0.0'
+  spec.add_runtime_dependency 'uglifier',         '>= 1.3.0'
 
   spec.add_runtime_dependency 'activesupport'
-  spec.add_runtime_dependency 'chronic', '~> 0.10.2'
+  spec.add_runtime_dependency 'chronic',          '~> 0.10.2'
   spec.add_runtime_dependency 'guard-livereload', '~> 2.1.0'
-  spec.add_runtime_dependency 'launchy', '~> 2.4.2'
-  spec.add_runtime_dependency 'nokogiri', '~> 1.6.1'
-  spec.add_runtime_dependency 'rack-livereload', '~> 0.3.15'
-  spec.add_runtime_dependency 'redcarpet', '~> 3.0.0'
-  spec.add_runtime_dependency 'rouge', '~> 1.2.0'
-  spec.add_runtime_dependency 'thor', '~> 0.18.1'
+  spec.add_runtime_dependency 'launchy',          '~> 2.4.2'
+  spec.add_runtime_dependency 'nokogiri',         '~> 1.6.1'
+  spec.add_runtime_dependency 'rack-livereload',  '~> 0.3.15'
+  spec.add_runtime_dependency 'redcarpet',        '~> 3.0.0'
+  spec.add_runtime_dependency 'rouge',            '~> 1.2.0'
+  spec.add_runtime_dependency 'thor',             '~> 0.18.1'
 
-  spec.add_development_dependency 'bundler', '~> 1.5'
-  spec.add_development_dependency 'rspec', '~> 2.14.1'
+  spec.add_development_dependency 'bundler',      '~> 1.5'
+  spec.add_development_dependency 'rspec',        '~> 2.14.1'
   spec.add_development_dependency 'rake'
 end
