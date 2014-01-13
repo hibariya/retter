@@ -2,10 +2,10 @@
 
 * Many API changes.
 * Directory structure is changed (See README.md).
-* Some comannds are deprecated: `rebind`, `bind` and `open`.
-* Some comannds are removed: `commit`, `home`, `usage` and `clean`.
+* Some commands are deprecated: `rebind`, `bind` and `open`.
+* Some commands are removed: `commit`, `home`, `usage` and `clean`.
 * Many command options are removed.
-* New comands are added: `build`, `preview` and `publish`.
+* New commands are added: `build`, `preview` and `publish`.
 * Migration command `migrate` is added.
 
 # 0.2.3
