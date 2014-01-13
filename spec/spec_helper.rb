@@ -22,7 +22,9 @@ RSpec.configure do |config|
     FileUtils.mkdir_p TEST_TMP_DIR
 
     Dir.chdir GEM_DIR.join('tmp') do
-      Retter::ExampleHelper.invoke_retter 'new', template_dir.basename
+      result = Retter::ExampleHelper.invoke_retter('new', template_dir.basename)
+
+      raise result.inspect unless result.status.success?
     end
   end
 

@@ -21,7 +21,7 @@ describe 'retter build', :with_test_site do
       Hi, Present.
     DIARY
 
-    invoke_retter 'build'
+    invoke_retter('build').should be_exit_successfully
   end
 
   describe 'source branch' do

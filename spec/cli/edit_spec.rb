@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'retter edit', :with_test_site do
   context 'with no keywords' do
     before do
-      invoke_retter 'edit'
+      invoke_retter('edit').should be_exit_successfully
     end
 
     subject { Pathname('source/retters/today.md') }
@@ -13,7 +13,7 @@ describe 'retter edit', :with_test_site do
 
   context 'with date keyword' do
     before do
-      invoke_retter 'edit', '20140101'
+      invoke_retter('edit', '20140101').should be_exit_successfully
     end
 
     subject { Pathname('source/retters/20140101.md') }
@@ -23,7 +23,7 @@ describe 'retter edit', :with_test_site do
 
   context 'with human readable date keyword' do
     before do
-      invoke_retter 'edit', '2014-01-02'
+      invoke_retter('edit', '2014-01-02').should be_exit_successfully
     end
 
     subject { Pathname('source/retters/20140102.md') }
@@ -33,7 +33,7 @@ describe 'retter edit', :with_test_site do
 
   context 'with date filename' do
     before do
-      invoke_retter 'edit', '20140103.md'
+      invoke_retter('edit', '20140103.md').should be_exit_successfully
     end
 
     subject { Pathname('source/retters/20140103.md') }
@@ -47,7 +47,7 @@ describe 'retter edit', :with_test_site do
     before do
       FileUtils.touch path
 
-      invoke_retter 'edit', 'e0'
+      invoke_retter('edit', 'e0').should be_exit_successfully
     end
 
     subject { path }

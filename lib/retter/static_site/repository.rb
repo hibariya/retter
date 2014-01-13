@@ -14,7 +14,7 @@ module Retter
         end
 
         def git
-          @git || (`which git`.strip).presence
+          @git || (ENV['GIT'] || `which git`.strip).presence
         end
       end
 
@@ -42,7 +42,7 @@ module Retter
         [git, command.to_s, *args.map(&:to_s)]
       end
 
-      %w(init add reset).each do |subcommand|
+      %w(init add reset rm).each do |subcommand|
         define_method subcommand do |*args|
           run command(subcommand, *args)
         end

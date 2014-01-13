@@ -74,7 +74,7 @@ module Retter
 
         StaticSite::Repository.checkout 'master' do |repo|
           repo.checkout '--orphan', 'gh-pages' do # TODO: fallback to normal branch
-            repo.reset '--hard'
+            repo.rm '-rf', '.'                    # repo.reset '--hard' fails git-1.7.9.5 or earlier
 
             PUBLISH_FILES.each do |file|
               copy_file file, %(#{name}/#{file})
