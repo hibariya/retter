@@ -4,7 +4,7 @@ describe 'retter new' do
   before :all do
     Dir.chdir TEST_TMP_DIR do
       result = invoke_retter('new', 'new-site')
-      result.status.should be_success
+      result.should be_exit_successfully
     end
   end
 

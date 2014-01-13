@@ -7,7 +7,7 @@ describe 'retter migrate' do
 
       Dir.chdir 'old-site' do
         result = invoke_retter('migrate')
-        result.status.should be_success
+        result.should be_exit_successfully
       end
     end
   end
@@ -39,9 +39,9 @@ describe 'retter migrate' do
       repo.commit '-m', 'Migrated'
     end
 
-    invoke_retter('edit').status.should  be_success
-    invoke_retter('list').status.should  be_success
-    invoke_retter('build').status.should be_success
+    invoke_retter('edit').should  be_exit_successfully
+    invoke_retter('list').should  be_exit_successfully
+    invoke_retter('build').should be_exit_successfully
 
     %w(index.html entries.html entries.rss).each do |file|
       Pathname(file).should written
