@@ -1,26 +1,6 @@
 #!/usr/bin/env ruby
-# coding: utf-8
-
-$LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
-
-trap :INT do
-  print "\r"
-  exit
-end
 
 require 'retter'
 
-Retter::Site.load ENV
-
-case ARGV[0]
-when 'new'
-  Retter::Generator::Creator.start ARGV[1..-1]
-else
-  begin
-    Retter::Command.start
-  rescue Errno::ENOENT
-    $stderr.puts "Some files might be broken. Please re-generate site: `retter new site-name`"
-
-    raise
-  end
-end
+Retter.initialize!
+Retter::CLI.start

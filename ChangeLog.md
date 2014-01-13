@@ -1,12 +1,17 @@
+# 1.0.0
+
+* Many API changes.
+* Directory structure is changed (See README.md).
+* Some comannds are deprecated: `rebind`, `bind` and `open`.
+* Some comannds are removed: `commit`, `home`, `usage` and `clean`.
+* New comands are added: `build`, `preview` and `publish`.
+* Migration command `migrate` is added.
+
 # 0.2.3
 
 ## clean sub command
 
-clean sub command wraps cache clear method.
-
-```
-retter clean
-```
+`clean` sub command wraps cache clear method.
 
 # 0.2.2
 

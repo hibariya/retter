@@ -1,0 +1,14 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+configure api_revision: <%= Retter::API_REVISION %> do |config|
+  config.url            = 'http://retter.example.com/'
+  config.title          = '<%= name %>'
+  config.description    = '<%= name %>'
+  config.author         = '<%= ENV["USER"] %>'
+  config.publish_branch = 'gh-pages'
+
+  config.publisher do
+    # system 'git push origin gh-pages'
+  end
+end

@@ -1,0 +1,14 @@
+#entries
+  - recent_entries = entries[0..4]
+  - recent_entries.each do |entry|
+    %article.article
+      %h1.date= link_to entry.date, retter_entry_path(entry, format: 'html')
+
+      - if entry.lede.present?
+        != entry.lede
+
+      - entry.articles.each do |article|
+        %h1{id: article.id}
+          = link_to article.title, retter_entry_article_path(entry, article, format: 'html')
+
+        != article.body

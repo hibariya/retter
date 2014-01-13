@@ -1,209 +1,156 @@
-# RETTER - Flyweight diary workflow. [![Build Status](https://secure.travis-ci.org/hibariya/retter.png?branch=master)](http://travis-ci.org/hibariya/retter)
+# RETTER - A diary workflow for shell users. [![Build Status](https://secure.travis-ci.org/hibariya/retter.png?branch=master)](http://travis-ci.org/hibariya/retter)
 
-手軽さを追求した記事作成ツール。
+## Quick Start
 
-* CLIでの操作を前提としています
-* どこ（cwd）にいてもすぐに記事をMarkdownで編集できます
-* オフラインで簡単にプレビューできます
-* だいたいどこでも動作します（Heroku, GitHub Pages, Dropbox などで、静的HTMLまたはRackアプリとして）
-* RSSフィードを吐きます
-* トラックバック、**コメント**などの機能は外部のサービスを使う必要があります
-* コールバックを設定することでさらに手数を減らすことができます
+```
+  $ gem install retter
+  $ retter new my-sweet-diary # Create a new site named `my-sweet-diary'.
+  $ cd my-sweet-diary
+  $ retter edit               # Write a first article w/ $EDITOR.
+  $ retter preview            # Open an article you write w/ $BROWSER.
+  $ retter build              # Generate static html files on publish branch (default: gh-pages).
+  $ git remote add origin git@github.com:USERNAME/REPOSITORY.git
+  $ git push origin gh-pages  # Publish static html files on GitHub pages.
+```
 
-# Quick Start
+## Required
 
-*ruby-1.9.2* or later is required.
+* Ruby-1.9.1 or later
+* $EDITOR variable
+* $BROWSER variable
 
-**Install:**
+## $RETTER\_ROOT variable
 
-~~~~
-  gem install retter
-~~~~
+You can use all retter commands anywhere if you set `$RETTER_ROOT` variable.
+So, `export RETTER_ROOT=site-directory; retter edit` is same as `cd site-directory && retter edit`.
 
-**Generate a new site:**
+## Rettefile
 
-~~~~
-  $ retter new my_sweet_diary
-~~~~
+Retterfile is the configuration file for your site.
 
-**Quick settings:**
+Default configuration:
 
-~~~~
-  $ export EDITOR=vim
-  $ export RETTER_HOME=`pwd`/my_sweet_diary
-~~~~
+```ruby
+configure api_revision: 1 do |config|
+  config.url            = 'http://retter.example.com/' # Website's root URL.
+  config.title          = 'my-sweet-diary'
+  config.description    = 'my-sweet-diary'             # Website's description (It'll be shown on /about.html and /entries.rss)
+  config.author         = 'hibariya'
+  config.publish_branch = 'gh-pages'                   # Branch name for published files.
 
-**Writing article:**
-
-~~~~
-  $ retter
-~~~~
-
-`retter` opens `$EDITOR`. Write an article with Markdown.
-
-**Preview:**
-
-~~~~
-  $ retter preview
-~~~~
-
-`preview` opens the draft article by your default browser.
-
-**Generate HTML:**
-
-~~~~
-  $ retter rebind
-~~~~
-
-`bind` and `rebind` binds the draft article. And re-generates actual html web pages. All html pages will be overwritten.
-
-**Browse offline:**
-
-~~~~
-  $ retter open
-~~~~
-
-`open` sub-command opens your (static) website by your default browser.
-
-**Show Articles list:**
-
-~~~~
-  $ retter list
-  [e0] 2011-11-09
-    my sweet article title
-~~~~
-
-**Re-writing an article:**
-
-~~~~
-  $ retter edit e0
-  ... abbr ...
-  $ retter preview e0
-~~~~
-
-**How to Deploy**
-
-examle:
-
-~~~~
-  $ cd $RETTER_HOME
-  $ git add .
-  $ git commit -m 'Entry written'
-  $ git push [your_git_remote] master
-~~~~
-
-To publish, use the git command. Or, upload the file to your server.
-
-# Environment variables
-
-**Important**
-
-retter requires `$EDITOR` variable.
-
-## $RETTER_HOME
-
-You can use `retter` command anywhere, If you set `$RETTER_HOME` variable.
-
-~~~~
-  $ echo "export RETTER_HOME=/path/to/my_sweet_diary" >> ~/.bash_profile
-  $ . ~/.bash_profile
-~~~~
-
-You have to cd to the directory, If you don't set `$RETTER_HOME` variable.
-
-~~~~
-  $ cd path/to/my_sweet_diary
-  $ retter
-~~~~
-
-# Using shortcuts
-
-~~~~
-  $ retter commit # Shortcut of `git add . ; git commit -m 'Retter commit'`
-  $ retter home   # Open a new shell at $RETTER_HOME
-  (retter) git push [remote] [branch] # heroku, github pages, etc..
-~~~~
-
-# Command options
-
-Date is specify-able in `edit` `preview` sub-command.
-
-~~~~
-  $ retter edit 20110101    # edit
-  $ retter preview 20110101 # preview
-~~~~
-
-Relative date is available too.
-
-~~~~
-  $ retter edit yesterday
-  $ retter edit today
-  $ retter edit tommorow
-
-  $ retter edit '3 days ago'
-  $ retter edit 3.days.ago
-  $ retter edit 3.days.since
-  $ retter edit 1.week.ago
-  $ retter edit 3.weeks.ago
-  $ retter edit 3.months.ago
-  $ retter edit 3.years.ago
-~~~~
-
-And file name.
-
-~~~~
-  $ retter edit today.md
-  $ retter edit 20110101.md
-  $ retter preview 20110101.md
-~~~~
-
-# Callbacks
-
-Some command (edit bind rebind commit) will call callback if you defined callbacks.
-
-In Retterfile:
-
-~~~~
-  after [command], [invoke command or proc]
-~~~~
-
-## Example1: Auto preview
-
-In Retterfile:
-
-~~~~ruby
-  after :edit do
-    ident = ARGV.pop || 'today'
-    preview ident if yes?("Preview now? [yes/no]")
+  config.publisher do                                  # Processing for `retter publish` command.
+    # system 'git push origin gh-pages'                # Uncomment it if you want to do `git push origin gh-pages` via `retter publish`.
   end
-~~~~
+end
+```
 
-## Example2: Auto deploying
+### Hooks
 
-In Retterfile:
+Hooks will be invoked after running commands.
 
-~~~~ruby
-  after :rebind, :commit # git commit
+```ruby
+configure api_revision: 1 do |config|
+  # <snip...>
 
-  after :commit do       # deploy
-    system "cd #{config.retter_home}"
-    system 'git push origin master'
+  # Print `Well done :)` after running `retter edit`.
+  config.after :edit do
+    puts 'Well done :)'
   end
-~~~~
 
-## Skipping callback
+  # Ask invoking `retter publish` automatically after running `retter build`.
+  config.after :build do
+    invoke :publish if yes?('Publish now? [yes/no]')
+  end
+end
+```
 
-`--silent` option skips those callback.
+## Manage articles
 
-## Run callback
+Use `retter list` and `retter edit`.
 
-`callback` sub-command runs only callback proccess.
+```
+  $ retter list            # Listing all articles on $RETTER_ROOT.
+  [e0] 2014-01-11
+    First article
+    Second article
+  [e1] 2014-01-13
+    Third article
+  $ retter edit e1         # Editing articles on 2014-01-13.
+  $ retter edit 2014-01-11 # Editing articles on 2014-01-11.
+  $ retter edit            # Editing articles on Date.today.
+```
 
-~~~~
-  $ retter callback --after edit
-~~~~
+If you want remove articles of the day, You have to remove file by yourself.
 
-# Install DISQUS (Comment tool)
+```
+  $ cd $RETTER_ROOT
+  $ rm source/retters/20140111.md # Removing articles on 2014-01-11.
+```
+
+### Edit and preview (w/ livereload)
+
+To preview, invoke run `retter preview`.
+
+```
+  $ retter edit    # Edit article.
+  $ retter preview # Invoke preview server and open last edited articles with $BROWSER.
+```
+
+Retter detects updates of markdown articles automatically until preview server is stopped.
+
+In other shell:
+
+```
+  $ retter edit # Edit article (once again).
+                # And $BROWSER will reload automatically.
+```
+
+### Markdown structure
+
+Following markdown file includes two articles.
+
+```
+# First article
+
+Hi, first article.
+
+# Second article
+
+Hi, second article.
+```
+
+Header equal to h1 means start of an article. Like below:
+
+```
++-- An Entry (A file) --+
+|+-- An article -------+|
+|| # First article     ||
+||                     ||
+|| Hi, first article.  ||
+|+---------------------+|
+|+-- An article -------+|
+|| # Second article    ||
+||                     ||
+|| Hi, second article. ||
+|+---------------------+|
++-----------------------+
+```
+
+Each article have its own URL.
+
+## Directory structure
+
+```
+$RETTER_ROOT
+  Retterfile
+  source
+    assets    # Asset files (stylesheets, javascripts, images and so on).
+    retters   # Article markdown files.
+    templates # Templates for static site.
+  tmp         # Temporary files (caches, etc).
+```
+
+# Install DISQUS (Comment service)
 
 ## Prepare
 
@@ -216,102 +163,37 @@ First, Add your `disqus_shortname` to Retterfile.
 
 in Retterfile
 
-~~~~ruby
-disqus_shortname 'your_disqus_shortname'
-~~~~
+```ruby
+config.disqus_shortname = 'your_disqus_shortname'
+```
 
-Second, Edit templete and paste `render_disqus_comment_form`.
+Second, Edit templete and inject `= render_disqus_comment_form`.
 
-in layouts/article.html.haml
+in source/templates/entries/articles/show.html.haml
 
-~~~~haml
--# abbrev
+```haml
+-# snip
 #comments= render_disqus_comment_form
--# abbrev
-~~~~
-
-# Code Highlight
-
-Pygments is available.
-To use, add a following line to Retterfile.
-
-```ruby
-renderer Retter::Renderers::PygmentsRenderer
+-# snip
 ```
 
-# Remove caches
+## Migrate from Retter-0.2.5 or earlier
 
-When change the renderer, you have to remove cache files.
+They're incompatible with retter-1.0.0.
+Please migrate via `retter migrate`.
 
 ```
-  $ retter clean
+  $ cd $RETTER_ROOT
+  $ retter migrate
+  $ git add -A
+  $ git add -u
+  $ git commit -m 'Migrated'
 ```
 
-# Built-in themes
+## Contributing
 
-Retter has some themes.
-You can switch the theme by replacing stylesheet.
-
-## Default
-
-~~~~haml
-    %link{href: '/stylesheets/default.css', media: 'screen', rel: 'stylesheet', type: 'text/css'}
-~~~~
-
-![Default](http://hibariya.github.com/images/theme_samples/retter_default.jpg)
-
-## Orange
-
-~~~~haml
-    %link{href: '/stylesheets/orange.css', media: 'screen', rel: 'stylesheet', type: 'text/css'}
-~~~~
-
-![Orange](http://hibariya.github.com/images/theme_samples/retter_orange.jpg)
-
-# HTML Layout
-
-To customize layout, edit following files.
-
-~~~~
-layouts
-  |-- article.html.haml # Article page
-  |-- entries.html.haml # Entries list page
-  |-- entry.html.haml   # Entry (by day) page
-  |-- index.html.haml   # Front page
-  |-- profile.html.haml # Profile page
-  `-- retter.html.haml  # Basic layout
-~~~~
-
-# Skipping page binding
-
-You can skip following pages bind.
-
-* profile.html
-* entries.html
-* feed.rss
-
-If you want, add `allow_binding` configuration to Retterfile.
-
-```ruby
-# skip all pages
-allow_binding :none
-
-# allow only entries.html and feed.html
-allow_binding [:entries, :feed]
-```
-
-# Other template engines
-
-If you want change the template engine, remove existing template and create new template (e.g. retter.html.haml to retter.html.erb).
-
-# LICENSE
-
-The MIT License
-
-Copyright (c) 2011 hibariya, uzura29
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+1. Fork it ( http://github.com/<my-github-username>/retter/fork )
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request

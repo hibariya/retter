@@ -1,0 +1,7 @@
+%article.article
+  %h1.date= link_to entry.date, retter_entry_path(entry, format: 'html')
+
+  %h1{id: article.id}
+    = link_to article.title, retter_entry_article_path(entry, article, format: 'html')
+
+  != article.body

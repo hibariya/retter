@@ -1,61 +1,99 @@
-# coding: utf-8
-
-here = File.dirname(__FILE__)
-$LOAD_PATH.unshift here unless $LOAD_PATH.include?(here)
-
-require 'date'
-require 'time'
-require 'pathname'
-require 'active_support/time_with_zone' # XXX: workaround for uninitialized constant ActiveSupport::TimeWithZone (NameError)
+require 'active_support/concern'
+require 'active_support/core_ext'
+require 'active_support/ordered_options'
+require 'retter/version'
 
 module Retter
-  autoload :Generator,    'retter/generator'
-  autoload :VERSION,      'retter/version'
-  autoload :Configurable, 'retter/configurable'
-  autoload :Config,       'retter/config'
-  autoload :Markdown,     'retter/markdown'
-  autoload :Entry,        'retter/entry'
-  autoload :Entries,      'retter/entries'
-  autoload :Page,         'retter/page'
-  autoload :Binder,       'retter/binder'
-  autoload :Preprint,     'retter/preprint'
-  autoload :Repository,   'retter/repository'
-  autoload :Command,      'retter/command'
+  autoload :CLI,        'retter/cli'
+  autoload :Config,     'retter/config'
+  autoload :Deprecated, 'retter/deprecated'
+  autoload :Entry,      'retter/entry'
+  autoload :Retterfile, 'retter/retterfile'
+  autoload :StaticSite, 'retter/static_site'
 
-  class RetterError < RuntimeError; end
+  include Deprecated::Retter
+  include Deprecated::Site
 
-  module Site
-    extend self
-    extend Configurable
-
-    configurable :home, :title, :description, :url, :author
-
-    def load(env)
-      @@config = Config.new(env)
-    end
-
-    def reset!
-      @@entries = nil
-    end
-
-    def entries
-      @@entries ||= Entries.new
-    end
-
-    def config
-      @@config
-    end
-  end
+  API_REVISION = 1
 
   class << self
-    def const_missing(name)
-      case name.intern
-      when :Renderers
-        warn %(Retter::Renderers is OBSOLETE, Use Retter::Markdown.)
+    # Usage:
+    #  Retter.on_initialize do |config|
+    #    initialize process
+    #    -> { after initialize process (optional) }
+    #  end
+    def on_initialize(&block)
+      call_initializers(block).tap do |after_initialize_hooks|
+        after_initialize_hooks.each &:call
+      end if initialized?
 
-        Markdown
-      else
-        super
+      initializers << block
+    end
+
+    def initialize!
+      @config = nil
+
+      load_defaults
+      retterfile.load
+
+      install_site_module
+
+      call_initializers.tap do |after_initialize_hooks|
+        @initialized = true
+
+        after_initialize_hooks.each &:call
+      end
+    end
+
+    def initialized?; @initialized end
+
+    def root; config.root end
+
+    def config
+      @config ||= ActiveSupport::OrderedOptions.new.tap {|config|
+        config.extend Config::ConfigMethods
+      }
+    end
+
+    def env
+      ENV
+    end
+
+    def retterfile
+      Retterfile.instance
+    end
+
+    private
+
+    def install_site_module
+      return unless mod = config.site_type
+
+      mod.install
+    end
+
+    def initializers
+      @initializers ||= []
+    end
+
+    def call_initializers(procs = initializers)
+      Array(procs).each.with_object([]) {|initialize_proc, after_procs|
+        returned = initialize_proc.call(config)
+
+        after_procs << returned if returned.respond_to?(:call)
+      }
+    end
+
+    def load_defaults
+      config.api_revision ||= 0
+      config.callbacks      = ActiveSupport::OrderedOptions.new
+
+      config.editor    = env['EDITOR']
+      config.shell     = env['SHELL']
+      config.url       = 'http://example.com'
+      config.site_type = Retter::StaticSite
+
+      if root = retterfile.path.try(:dirname)
+        config.root = root
       end
     end
   end
