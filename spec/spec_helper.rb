@@ -19,6 +19,7 @@ RSpec.configure do |config|
 
   config.before :suite do
     FileUtils.rm_r template_dir if template_dir.exist?
+    FileUtils.mkdir_p TEST_TMP_DIR
 
     Dir.chdir GEM_DIR.join('tmp') do
       Retter::ExampleHelper.invoke_retter 'new', template_dir.basename
