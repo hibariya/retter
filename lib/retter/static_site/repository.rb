@@ -53,7 +53,7 @@ module Retter
       end
 
       def current_branch
-        capture(command('symbolic-ref', '--short', 'HEAD'))
+        capture(command('name-rev', '--name-only', 'HEAD'))
       end
 
       def branches

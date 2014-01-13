@@ -73,7 +73,7 @@ module Retter
         say_status :prepare, 'publish repository (gh-pages)'
 
         StaticSite::Repository.checkout 'master' do |repo|
-          repo.checkout '--orphan', 'gh-pages' do
+          repo.checkout '--orphan', 'gh-pages' do # TODO: fallback to normal branch
             repo.reset '--hard'
 
             PUBLISH_FILES.each do |file|
