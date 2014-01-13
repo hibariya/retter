@@ -1,0 +1,23 @@
+!!! XML
+%rdf:RDF(xmlns="http://purl.org/rss/1.0/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/")
+  - articles = entries.flat_map(&:articles)[0...20]
+  %channel{'rdf:about' => config.url}
+    %title= config.title
+    %link= config.url
+    %dc:date= entries.first.try(:date).try(:iso8601)
+    %description= config.description
+    %items
+      %rdf:Seq
+        - articles.each do |article|
+          %rdf:li{'rdf:resource' => entry_article_url(article.entry, article, format: 'html')}/
+
+  - articles.each do |article|
+    - url = entry_article_url(article.entry, article, format: 'html')
+    %item{'rdf:about' => url}
+      %title= article.title
+      %link= url
+      %dc:date= article.entry.date.iso8601
+      %description= strip_tags(article.body)
+      %content:encoded
+        :cdata
+          #{h(article.body)}

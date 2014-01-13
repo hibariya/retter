@@ -1,46 +1,43 @@
-# -*- encoding: utf-8 -*-
-$:.push File.expand_path('../lib', __FILE__)
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'retter/version'
 
-Gem::Specification.new do |gem|
-  gem.name        = 'retter'
-  gem.version     = Retter::VERSION
-  gem.authors     = ['hibariya', 'uzura29']
-  gem.email       = ['celluloid.key@gmail.com']
-  gem.homepage    = 'https://github.com/hibariya/retter'
-  gem.summary     = %q{Flyweight diary workflow}
-  gem.description = %q{Flyweight diary workflow. ruby-1.9.2 or later is required.}
+Gem::Specification.new do |spec|
+  spec.name          = 'retter'
+  spec.version       = Retter::VERSION
+  spec.authors       = ['hibariya', 'uzura29']
+  spec.email         = ['celluloid.key@gmail.com']
+  spec.summary       = %q{Flyweight diary workflow}
+  spec.description   = %q{Flyweight diary workflow. ruby-1.9.2 or later is required.}
+  spec.homepage      = 'https://github.com/hibariya/retter'
+  spec.license       = 'MIT'
 
-  gem.files         = `git ls-files`.split("\n")
-  gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  gem.require_paths = ['lib']
+  spec.files         = `git ls-files`.split($/)
+  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.require_paths = ['lib']
 
-  gem.required_ruby_version = '>= 1.9.1'
+  spec.required_ruby_version = '>= 1.9.1'
 
-  gem.add_runtime_dependency 'thor',          ['~> 0.16.0']
-  gem.add_runtime_dependency 'builder',       ['~> 3.1.3']
-  gem.add_runtime_dependency 'redcarpet',     ['~> 2.1.1']
-  gem.add_runtime_dependency 'coderay',       ['~> 1.0.7']
-  gem.add_runtime_dependency 'pygments.rb',   ['~> 0.3.1']
-  gem.add_runtime_dependency 'nokogiri',      ['~> 1.5.5']
-  gem.add_runtime_dependency 'launchy',       ['~> 2.1.2']
-  gem.add_runtime_dependency 'haml',          ['~> 3.1.7']
-  gem.add_runtime_dependency 'tilt',          ['~> 1.3.3']
-  gem.add_runtime_dependency 'bundler',       ['~> 1.2.1']
-  gem.add_runtime_dependency 'grit',          ['~> 2.5.0']
-  gem.add_runtime_dependency 'chronic',       ['~> 0.8.0']
-  gem.add_runtime_dependency 'activesupport', ['~> 3.2.8']
+  spec.add_runtime_dependency 'coffee-rails', '~> 4.0.1'
+  spec.add_runtime_dependency 'haml-rails', '~> 0.5.3'
+  spec.add_runtime_dependency 'jquery-rails', '~> 3.0.4'
+  spec.add_runtime_dependency 'rails', '~> 4.0.2'
+  spec.add_runtime_dependency 'sass-rails', '~> 4.0.0'
+  spec.add_runtime_dependency 'uglifier', '>= 1.3.0'
 
-  # XXX for ActiveSupport dependencies
-  gem.add_runtime_dependency 'rack',          ['~> 1.4.1']
-  gem.add_runtime_dependency 'i18n',          ['~> 0.6.1']
+  spec.add_runtime_dependency 'activesupport'
+  spec.add_runtime_dependency 'chronic', '~> 0.10.2'
+  spec.add_runtime_dependency 'guard-livereload', '~> 2.1.0'
+  spec.add_runtime_dependency 'launchy', '~> 2.4.2'
+  spec.add_runtime_dependency 'nokogiri', '~> 1.6.1'
+  spec.add_runtime_dependency 'rack-livereload', '~> 0.3.15'
+  spec.add_runtime_dependency 'redcarpet', '~> 3.0.0'
+  spec.add_runtime_dependency 'rouge', '~> 1.2.0'
+  spec.add_runtime_dependency 'thor', '~> 0.18.1'
 
-  gem.add_development_dependency 'rake',      ['~> 0.9.2']
-  gem.add_development_dependency 'ir_b',      ['~> 1.5.0']
-  gem.add_development_dependency 'tapp',      ['~> 1.4.0']
-  gem.add_development_dependency 'rspec',     ['~> 2.11.0']
-  gem.add_development_dependency 'fuubar',    ['~> 1.0.0']
-  gem.add_development_dependency 'simplecov', ['~> 0.6.4']
-  gem.add_development_dependency 'delorean',  ['~> 2.0.0']
+  spec.add_development_dependency 'bundler', '~> 1.5'
+  spec.add_development_dependency 'rspec', '~> 2.14.1'
+  spec.add_development_dependency 'rake'
 end

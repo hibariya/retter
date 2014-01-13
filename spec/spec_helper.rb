@@ -1,46 +1,45 @@
 # coding: utf-8
 
 require 'tapp'
-require 'delorean'
+require 'retter'
 
-if ENV['COVERAGE']
-  require 'simplecov'
-  SimpleCov.start
-end
-
-RETTER_ROOT = Pathname.new(File.dirname(__FILE__) + '/../').realpath
-require RETTER_ROOT.join('lib', 'retter')
+GEM_DIR      = Pathname.new(File.dirname(__FILE__) + '/../').realpath
+TEST_TMP_DIR = GEM_DIR.join('tmp/test')
 
 Dir[File.dirname(__FILE__) + '/support/*'].each {|f| require f }
 
 RSpec.configure do |config|
-  config.filter_run focus: true
   config.run_all_when_everything_filtered = true
+  config.treat_symbols_as_metadata_keys_with_true_values = true
 
-  retter_home = RETTER_ROOT.join('tmp/test')
-  skel        = RETTER_ROOT.join('lib/retter/generator/skel')
-  fake_editor = RETTER_ROOT.join('spec/bin/fake_editor')
+  config.include Retter::ExampleHelper
 
-  config.before :each, clean: :all do
-    FileUtils.cp_r skel, retter_home.dirname.join('test')
+  template_dir  = GEM_DIR.join('tmp/test_site')
+  test_site_dir = TEST_TMP_DIR.join('site')
+
+  config.before :suite do
+    FileUtils.rm_r template_dir if template_dir.exist?
+
+    Dir.chdir GEM_DIR.join('tmp') do
+      Retter::ExampleHelper.invoke_retter 'new', template_dir.basename
+    end
   end
 
-  config.after :each, clean: :all do
-    FileUtils.rm_rf retter_home
-
-    Retter::Site.reset!
+  config.before :all do
+    clean_test_tmp_dir
   end
 
-  config.before :each do
-    env = {'EDITOR' => fake_editor.to_path, 'RETTER_HOME' => RETTER_ROOT.join('tmp', 'test').to_s}
-
-    Retter::Site.load env
+  config.before :each do |example|
+    ENV['RETTER_HOME'] = ENV['RETTER_ROOT'] = nil
+    ENV['EDITOR']      = GEM_DIR.join('spec/bin/fake_editor').to_path
   end
 
-  config.include Delorean
-  config.after :each do
-    back_to_the_present
-  end
+  config.around :each, :with_test_site do |example|
+    clean_test_tmp_dir
+    FileUtils.cp_r template_dir, test_site_dir
 
-  config.include ExampleGroupHelper
+    Dir.chdir test_site_dir do
+      example.run
+    end
+  end
 end

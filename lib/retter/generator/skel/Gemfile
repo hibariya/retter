@@ -1,5 +1,0 @@
-source :rubygems
-
-gem 'retter', '~> <%= Retter::VERSION %>'
-gem 'rack'
-gem 'thin' # for heroku
