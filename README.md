@@ -1,4 +1,4 @@
-# RETTER - A diary workflow for shell users. [![Build Status](https://secure.travis-ci.org/hibariya/retter.png?branch=master)](http://travis-ci.org/hibariya/retter)
+# RETTER - A diary workflow for shell users. [![Build Status](https://drone.io/github.com/hibariya/retter/status.png)](https://drone.io/github.com/hibariya/retter/latest)
 
 ## Quick Start
 
@@ -18,6 +18,7 @@
 * Ruby-1.9.1 or later
 * $EDITOR variable
 * $BROWSER variable
+* Git-1.7.9.5 or later
 
 ## $RETTER\_ROOT variable
 
