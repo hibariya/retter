@@ -1,6 +1,8 @@
 # coding: utf-8
+
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
 require 'retter/version'
 
 Gem::Specification.new do |spec|
@@ -24,20 +26,20 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'haml-rails',       '~> 0.5.3'
   spec.add_runtime_dependency 'jquery-rails',     '~> 3.0.4'
   spec.add_runtime_dependency 'rails',            '~> 4.0.2'
-  spec.add_runtime_dependency 'sass-rails',       '~> 4.0.0'
-  spec.add_runtime_dependency 'uglifier',         '>= 1.3.0'
+  spec.add_runtime_dependency 'sass',             '~> 3.2.13' # NOTE: Avoid depending on listen.gem ~> 1.1.0
+  spec.add_runtime_dependency 'sass-rails',       '~> 4.0.1'
+  spec.add_runtime_dependency 'uglifier',         '>= 2.4.0'
 
   spec.add_runtime_dependency 'activesupport'
   spec.add_runtime_dependency 'chronic',          '~> 0.10.2'
-  spec.add_runtime_dependency 'guard-livereload', '~> 2.1.0'
+  spec.add_runtime_dependency 'guard-livereload', '~> 2.1.1'
   spec.add_runtime_dependency 'launchy',          '~> 2.4.2'
   spec.add_runtime_dependency 'nokogiri',         '~> 1.6.1'
   spec.add_runtime_dependency 'rack-livereload',  '~> 0.3.15'
   spec.add_runtime_dependency 'redcarpet',        '~> 3.0.0'
-  spec.add_runtime_dependency 'rouge',            '~> 1.2.0'
+  spec.add_runtime_dependency 'rouge',            '~> 1.3.2'
   spec.add_runtime_dependency 'thor',             '~> 0.18.1'
 
-  spec.add_development_dependency 'bundler',      '~> 1.5'
   spec.add_development_dependency 'rspec',        '~> 2.14.1'
   spec.add_development_dependency 'rake'
 end

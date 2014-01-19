@@ -1,4 +1,5 @@
 require 'singleton'
+require 'pathname'
 
 module Retter
   class Retterfile
