@@ -21,6 +21,8 @@ module Retter
 
       default_task :edit
 
+      map '--version' => :version, '-v' => :version
+
       desc :version, 'Show version'
       def version
         puts VERSION

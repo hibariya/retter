@@ -4,6 +4,7 @@
 * Directory structure is changed (See README.md).
 * Some comannds are deprecated: `rebind`, `bind` and `open`.
 * Some comannds are removed: `commit`, `home`, `usage` and `clean`.
+* Many command options are removed.
 * New comands are added: `build`, `preview` and `publish`.
 * Migration command `migrate` is added.
 
