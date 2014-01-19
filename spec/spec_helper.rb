@@ -33,8 +33,9 @@ RSpec.configure do |config|
   end
 
   config.before :each do |example|
-    ENV['RETTER_HOME'] = ENV['RETTER_ROOT'] = nil
-    ENV['EDITOR']      = GEM_DIR.join('spec/bin/fake_editor').to_path
+    Retter::ExampleHelper.remove_retter_env
+
+    ENV['EDITOR'] = GEM_DIR.join('spec/bin/fake_editor').to_path
   end
 
   config.around :each, :with_test_site do |example|
