@@ -35,6 +35,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'guard-livereload', '~> 2.1.1'
   spec.add_runtime_dependency 'launchy',          '~> 2.4.2'
   spec.add_runtime_dependency 'nokogiri',         '~> 1.6.1'
+  spec.add_runtime_dependency 'rake',             '~> 10.1.1' # XXX: Avoid `WARN: Unresolved specs during Gem::Specification.reset: rake (>= 0.8.7)'
   spec.add_runtime_dependency 'rack-livereload',  '~> 0.3.15'
   spec.add_runtime_dependency 'redcarpet',        '~> 3.0.0'
   spec.add_runtime_dependency 'rouge',            '~> 1.3.2'
@@ -43,6 +44,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'coderay',     '~> 1.1.0'
   spec.add_development_dependency 'pygments.rb', '~> 0.5.4'
-  spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec',       '~> 2.14.1'
 end
