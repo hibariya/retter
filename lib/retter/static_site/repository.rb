@@ -76,13 +76,15 @@ module Retter
         do_checkout *args
         yield self
       ensure
-        do_checkout _branch rescue warn("WARNING: can't checkout #{_branch}")
+        do_checkout _branch
       end
 
       def do_checkout(name, *rest)
         return if current_branch == name
 
         run command('checkout', name, *rest)
+      rescue
+        warn "WARNING: can't checkout #{_branch}"
       end
 
       def capture(cmd, raise_on_fail = true)
