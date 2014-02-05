@@ -1,6 +1,7 @@
 # coding: utf-8
 
 require 'tapp'
+require 'pry'
 require 'retter'
 
 GEM_DIR      = Pathname.new(File.dirname(__FILE__) + '/../').realpath
