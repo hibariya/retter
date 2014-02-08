@@ -1,4 +1,3 @@
-require 'time'
 require 'active_model'
 
 module Retter

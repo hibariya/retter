@@ -4,12 +4,15 @@ require 'active_support/ordered_options'
 require 'retter/version'
 
 module Retter
-  autoload :CLI,        'retter/cli'
-  autoload :Config,     'retter/config'
-  autoload :Deprecated, 'retter/deprecated'
-  autoload :Entry,      'retter/entry'
-  autoload :Retterfile, 'retter/retterfile'
-  autoload :StaticSite, 'retter/static_site'
+  autoload :CLI,          'retter/cli'
+  autoload :Config,       'retter/config'
+  autoload :Deprecated,   'retter/deprecated'
+  autoload :Entry,        'retter/entry'
+  autoload :Initializing, 'retter/initializing'
+  autoload :Retterfile,   'retter/retterfile'
+  autoload :StaticSite,   'retter/static_site'
+
+  extend Initializing
 
   include Deprecated::Retter
   include Deprecated::Site
@@ -17,17 +20,16 @@ module Retter
   API_REVISION = 1
 
   class << self
-    # Usage:
-    #  Retter.on_initialize do |config|
-    #    initialize process
-    #    -> { after initialize process (optional) }
-    #  end
-    def on_initialize(&block)
-      call_initializers(block).tap do |after_initialize_hooks|
-        after_initialize_hooks.each &:call
-      end if initialized?
+    def config
+      @config ||= ActiveSupport::OrderedOptions.new.tap {|config|
+        config.extend Config::ConfigMethods
+      }
+    end
 
-      initializers << block
+    def root; config.root end
+
+    def retterfile
+      Retterfile.instance
     end
 
     def initialize!
@@ -35,52 +37,21 @@ module Retter
 
       load_defaults
       retterfile.load
-
       install_site_module
 
-      call_initializers.tap do |after_initialize_hooks|
-        @initialized = true
-
-        after_initialize_hooks.each &:call
-      end
+      process_initialize
     end
 
-    def initialized?; @initialized end
-
-    def root; config.root end
-
-    def config
-      @config ||= ActiveSupport::OrderedOptions.new.tap {|config|
-        config.extend Config::ConfigMethods
-      }
-    end
+    private
 
     def env
       ENV
     end
 
-    def retterfile
-      Retterfile.instance
-    end
-
-    private
-
     def install_site_module
       return unless mod = config.site_type
 
       mod.install
-    end
-
-    def initializers
-      @initializers ||= []
-    end
-
-    def call_initializers(procs = initializers)
-      Array(procs).each.with_object([]) {|initialize_proc, after_procs|
-        returned = initialize_proc.call(config)
-
-        after_procs << returned if returned.respond_to?(:call)
-      }
     end
 
     def load_defaults

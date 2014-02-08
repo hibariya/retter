@@ -3,14 +3,6 @@ module Retter
     class CLI::Build < Thor::Group
       class_attribute :root_path, :source_path, :build_path, :source_branch, :publish_branch
 
-      Retter.on_initialize do |config|
-        self.root_path      = Retter.root
-        self.source_path    = config.source_path
-        self.build_path     = config.build_path
-        self.source_branch  = config.source_branch
-        self.publish_branch = config.publish_branch
-      end
-
       include Retter::CLI::Hooks
 
       def build
@@ -77,6 +69,14 @@ module Retter
 
       def working_on_same_branch?
         publish_branch.to_s == source_branch.to_s
+      end
+
+      Retter.on_initialize do |config|
+        self.root_path      = Retter.root
+        self.source_path    = config.source_path
+        self.build_path     = config.build_path
+        self.source_branch  = config.source_branch
+        self.publish_branch = config.publish_branch
       end
 
       include Deprecated::CLI::Build

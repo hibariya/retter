@@ -8,10 +8,6 @@ module Retter
       module ClassMethods
         mattr_accessor :callbacks
 
-        Retter.on_initialize do |config|
-          self.callbacks = config.callbacks
-        end
-
         def hookable_name(*names)
           names.each do |name|
             hookable_names << name
@@ -35,6 +31,10 @@ module Retter
               # noop
             end
           end
+        end
+
+        Retter.on_initialize do |config|
+          self.callbacks = config.callbacks
         end
       end
     end

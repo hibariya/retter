@@ -18,11 +18,6 @@ module Retter
         end
       end
 
-      Retter.on_initialize do |config|
-        self.path = config.root
-        self.git  = config.git
-      end
-
       attr_reader :path, :git
 
       def initialize(path, git = Repository.git)
@@ -103,6 +98,11 @@ module Retter
       end
 
       alias run capture
+
+      Retter.on_initialize do |config|
+        self.path = config.root
+        self.git  = config.git
+      end
     end
   end
 end

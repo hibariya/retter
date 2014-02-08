@@ -12,14 +12,10 @@ module Retter
         def wip_file
           @wip_file || source_path.try(:join, 'today.md')
         end
-      end
 
-      Retter.on_initialize do |config|
-        self.renderer    = config.renderer
-        self.wip_file    = config.wip_file
-        self.source_path = config.source_path.try(:join, 'retters')
-
-        -> { Retter::Entry.load }
+        def markdown
+          @markdown ||= Markdown.new(renderer || Markdown::Renderer)
+        end
       end
 
       extend ActiveSupport::Concern
@@ -96,7 +92,7 @@ module Retter
 
       def load_content
         md   = source_path.read
-        html = Nokogiri::HTML(markdown.render(md))
+        html = Nokogiri::HTML(MarkdownEntry.markdown.render(md))
 
         @lede        = ''
         @articles    = html.search('body > *').to_a.each.with_index.with_object([]) {|(el, i), articles|
@@ -112,8 +108,12 @@ module Retter
         }
       end
 
-      def markdown
-        @markdown ||= Markdown.new(MarkdownEntry.renderer || Markdown::Renderer)
+      Retter.on_initialize do |config|
+        self.renderer    = config.renderer
+        self.wip_file    = config.wip_file
+        self.source_path = config.source_path.try(:join, 'retters')
+
+        -> { Retter::Entry.load }
       end
     end
   end

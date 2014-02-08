@@ -5,20 +5,6 @@ module Retter
 
       class_attribute :root_path, :api_revision
 
-      Retter.on_initialize do |config|
-        self.root_path    = config.root
-        self.api_revision = config.api_revision
-
-        -> {
-          def self.source_paths
-            [
-              root_path,
-              File.expand_path('../../../../../skel', __FILE__)
-            ]
-          end
-        }
-      end
-
       MIGRATION_DIRS = {
         'retters' => 'source/retters'
       }
@@ -54,7 +40,7 @@ module Retter
       }
 
       def migrate
-        ensure_version!
+        ensure_api_revision!
 
         Dir.chdir root_path do
           MIGRATION_DIRS.each do |src, dest|
@@ -89,11 +75,25 @@ module Retter
 
       private
 
-      def ensure_version!
+      def ensure_api_revision!
         return if api_revision == 0
 
         puts 'Nothing to do'
         exit
+      end
+
+      Retter.on_initialize do |config|
+        self.root_path    = config.root
+        self.api_revision = config.api_revision
+
+        -> {
+          def self.source_paths
+            [
+              root_path,
+              File.expand_path('../../../../../skel', __FILE__)
+            ]
+          end
+        }
       end
     end
   end

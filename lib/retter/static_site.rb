@@ -20,15 +20,15 @@ module Retter
 
         @installed = true
       end
+    end
 
-      Retter.on_initialize do |config|
-        config.source_branch  ||= 'master'
-        config.publish_branch ||= 'master'
+    Retter.on_initialize do |config|
+      config.source_branch  ||= 'master'
+      config.publish_branch ||= 'master'
 
-        if root = config.root
-          config.build_path  ||= root.join('tmp/_build')
-          config.source_path ||= root.join('source')
-        end
+      if root = config.root
+        config.build_path  ||= root.join('tmp/_build')
+        config.source_path ||= root.join('source')
       end
     end
   end

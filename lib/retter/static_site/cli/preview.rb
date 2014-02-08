@@ -8,11 +8,6 @@ module Retter
     class CLI::Preview < Retter::CLI::Preview
       class_attribute :source_path, :source_branch
 
-      Retter.on_initialize do |config|
-        self.source_path   = config.source_path
-        self.source_branch = config.source_branch
-      end
-
       DEFAULT_ENTRY_POINT = '/entries/last_modified'
 
       argument :entry_point, type: :string, required: false, default: DEFAULT_ENTRY_POINT, desc: 'The entry point to site'
@@ -60,6 +55,11 @@ module Retter
             end
           EOS
         end
+      end
+
+      Retter.on_initialize do |config|
+        self.source_path   = config.source_path
+        self.source_branch = config.source_branch
       end
     end
   end
