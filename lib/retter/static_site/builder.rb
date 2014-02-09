@@ -64,6 +64,8 @@ module Retter
           end
         end
 
+        private
+
         def urls
           html_page = {format: 'html'}
 
@@ -79,8 +81,6 @@ module Retter
 
           static_pages + entry_pages + article_pages
         end
-
-        private
 
         def fetch(url, retry_limit = 10)
           app.get url
