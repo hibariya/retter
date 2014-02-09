@@ -8,7 +8,7 @@ module Retter
         attr_writer :git
 
         def checkout(branch, *rest, &block)
-          new path do |repo|
+          new do |repo|
             repo.checkout branch, *rest, &block
           end
         end
@@ -20,21 +20,12 @@ module Retter
 
       attr_reader :path, :git
 
-      def initialize(path, git = Repository.git)
+      def initialize(path = Repository.path, git = Repository.git)
         @path, @git = path, git
 
         Dir.chdir path do
           yield self
         end if block_given?
-      end
-
-      def command(command, *args)
-        unless git
-          warn %(git command not found. Skipping #{command})
-          return
-        end
-
-        [git, command.to_s, *args.map(&:to_s)]
       end
 
       %w(init add reset rm).each do |subcommand|
@@ -47,6 +38,12 @@ module Retter
         run command('commit', *args), false
       end
 
+      def checkout(*args, &block)
+        return do_checkout *args unless block
+
+        checkout_temporary *args, &block
+      end
+
       def current_branch
         capture(command('name-rev', '--name-only', 'HEAD'))
       end
@@ -55,12 +52,6 @@ module Retter
         capture(command('branch')).split($/).map {|br|
           br.sub(/\s*\*\s*/, '').strip
         }
-      end
-
-      def checkout(*args, &block)
-        return do_checkout *args unless block
-
-        checkout_temporary *args, &block
       end
 
       private
@@ -80,6 +71,12 @@ module Retter
         run command('checkout', name, *rest)
       rescue
         warn "WARNING: can't checkout #{_branch}"
+      end
+
+      def command(command, *args)
+        raise %(git command not found. Command failed: `#{command}'.) unless git
+
+        [git, command.to_s, *args.map(&:to_s)]
       end
 
       def capture(cmd, raise_on_fail = true)
