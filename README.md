@@ -25,7 +25,7 @@
 You can use all retter commands anywhere if you set `$RETTER_ROOT` variable.
 So, `export RETTER_ROOT=site-directory; retter edit` is same as `cd site-directory && retter edit`.
 
-## Rettefile
+## Retterfile
 
 Retterfile is the configuration file for your site.
 
