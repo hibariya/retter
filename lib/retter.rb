@@ -39,6 +39,8 @@ module Retter
       retterfile.load
       install_site_module
 
+      ensure_api_revision!
+
       process_initialize
     end
 
@@ -66,6 +68,13 @@ module Retter
       if root = retterfile.path.try(:dirname)
         config.root = root
       end
+    end
+
+    def ensure_api_revision!
+      raise <<-MESSAGE.strip_heredoc if config.api_revision == API_REVISION
+        Reading retter site isn't compatible with current retter version (#{VERSION}).
+        Please run `retter migrate` or uninstall via `gem uninstall retter -v #{VERSION}`.
+      MESSAGE
     end
   end
 end
