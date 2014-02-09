@@ -71,9 +71,13 @@ module Retter
     end
 
     def ensure_api_revision!
-      raise <<-MESSAGE.strip_heredoc if config.api_revision == API_REVISION
-        Reading retter site isn't compatible with current retter version (#{VERSION}).
-        Please run `retter migrate` or uninstall via `gem uninstall retter -v #{VERSION}`.
+      return if config.api_revision == API_REVISION
+      return unless root
+
+      warn <<-MESSAGE.strip_heredoc
+        *** WARNING ***
+        Reading site (#{root.basename}) isn't compatible with current retter version (#{VERSION}).
+        Please run `retter migrate` or `gem uninstall retter -v #{VERSION}`.
       MESSAGE
     end
   end

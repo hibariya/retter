@@ -24,25 +24,15 @@ module Retter
       ]
 
       REMOVING_FILES = %w(
-        retters layouts
-        entries index.html entries.html entries.rss profile.html
-        config.ru
+        retters layouts config.ru
       )
-
-      INSTALLING_FILES = %w(config.ru)
-
-      CREATING_FILES   = {
-        'source/assets' => ''
-      }
-
-      LINKS = {
-        'about.html' => 'profile.html'
-      }
 
       def migrate
         ensure_api_revision!
 
         Dir.chdir root_path do
+          self.destination_root = root_path
+
           MIGRATION_DIRS.each do |src, dest|
             directory src, dest
           end
@@ -59,17 +49,21 @@ module Retter
             remove_file file
           end
 
-          INSTALLING_FILES.each do |file|
-            copy_file file, file
-          end
+          copy_file   'config.ru'
+          create_file 'source/assets/.gitkeep', ''
+          create_link 'about.html', 'profile.html'
 
-          CREATING_FILES.each do |file, content|
-            create_file file, content
-          end
+          append_file 'Retterfile', <<-DATA.strip_heredoc
+            configure api_revision: #{Retter::API_REVISION} do |config|
+              # How to configure: https://github.com/hibariya/retter
+            end
+          DATA
 
-          LINKS.each do |src, dest|
-            create_link dest, src
-          end
+          say <<-MESSAGE.strip_heredoc
+            Migration finished.
+            Please commit all changes on #{root_path}.
+            And run `retter build` for generate html files.
+          MESSAGE
         end
       end
 
@@ -78,8 +72,7 @@ module Retter
       def ensure_api_revision!
         return if api_revision == 0
 
-        puts 'Nothing to do'
-        exit
+        abort 'Nothing to do'
       end
 
       Retter.on_initialize do |config|

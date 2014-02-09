@@ -18,33 +18,43 @@ describe 'retter migrate' do
     end
   end
 
-  specify 'source files are migrated' do
-    Pathname('layouts').should_not      be_exist
-    Pathname('retters').should_not      be_exist
+  describe 'migrated files' do
+    specify 'source files are migrated' do
+      Pathname('layouts').should_not      be_directory
+      Pathname('retters').should_not      be_directory
 
-    Pathname('source/retters').should   be_exist
-    Pathname('source/assets').should    be_exist
-    Pathname('source/templates').should be_exist
-  end
-
-  specify 'symlinks for old html are created' do
-    Pathname('profile.html').should be_symlink
-  end
-
-  specify 'edit, list and build commands should be success' do
-    Retter::StaticSite::Repository.new '.' do |repo|
-      repo.init
-      repo.add '-A'
-      repo.add '-u'
-      repo.commit '-m', 'Migrated'
+      Pathname('source/retters').should   be_directory
+      Pathname('source/assets').should    be_directory
+      Pathname('source/templates').should be_directory
     end
 
-    invoke_retter('edit').should  be_exit_successfully
-    invoke_retter('list').should  be_exit_successfully
-    invoke_retter('build').should be_exit_successfully
+    specify 'symlinks for old html are created' do
+      Pathname('about.html').should be_symlink
+    end
+  end
 
-    %w(index.html entries.html entries.rss).each do |file|
-      Pathname(file).should written
+  describe 're-generate html' do
+    let(:html_files) { %w(index.html entries.html entries.rss) }
+
+    before do
+      Retter::StaticSite::Repository.new '.' do |repo|
+        repo.init
+        repo.add '-A'
+        repo.add '-u'
+        repo.commit '-m', 'Migrated'
+      end
+
+      FileUtils.rm html_files
+    end
+
+    specify 'edit, list and build commands should be success' do
+      invoke_retter('edit').should  be_exit_successfully
+      invoke_retter('list').should  be_exit_successfully
+      invoke_retter('build').should be_exit_successfully
+
+      html_files.each do |file|
+        Pathname(file).should written
+      end
     end
   end
 end

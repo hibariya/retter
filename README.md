@@ -189,6 +189,7 @@ Please migrate via `retter migrate`.
   $ git add -A
   $ git add -u
   $ git commit -m 'Migrated'
+  $ retter build
 ```
 
 ## Contributing
