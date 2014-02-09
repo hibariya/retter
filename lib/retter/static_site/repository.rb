@@ -14,7 +14,7 @@ module Retter
         end
 
         def git
-          @git || (ENV['GIT'] || `which git`.strip).presence
+          @git ||= `which git`.strip.presence
         end
       end
 
