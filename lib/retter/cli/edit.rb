@@ -9,7 +9,21 @@ module Retter
     def edit
       path = Entry.generate_entry_path(keyword)
 
-      system editor, path.to_s
+      invoke_editor editor, path
+    end
+
+    private
+
+    def invoke_editor(editor, path)
+      invoke_proc = -> { system editor, path.to_s }
+
+      if Object.const_defined?(:Bundler)
+        Bundler.with_clean_env do
+          invoke_proc.call
+        end
+      else
+        invoke_proc.call
+      end
     end
 
     Retter.on_initialize do |config|
