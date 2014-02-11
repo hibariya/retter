@@ -24,4 +24,5 @@ task :test_pkg => :build do
   end
 end
 
-task default: %i(spec test_pkg)
+task :default => [:spec]
+task :all     => [:spec, :test_pkg]
