@@ -39,7 +39,7 @@ module Retter
       retterfile.load
       install_site_module
 
-      ensure_api_revision!
+      warn_missing_api_revision
 
       process_initialize
     end
@@ -70,7 +70,7 @@ module Retter
       end
     end
 
-    def ensure_api_revision!
+    def warn_missing_api_revision
       return if config.api_revision == API_REVISION
       return unless root
 
