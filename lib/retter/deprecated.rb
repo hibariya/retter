@@ -25,6 +25,8 @@ module Retter
 
         Kernel.warn message
         shown << message
+
+        nil
       end
 
       def shown
@@ -60,7 +62,7 @@ module Retter
 
           %w(home title description url author load reset! entries config).each do |name|
             define_method name do |*args|
-              Deprecated.removed_warn %(Site##{name})
+              Deprecated.removed_warn %(Retter::Site##{name})
             end
           end
         end
@@ -76,12 +78,12 @@ module Retter
 
       module Article
         def to_s
-          Deprecated.warn 'Article#to_s', 'Article#body'
+          Deprecated.warn 'Retter::Entry::Article#to_s', 'Retter::Entry::Article#body'
           body.html_safe
         end
 
         def actual?
-          Deprecated.removed_warn 'Article#actual?'
+          Deprecated.removed_warn 'Retter::Entry::Article#actual?'
           true
         end
       end
@@ -134,9 +136,7 @@ module Retter
 
           desc :open, '[DEPRECATED]', hide: true
           def open(*args)
-            Deprecated.warn :open, 'preview /', '(command)'
-
-            invoke :preview, '/'
+            Deprecated.removed_warn :open, :preview, '(command)'
           end
 
           desc :clean, '[DEPRECATED]', hide: true
@@ -149,24 +149,10 @@ module Retter
 
     module Retterfile
       module Context
-        def config
-          ::Retter.config
-        end
-
-        %w(editor shell renderer title description url author disqus_shortname).each do |name|
-          define_method name do |val = nil|
-            val ? config[name] = val : config[name]
-          end
-        end
-
         %w(markup cache allow_binding home retter_home layouts_dir entries_dir retters_dir wip_file).each do |name|
           define_method name do |val = nil|
-            Deprecated.removed_warn name, nil, 'Rettefile'
+            Deprecated.removed_warn name, nil, 'Retterfile'
           end
-        end
-
-        def after(name, sym = nil, &block)
-          config.after name, sym, &block
         end
       end
     end

@@ -12,8 +12,7 @@ module Retter
   autoload :Retterfile,   'retter/retterfile'
   autoload :StaticSite,   'retter/static_site'
 
-  extend Initializing
-
+  include Initializing
   include Deprecated::Retter
   include Deprecated::Site
 
@@ -21,9 +20,7 @@ module Retter
 
   class << self
     def config
-      @config ||= ActiveSupport::OrderedOptions.new.tap {|config|
-        config.extend Config::ConfigMethods
-      }
+      @config ||= ActiveSupport::OrderedOptions.new
     end
 
     def root; config.root end
@@ -58,8 +55,6 @@ module Retter
 
     def load_defaults
       config.api_revision ||= 0
-      config.callbacks      = ActiveSupport::OrderedOptions.new
-
       config.editor    = env['EDITOR']
       config.shell     = env['SHELL']
       config.url       = 'http://example.com'

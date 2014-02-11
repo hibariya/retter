@@ -1,38 +1,45 @@
 module Retter::Initializing
-  # Usage:
-  #  Retter.on_initialize do |config|
-  #    initialize process
-  #    -> { after initialize process (optional) }
-  #  end
-  def on_initialize(&block)
-    call_initializers(block).tap do |after_initialize_hooks|
-      after_initialize_hooks.each &:call
-    end if initialized?
+  extend ActiveSupport::Concern
 
-    initializers << block
-  end
+  module ClassMethods
+    # Usage:
+    #  Retter.on_initialize do |config|
+    #    initialize process
+    #    -> { after initialize process (optional) }
+    #  end
+    def on_initialize(&block)
+      call_initializers(block).tap do |after_initialize_hooks|
+        after_initialize_hooks.each &:call
+      end if initialized?
 
-  private
-
-  def process_initialize
-    call_initializers.tap do |after_initialize_hooks|
-      @initialized = true
-
-      after_initialize_hooks.each &:call
+      initializers << block
     end
-  end
 
-  def initialized?; @initialized end
+    private
 
-  def initializers
-    @initializers ||= []
-  end
+    def process_initialize
+      call_initializers.tap do |after_initialize_hooks|
+        @initialized = true
 
-  def call_initializers(procs = initializers)
-    Array(procs).each.with_object([]) {|initialize_proc, after_procs|
-      returned = initialize_proc.call(config)
+        after_initialize_hooks.each &:call
+      end
+    end
 
-      after_procs << returned if returned.respond_to?(:call)
-    }
+    def initialized?; @initialized end
+
+    def initializers
+      @initializers ||= []
+    end
+
+    def call_initializers(procs = initializers)
+      Array(procs).each.with_object([]) {|initialize_proc, after_procs|
+        returned = initialize_proc.call(config)
+
+        after_procs << returned if returned.respond_to?(:call)
+      }
+    end
+
+    # should be overwrite
+    def config; end
   end
 end

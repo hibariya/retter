@@ -1,6 +1,12 @@
 module Retter
   module Config
     module ConfigMethods
+      class << self
+        def extended(object)
+          object.callbacks = ActiveSupport::OrderedOptions.new
+        end
+      end
+
       def after(name, sym = nil, &block)
         key = "after_#{name}".intern
 
