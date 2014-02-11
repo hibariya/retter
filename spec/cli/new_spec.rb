@@ -19,10 +19,6 @@ describe 'retter new' do
     Pathname('source').should     be_exist
   end
 
-  specify 'publish branch is created' do
-    capture_command('git', 'branch').should match(/gh-pages/)
-  end
-
   specify 'current branch is master' do
     capture_command('git', 'branch').should match(/\*\smaster/)
   end

@@ -6,9 +6,8 @@ configure api_revision: <%= Retter::API_REVISION %> do |config|
   config.title          = '<%= name %>'
   config.description    = '<%= name %>'
   config.author         = '<%= ENV["USER"] %>'
-  config.publish_branch = 'gh-pages'
 
   config.publisher do
-    # system 'git push origin gh-pages'
+    # system 'git push origin master'
   end
 end

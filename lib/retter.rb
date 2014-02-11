@@ -33,9 +33,10 @@ module Retter
       @config = nil
 
       load_defaults
-      retterfile.load
-      install_site_module
+      retterfile.find_load
+      config.root = retterfile.path.try(:dirname) # FIXME: is it ok?
 
+      install_site_module
       warn_missing_api_revision
 
       process_initialize
@@ -55,14 +56,10 @@ module Retter
 
     def load_defaults
       config.api_revision ||= 0
-      config.editor    = env['EDITOR']
-      config.shell     = env['SHELL']
-      config.url       = 'http://example.com'
-      config.site_type = Retter::StaticSite
-
-      if root = retterfile.path.try(:dirname)
-        config.root = root
-      end
+      config.editor         = env['EDITOR']
+      config.shell          = env['SHELL']
+      config.url            = 'http://example.com'
+      config.site_type      = Retter::StaticSite
     end
 
     def warn_missing_api_revision

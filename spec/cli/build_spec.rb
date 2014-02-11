@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-# TODO: check branch safe
 describe 'retter build', :with_test_site do
   let(:today_str) { Date.today.strftime('%Y%m%d') }
 
@@ -24,7 +23,8 @@ describe 'retter build', :with_test_site do
     invoke_retter('build').should be_exit_successfully
   end
 
-  describe 'source branch' do
+  # TODO: test when using source branch
+  describe 'source files' do
     let(:wip_file)  { Pathname('source/retters/today.md') }
     let(:dest_file) { Pathname("source/retters/#{today_str}.md") }
 
@@ -34,11 +34,7 @@ describe 'retter build', :with_test_site do
     end
   end
 
-  describe 'publish branch' do
-    before do
-      run_command 'git', 'checkout', 'gh-pages'
-    end
-
+  describe 'publish files' do
     specify 'files are generated successfully' do
       Dir.glob('assets/application-*.css').should be_present
 

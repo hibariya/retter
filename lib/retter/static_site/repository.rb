@@ -1,5 +1,6 @@
 require 'open3'
 
+# Move to Retter::Repository
 module Retter
   module StaticSite
     class Repository
@@ -21,7 +22,7 @@ module Retter
       attr_reader :path, :git
 
       def initialize(path = Repository.path, git = Repository.git)
-        @path, @git = path, git
+        @path, @git = Pathname(path).expand_path, git
 
         Dir.chdir path do
           yield self
@@ -80,7 +81,9 @@ module Retter
       end
 
       def capture(cmd, raise_on_fail = true)
-        value, status = Open3.capture2e(*cmd)
+        value, status = Dir.chdir(path) {
+          Open3.capture2e(*cmd)
+        }
 
         if status.success?
           value.strip
