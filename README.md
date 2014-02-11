@@ -45,6 +45,9 @@ configure api_revision: 1 do |config|
 end
 ```
 
+**`$RETTER_HOME` variable is deprecated.** Please use `$RETTER_ROOT`.
+
+
 ### Hooks
 
 Hooks will be invoked after running commands.
@@ -181,7 +184,11 @@ in source/templates/entries/articles/show.html.haml
 ## Migrate from Retter-0.2.5 or earlier
 
 They're incompatible with retter-1.0.0.
-Please migrate via `retter migrate`.
+Please migrate via `retter migrate`, or create new site.
+
+### Migrate command
+
+`retter migrate`  attempts to migrate  to new version.
 
 ```
   $ cd $RETTER_ROOT
@@ -190,6 +197,18 @@ Please migrate via `retter migrate`.
   $ git add -u
   $ git commit -m 'Migrated'
   $ retter build
+```
+
+### Migrate only articles
+
+If you can't migrate with `retter migrate`, you may want to migrate only articles. Like below.
+
+```
+  $ cd $RETTER_ROOT/../
+  $ mv [site-name] old-[site-name]
+  $ retter new [site-name]
+  $ mv old-[site-name]/retters/* [site-name]/source/retters/
+  $ # migrate git repository, and so on...
 ```
 
 ## Contributing
