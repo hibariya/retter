@@ -96,7 +96,7 @@ module Retter
             date = Date.parse(params[:entry_id])
 
             @entry   = Retter::Entry.find(date)
-            @article = @entry.articles.find {|a| a.id == params[:id] }
+            @article = @entry.articles.find {|a| a.relative_code == params[:id] }
 
             render 'entries/articles/show'
           end

@@ -3,24 +3,32 @@ module Retter
     class Article
       class << self
         def all
-          Entry.all.map(&:articles).flatten
+          Entry.all.flat_map(&:articles)
         end
       end
 
-      extend ActiveModel::Naming
-
+      include ModelBase
       include Pagination
 
-      attr_reader :id, :title, :body
+      attr_reader :index, :title, :body
       attr_reader :entry
 
       def initialize(attrs = {})
-        @id, @title, @body, @entry = *attrs.values_at(:id, :title, :body, :entry)
+        @index, @title, @body, @entry = *attrs.values_at(:index, :title, :body, :entry)
+
+        @index ||= 0
       end
 
-      def to_param
-        id
+      def id
+        "#{entry.id}#{relative_code}"
       end
+
+      def relative_code
+        "a#{index}"
+      end
+
+      # XXX: to_param should returns identifiable value
+      alias to_param relative_code
 
       include Deprecated::Entry::Article
     end

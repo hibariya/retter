@@ -39,7 +39,7 @@ module Retter
         @lede     = ''
         @articles = elements.each.with_object([]) {|el, articles|
           if el.name == 'h1'
-            articles << Entry::Article.new(entry: self, id: "a#{articles.size}", title: el.text, body: '')
+            articles << Entry::Article.new(entry: self, index: articles.size, title: el.text, body: '')
           else
             if articles.empty?
               @lede << el.to_s
