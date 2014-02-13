@@ -9,6 +9,7 @@ module Retter
   autoload :Deprecated,   'retter/deprecated'
   autoload :Entry,        'retter/entry'
   autoload :Initializing, 'retter/initializing'
+  autoload :Repository,   'retter/repository'
   autoload :Retterfile,   'retter/retterfile'
   autoload :StaticSite,   'retter/static_site'
 

@@ -42,7 +42,7 @@ describe 'retter migrate' do
     let(:html_files) { %w(index.html entries.html entries.rss) }
 
     before do
-      Retter::StaticSite::Repository.new '.' do |repo|
+      Retter::Repository.new '.' do |repo|
         repo.init
         repo.add '-A'
         repo.add '-u'

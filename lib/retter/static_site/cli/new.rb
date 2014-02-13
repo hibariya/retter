@@ -52,7 +52,7 @@ module Retter
       def prepare_source_repository
         say_status :prepare, 'source repository (master)'
 
-        StaticSite::Repository.new name do |repo|
+        Repository.new name do |repo|
           repo.init
 
           ROOT_FILES.each do |file|

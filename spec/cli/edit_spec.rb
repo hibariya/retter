@@ -65,7 +65,7 @@ describe 'retter edit' do
     end
 
     specify 'source branch has changes' do
-      Retter::StaticSite::Repository.new '.' do |repo|
+      Retter::Repository.new '.' do |repo|
         repo.current_branch.should == 'master'
         repo.checkout 'source' do
           path.should written

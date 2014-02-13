@@ -19,7 +19,7 @@ RSpec.configure do |config|
     Retter::TestSite.tap do |test_site|
       test_site.generate_skel 'default'
       test_site.generate_skel 'multi_branch' do |site_dir|
-        Retter::StaticSite::Repository.new site_dir do |repo|
+        Retter::Repository.new site_dir do |repo|
           repo.checkout '--orphan', 'source' do
             repo.commit '-m', 'Initial'
           end

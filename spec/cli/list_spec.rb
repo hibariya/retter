@@ -41,7 +41,7 @@ describe 'retter list' do
 
   context 'multi branch', :with_multi_branch_site do
     before do
-      Retter::StaticSite::Repository.new '.' do |repo|
+      Retter::Repository.new '.' do |repo|
         repo.checkout 'source' do
           File.write 'source/retters/20140101.md', <<-DIARY.strip_heredoc
             # First

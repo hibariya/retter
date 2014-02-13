@@ -21,7 +21,7 @@ module Retter
       return if @path || @path = find_path(dir)
 
       # FIXME: It's not main process...
-      repo           = StaticSite::Repository.new(dir)
+      repo           = Repository.new(dir)
       source_branch  = 'source'
       current_branch = repo.current_branch
       branches       = repo.branches
