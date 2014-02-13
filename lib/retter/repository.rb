@@ -87,9 +87,7 @@ module Retter
     end
 
     def capture(cmd, raise_on_fail = true)
-      value, status = Dir.chdir(path) {
-        Open3.capture2e(*cmd)
-      }
+      value, status = Open3.capture2e(*cmd, chdir: path)
 
       if status.success?
         value.strip
