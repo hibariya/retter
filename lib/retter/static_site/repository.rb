@@ -46,16 +46,22 @@ module Retter
       end
 
       def current_branch
-        capture(command('name-rev', '--name-only', 'HEAD'))
+        extract_branch_name(branch_list.grep(/\*/).first)
       end
 
       def branches
-        capture(command('branch')).split($/).map {|br|
-          br.sub(/\s*\*\s*/, '').strip
-        }
+        branch_list.map {|str| extract_branch_name(str) }
       end
 
       private
+
+      def branch_list
+        capture(command('branch')).split("\n")
+      end
+
+      def extract_branch_name(str)
+        str.sub(/\*/, '').strip
+      end
 
       def checkout_temporary(*args)
         _branch = current_branch
@@ -67,7 +73,7 @@ module Retter
       end
 
       def do_checkout(name, *rest)
-        return if current_branch == name
+        return if name == current_branch
 
         run command('checkout', name, *rest)
       rescue

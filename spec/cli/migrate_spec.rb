@@ -2,18 +2,23 @@ require 'spec_helper'
 
 describe 'retter migrate' do
   before :all do
-    Dir.chdir TEST_TMP_DIR do
-      FileUtils.cp_r GEM_DIR.join('spec/fixtures/sites/site-0.2.5'), 'old-site'
+    site_dir = Retter::TestSite.sites_dir
+
+    FileUtils.mkdir_p site_dir
+
+    Dir.chdir site_dir do
+      FileUtils.cp_r RETTER_GEM_DIR.join('spec/fixtures/sites/site-0.2.5'), site_dir.join('old-site')
 
       Dir.chdir 'old-site' do
         result = invoke_retter('migrate')
-        result.should be_exit_successfully
+
+        raise result.inspect unless result.status.success?
       end
     end
   end
 
   around :each do |example|
-    Dir.chdir TEST_TMP_DIR.join('old-site') do
+    Dir.chdir Retter::TestSite.sites_dir.join('old-site') do
       example.run
     end
   end
