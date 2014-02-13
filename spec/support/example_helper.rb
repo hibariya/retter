@@ -29,10 +29,12 @@ module Retter::ExampleHelper
   alias run_command capture_command
 
   def retter_command(task_with_options, retter_root: Dir.pwd)
+    retter_root_env = retter_root ? {'RETTER_ROOT' => retter_root} : {}
+
     if gem_home = ENV['GEM_HOME_WITH_RETTER']
-      [{'GEM_HOME' => gem_home, 'RETTER_ROOT' => retter_root}, 'retter', *task_with_options]
+      [retter_root_env.merge('GEM_HOME' => gem_home), 'retter', *task_with_options]
     else
-      [{'RETTER_ROOT' => retter_root}, 'bundle', 'exec', RETTER_GEM_DIR.join('bin/retter').to_path, *task_with_options, {chdir: RETTER_GEM_DIR.to_path}]
+      [retter_root_env, 'bundle', 'exec', RETTER_GEM_DIR.join('bin/retter').to_path, *task_with_options, {chdir: RETTER_GEM_DIR.to_path}]
     end
   end
 

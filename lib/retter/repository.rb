@@ -2,6 +2,8 @@ require 'open3'
 
 module Retter
   class Repository
+    class RepositoryError < RuntimeError; end
+
     class << self
       attr_accessor :path
       attr_writer :git
@@ -27,12 +29,6 @@ module Retter
       end if block_given?
     end
 
-    %w(init add reset rm).each do |subcommand|
-      define_method subcommand do |*args|
-        run command(subcommand, *args)
-      end
-    end
-
     def commit(*args)
       run command('commit', *args), false
     end
@@ -49,6 +45,12 @@ module Retter
 
     def branches
       branch_list.map {|str| extract_branch_name(str) }
+    end
+
+    %w(init add reset rm).each do |subcommand|
+      define_method subcommand do |*args|
+        run command(subcommand, *args)
+      end
     end
 
     private
@@ -75,7 +77,7 @@ module Retter
 
       run command('checkout', name, *rest)
     rescue
-      warn "WARNING: can't checkout #{_branch}"
+      warn "WARNING: can't checkout #{name}"
     end
 
     def command(command, *args)
@@ -94,7 +96,7 @@ module Retter
       else
         if raise_on_fail
           warn value
-          raise "command failed: #{Array(cmd).join(' ')}"
+          raise RepositoryError, "command failed: #{Array(cmd).join(' ')}"
         end
 
         false

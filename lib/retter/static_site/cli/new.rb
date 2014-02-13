@@ -6,7 +6,6 @@ module Retter
     class CLI::New < Retter::CLI::New
       include Thor::Actions
 
-      MINIMUM_FILES = %w(Retterfile)
       ROOT_FILES    = %w(.gitignore config.ru)
       SOURCE_FILES  = %w(
         retters/.gitkeep
@@ -34,26 +33,13 @@ module Retter
         ]
       end
 
-      def install_minimum
-        say_status :prepare, 'minimum files'
-
+      def install
         FileUtils.mkdir_p name
-
-        MINIMUM_FILES.each do |template|
-          template template, %(#{name}/#{template})
-        end
-      end
-
-      def initialize_retter
-        Retter.retterfile.path = Pathname(File.expand_path(name)).join('Retterfile')
-        Retter.initialize!
-      end
-
-      def prepare_source_repository
-        say_status :prepare, 'source repository (master)'
 
         Repository.new name do |repo|
           repo.init
+
+          template 'Retterfile', %(#{name}/Retterfile)
 
           ROOT_FILES.each do |file|
             copy_file file, %(#{name}/#{file})

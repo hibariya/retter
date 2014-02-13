@@ -10,6 +10,8 @@ module Retter
     attr_accessor :path
 
     def find_load(dir = ENV['RETTER_ROOT'] || ENV['RETTER_HOME'] || Dir.pwd)
+      return if dir.strip.empty?
+
       find dir
       load
     end
@@ -36,6 +38,8 @@ module Retter
           Retter.config.source_branch = source_branch
         end
       end
+    rescue Repository::RepositoryError
+      # maybe dir isn't git repository
     end
 
     def load
