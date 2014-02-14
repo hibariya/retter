@@ -5,7 +5,6 @@ require 'retter/version'
 
 module Retter
   autoload :CLI,          'retter/cli'
-  autoload :Config,       'retter/config'
   autoload :Deprecated,   'retter/deprecated'
   autoload :Entry,        'retter/entry'
   autoload :Initializing, 'retter/initializing'
@@ -34,8 +33,7 @@ module Retter
       @config = nil
 
       load_defaults
-      retterfile.find_load
-      config.root = retterfile.path.try(:dirname) # FIXME: is it ok?
+      retterfile.seek_load
 
       install_site_module
       warn_missing_api_revision
