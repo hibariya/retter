@@ -6,9 +6,7 @@ module Retter
     class CLI::New < Retter::CLI::New
       include Thor::Actions
 
-      MINIMUM_FILES = %w(Retterfile)
-      PUBLISH_FILES = %w(.gitignore config.ru)
-      ROOT_FILES    = %w(.gitignore)
+      ROOT_FILES    = %w(.gitignore config.ru)
       SOURCE_FILES  = %w(
         retters/.gitkeep
         assets/images/orange/bg_body.jpg
@@ -35,26 +33,13 @@ module Retter
         ]
       end
 
-      def install_minimum
-        say_status :prepare, 'minimum files'
-
+      def install
         FileUtils.mkdir_p name
 
-        MINIMUM_FILES.each do |template|
-          template template, %(#{name}/#{template})
-        end
-      end
-
-      def initialize_retter
-        Retter.retterfile.path = Pathname(File.expand_path(name)).join('Retterfile')
-        Retter.initialize!
-      end
-
-      def prepare_source_repository
-        say_status :prepare, 'source repository (master)'
-
-        StaticSite::Repository.new name do |repo|
+        Repository.new name do |repo|
           repo.init
+
+          template 'Retterfile', %(#{name}/Retterfile)
 
           ROOT_FILES.each do |file|
             copy_file file, %(#{name}/#{file})
@@ -66,23 +51,6 @@ module Retter
 
           repo.add '-A'
           repo.commit '-m', 'Initial'
-        end
-      end
-
-      def prepare_publish_branch
-        say_status :prepare, 'publish repository (gh-pages)'
-
-        StaticSite::Repository.checkout 'master' do |repo|
-          repo.checkout '--orphan', 'gh-pages' do # TODO: fallback to normal branch
-            repo.rm '-rf', '.'                    # repo.reset '--hard' fails git-1.7.9.5 or earlier
-
-            PUBLISH_FILES.each do |file|
-              copy_file file, %(#{name}/#{file})
-            end
-
-            repo.add *PUBLISH_FILES
-            repo.commit '-m', 'Initial'
-          end
         end
       end
     end

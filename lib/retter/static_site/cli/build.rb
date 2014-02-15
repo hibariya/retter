@@ -10,7 +10,7 @@ module Retter
           wip_entry.commit!
         end
 
-        StaticSite::Repository.checkout source_branch do
+        Repository.checkout source_branch do
           say_status :commit, "source on #{source_branch}"
           commit_to_source_branch
 
@@ -39,7 +39,7 @@ module Retter
       end
 
       def commit_to_source_branch
-        StaticSite::Repository.checkout source_branch do |repo|
+        Repository.checkout source_branch do |repo|
           repo.add source_path
           repo.add '-u', source_path
           repo.commit '-m', 'Update source'
@@ -47,7 +47,7 @@ module Retter
       end
 
       def commit_to_publish_branch
-        StaticSite::Repository.checkout publish_branch do |repo|
+        Repository.checkout publish_branch do |repo|
           if working_on_same_branch?
             %w(assets entries).each do |path|
               next unless File.exist?(path)

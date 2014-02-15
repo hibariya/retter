@@ -5,10 +5,10 @@ require 'retter/version'
 
 module Retter
   autoload :CLI,          'retter/cli'
-  autoload :Config,       'retter/config'
   autoload :Deprecated,   'retter/deprecated'
   autoload :Entry,        'retter/entry'
   autoload :Initializing, 'retter/initializing'
+  autoload :Repository,   'retter/repository'
   autoload :Retterfile,   'retter/retterfile'
   autoload :StaticSite,   'retter/static_site'
 
@@ -33,9 +33,9 @@ module Retter
       @config = nil
 
       load_defaults
-      retterfile.load
-      install_site_module
+      retterfile.seek_load
 
+      install_site_module
       warn_missing_api_revision
 
       process_initialize
@@ -55,14 +55,10 @@ module Retter
 
     def load_defaults
       config.api_revision ||= 0
-      config.editor    = env['EDITOR']
-      config.shell     = env['SHELL']
-      config.url       = 'http://example.com'
-      config.site_type = Retter::StaticSite
-
-      if root = retterfile.path.try(:dirname)
-        config.root = root
-      end
+      config.editor         = env['EDITOR']
+      config.shell          = env['SHELL']
+      config.url            = 'http://example.com'
+      config.site_type      = Retter::StaticSite
     end
 
     def warn_missing_api_revision

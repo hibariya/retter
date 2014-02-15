@@ -5,7 +5,6 @@ module Retter
     autoload :Builder,       'retter/static_site/builder'
     autoload :Markdown,      'retter/static_site/markdown'
     autoload :MarkdownEntry, 'retter/static_site/markdown_entry'
-    autoload :Repository,    'retter/static_site/repository'
 
     class << self
       def install

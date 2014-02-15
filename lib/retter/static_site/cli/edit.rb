@@ -4,7 +4,7 @@ module Retter
       class_attribute :source_branch
 
       def edit
-        StaticSite::Repository.checkout source_branch do
+        Repository.checkout source_branch do
           super
         end
       end

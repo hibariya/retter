@@ -3,7 +3,7 @@ module Retter
     argument :name, type: :string, required: true, desc: 'Site name'
 
     def new
-      # nothing to do
+      # TODO: get site_type and load modules
     end
   end
 end

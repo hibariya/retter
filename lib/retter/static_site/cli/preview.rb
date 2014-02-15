@@ -15,7 +15,7 @@ module Retter
       class_option :livereload, type: :boolean, default: true
 
       def preview
-        StaticSite::Repository.checkout source_branch do
+        Repository.checkout source_branch do
           Retter.initialize!
 
           invoke_browser_after_startup

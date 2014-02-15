@@ -2,14 +2,19 @@ require 'spec_helper'
 
 describe 'retter new' do
   before :all do
-    Dir.chdir TEST_TMP_DIR do
-      result = invoke_retter('new', 'new-site')
-      result.should be_exit_successfully
+    site_dir = Retter::TestSite.sites_dir
+
+    FileUtils.mkdir_p site_dir
+
+    Dir.chdir site_dir do |dir|
+      result = invoke_retter('new', site_dir.join('new-site'), retter_root: '')
+
+      raise result.inspect unless result.status.success?
     end
   end
 
   around :each do |example|
-    Dir.chdir TEST_TMP_DIR.join('new-site') do
+    Dir.chdir Retter::TestSite.sites_dir.join('new-site') do
       example.run
     end
   end
@@ -17,10 +22,6 @@ describe 'retter new' do
   specify 'files are installed' do
     Pathname('Retterfile').should be_exist
     Pathname('source').should     be_exist
-  end
-
-  specify 'publish branch is created' do
-    capture_command('git', 'branch').should match(/gh-pages/)
   end
 
   specify 'current branch is master' do

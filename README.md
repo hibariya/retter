@@ -8,9 +8,9 @@
   $ cd my-sweet-diary
   $ retter edit               # Write a first article w/ $EDITOR.
   $ retter preview            # Open an article you write w/ $BROWSER.
-  $ retter build              # Generate static html files on publish branch (default: gh-pages).
-  $ git remote add origin git@github.com:USERNAME/REPOSITORY.git
-  $ git push origin gh-pages  # Publish static html files on GitHub pages.
+  $ retter build              # Generate static html files on publish branch (default: master).
+  $ git remote add origin git@github.com:USERNAME/USERNAME.github.io.git
+  $ git push origin master    # Publish static html files on GitHub pages.
 ```
 
 ## Required
@@ -37,10 +37,9 @@ configure api_revision: 1 do |config|
   config.title          = 'my-sweet-diary'
   config.description    = 'my-sweet-diary'             # Website's description (It'll be shown on /about.html and /entries.rss)
   config.author         = 'hibariya'
-  config.publish_branch = 'gh-pages'                   # Branch name for published files.
 
   config.publisher do                                  # Processing for `retter publish` command.
-    # system 'git push origin gh-pages'                # Uncomment it if you want to do `git push origin gh-pages` via `retter publish`.
+    # system 'git push origin master'                  # Uncomment it if you want to do `cd $RETTER_ROOT && git push origin master` via `retter publish`.
   end
 end
 ```
