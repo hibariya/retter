@@ -6,7 +6,7 @@ module Retter
       module ConfigMethods
         class << self
           def extended(object)
-            object.callbacks = ActiveSupport::OrderedOptions.new
+            object.callbacks ||= ActiveSupport::OrderedOptions.new
           end
         end
 
