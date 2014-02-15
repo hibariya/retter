@@ -35,7 +35,9 @@ module Retter
         end
 
         def after(name, sym = nil, &block)
-          Retter.config.after name, sym, &block
+          configure do |config|
+            config.after name, sym, &block
+          end
         end
       end
 
@@ -45,7 +47,7 @@ module Retter
 
       def configure(options = {})
         config = Retter.config
-        config.api_revision = Integer(options[:api_revision])
+        config.api_revision = Integer(options[:api_revision]) if options[:api_revision]
         config.extend ConfigMethods
 
         yield config

@@ -7,6 +7,9 @@ description 'site-0.2.5'
 author      'hibariya'
 renderer    Retter::Markdown::PygmentsRenderer
 
+after :edit do
+  # do nothing: just testing `after' method.
+end
 # Callbacks for retter sub-command: edit, rebind, commit
 #
 #   Syntax:
