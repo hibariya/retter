@@ -55,10 +55,10 @@ module Retter
 
     def load_defaults
       config.api_revision ||= 0
-      config.editor         = env['EDITOR']
-      config.shell          = env['SHELL']
-      config.url            = 'http://example.com'
-      config.site_type      = Retter::StaticSite
+      config.editor       ||= env['EDITOR']
+      config.shell        ||= env['SHELL']
+      config.url          ||= 'http://example.com'
+      config.site_type    ||= Retter::StaticSite
     end
 
     def warn_missing_api_revision

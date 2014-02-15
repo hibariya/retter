@@ -4,8 +4,6 @@ require 'pathname'
 module Retter
   module StaticSite
     class CLI::New < Retter::CLI::New
-      include Thor::Actions
-
       ROOT_FILES    = %w(.gitignore config.ru)
       SOURCE_FILES  = %w(
         retters/.gitkeep
@@ -27,19 +25,12 @@ module Retter
       )
 
       def self.source_paths
-        [
-          File.expand_path('../../../../../skel', __FILE__),
-          File.expand_path('../../app', __FILE__)
-        ]
+        super << File.expand_path('../../app', __FILE__)
       end
 
       def install
-        FileUtils.mkdir_p name
-
         Repository.new name do |repo|
           repo.init
-
-          template 'Retterfile', %(#{name}/Retterfile)
 
           ROOT_FILES.each do |file|
             copy_file file, %(#{name}/#{file})

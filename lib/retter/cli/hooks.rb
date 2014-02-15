@@ -18,15 +18,15 @@ module Retter
           @hookable_names ||= Set.new([name.demodulize.underscore.intern])
         end
 
-        def call_hooks(hook_point = :after)
-          command = CLI::Command.new
+        def call_hooks(hook_point = :after, context = CLI::Command.new)
+          return unless callbacks
 
           hookable_names.each do |name|
             case callback = callbacks["#{hook_point}_#{name}".intern]
             when Proc
-              command.instance_eval &callback
+              context.instance_eval &callback
             when Symbol, String
-              command.invoke callback
+              context.invoke callback
             else
               # noop
             end

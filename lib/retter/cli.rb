@@ -32,7 +32,7 @@ module Retter
         def invoke(klass_or_name, *)
           super
 
-          klass_or_name.call_hooks :after if klass_or_name.respond_to?(:call_hooks)
+          klass_or_name.call_hooks :after, self if klass_or_name.respond_to?(:call_hooks)
         end
       end
     end
