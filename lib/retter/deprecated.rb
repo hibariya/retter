@@ -78,7 +78,7 @@ module Retter
 
       module Article
         def to_s
-          Deprecated.warn 'Retter::Entry::Article#to_s', 'Retter::Entry::Article#body'
+          Deprecated.warn 'Retter::Entry::Article#to_s', 'Retter::Entry::Article#body (And you may want to call .html_safe)'
           body.html_safe
         end
 
