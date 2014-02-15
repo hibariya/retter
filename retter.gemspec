@@ -20,6 +20,12 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
+  spec.post_install_message = <<-EOM
+HEADS UP! Retter-#{Retter::VERSION} has many changes, and incompatible with Retter (<= 0.2.5).
+If you upgrading, please migrate your sites.
+For more information: https://github.com/hibariya/retter
+  EOM
+
   spec.required_ruby_version = '>= 1.9.1'
 
   spec.add_runtime_dependency 'coffee-rails',     '~> 4.0.1'
@@ -46,11 +52,11 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'tapp',        '~> 1.4.0'
 
   # XXX: Avoid `WARN: Unresolved specs during Gem::Specification.reset:...'
-  spec.add_runtime_dependency 'rake',                 '~> 10.1.1'
-  spec.add_runtime_dependency 'ffi',                  '~> 1.9.3'
-  spec.add_runtime_dependency 'sass',                 '~> 3.2.14'
-  spec.add_runtime_dependency 'coffee-script-source', '~> 1.7.0'
-  spec.add_runtime_dependency 'haml',                 '~> 4.0.5'
   spec.add_runtime_dependency 'arel',                 '~> 4.0.2'
+  spec.add_runtime_dependency 'coffee-script-source', '~> 1.7.0'
+  spec.add_runtime_dependency 'ffi',                  '~> 1.9.3'
+  spec.add_runtime_dependency 'haml',                 '~> 4.0.5'
+  spec.add_runtime_dependency 'rake',                 '~> 10.1.1'
+  spec.add_runtime_dependency 'sass',                 '~> 3.2.14'
   spec.add_runtime_dependency 'tilt',                 '~> 1.4.1'
 end
