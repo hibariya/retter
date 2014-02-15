@@ -210,7 +210,8 @@ Please migrate via `retter migrate`, or create new site.
   $ retter build
 ```
 
-You probably get many warnings. Migration command can't fix it.
+You probably get many warnings, and migration command can't fix it.
+Anyway, at least, it will be compatible.
 
 ### Migrate only articles
 
