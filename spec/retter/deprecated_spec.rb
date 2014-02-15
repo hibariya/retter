@@ -20,7 +20,7 @@ describe Retter::Deprecated do
 
     describe '#to_s' do
       specify do
-        expect(Retter::Deprecated).to receive(:warn).with('Retter::Entry::Article#to_s', 'Retter::Entry::Article#body')
+        expect(Retter::Deprecated).to receive(:warn).with('Retter::Entry::Article#to_s', 'Retter::Entry::Article#body (And you may want to call .html_safe)')
         expect(article.to_s).to eq 'hi'
       end
     end
