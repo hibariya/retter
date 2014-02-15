@@ -28,6 +28,11 @@ module Retter::TestSite
 
         raise result.inspect unless result.status.success?
 
+        Retter::Repository.new skel_dir do |repo|
+          repo.rm 'source/retters/today.md'
+          repo.commit '-m', 'Remove sample article (for test)'
+        end
+
         Dir.chdir name do
           yield skel_dir if block_given?
         end

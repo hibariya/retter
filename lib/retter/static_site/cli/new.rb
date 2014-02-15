@@ -7,6 +7,7 @@ module Retter
       ROOT_FILES    = %w(.gitignore config.ru)
       SOURCE_FILES  = %w(
         retters/.gitkeep
+        retters/today.md
         assets/images/orange/bg_body.jpg
         assets/images/orange/bg_entry.jpg
         assets/images/orange/bg_header.png
