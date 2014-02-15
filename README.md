@@ -1,11 +1,17 @@
 # RETTER - A diary workflow for shell users. [![Build Status](https://drone.io/github.com/hibariya/retter/status.png)](https://drone.io/github.com/hibariya/retter/latest)
 
+## Required
+
+* Ruby-1.9.1 or later
+* $EDITOR variable
+* $BROWSER variable
+
 ## Quick Start
 
 ```
   $ gem install retter
-  $ retter new my-sweet-diary # Create a new site named `my-sweet-diary'.
-  $ cd my-sweet-diary
+  $ retter new my-diary       # Create a new site named `my-sweet-diary'.
+  $ cd my-diary
   $ retter edit               # Write a first article w/ $EDITOR.
   $ retter preview            # Open an article you write w/ $BROWSER.
   $ retter build              # Generate static html files on publish branch (default: master).
@@ -13,102 +19,91 @@
   $ git push origin master    # Publish static html files on GitHub pages.
 ```
 
-## Required
+## List, edit and preview
 
-* Ruby-1.9.1 or later
-* $EDITOR variable
-* $BROWSER variable
-* Git-1.7.9.5 or later
+`retter list` lists all articles.
 
-## $RETTER\_ROOT variable
-
-You can use all retter commands anywhere if you set `$RETTER_ROOT` variable.
-So, `export RETTER_ROOT=site-directory; retter edit` is same as `cd site-directory && retter edit`.
-
-## Retterfile
-
-Retterfile is the configuration file for your site.
-
-Default configuration:
-
-```ruby
-configure api_revision: 1 do |config|
-  config.url            = 'http://retter.example.com/' # Website's root URL.
-  config.title          = 'my-sweet-diary'
-  config.description    = 'my-sweet-diary'             # Website's description (It'll be shown on /about.html and /entries.rss)
-  config.author         = 'hibariya'
-
-  config.publisher do                                  # Processing for `retter publish` command.
-    # system 'git push origin master'                  # Uncomment it if you want to do `cd $RETTER_ROOT && git push origin master` via `retter publish`.
-  end
-end
 ```
+  $ retter list
+  [e0] 2014-01-11
+    First article
+    Second article
+  [e1] 2014-01-13
+    Third article
+```
+
+`retter edit [KEYWORD]` opens a source with $EDITOR.
+
+```
+  $ retter edit e1         # Editing source on 2014-01-13.
+  $ retter edit 2014-01-11 # Editing source on 2014-01-11.
+  $ retter edit            # Editing source on Date.today.
+```
+
+### Edit and preview (with livereload)
+
+To preview, run `retter preview`.
+
+```
+  $ retter edit # Edit and save
+  $ retter preview # Invoke preview server and open last edited article with $BROWSER.
+```
+
+`retter preview` detects file updates automatically.
+
+In other shell:
+
+```
+  $ retter edit # Edit and save
+                # And $BROWSER will reload automatically.
+```
+
+## $RETTER_ROOT variable
+
+You can use all retter commands everywhere if you set `$RETTER_ROOT` variable.
+So, if `$RETTER_ROOT` is set, `retter edit` and `cd $RETTER_ROOT && retter edit` are same.
 
 **`$RETTER_HOME` variable is deprecated.** Please use `$RETTER_ROOT`.
 
+## Configure with $RETTER_ROOT/Retterfile
+
+Retterfile is the configuration file for your site.
+
+Default configuration is below:
+
+```ruby
+  configure api_revision: 1 do |config|
+    # Website's root URL, title, description and author. URL is needed by feed generator.
+    config.url         = 'http://retter.example.com/'
+    config.title       = 'my-diary'
+    config.description = 'my first diary'
+    config.author      = 'hibariya'
+
+    # Processing for `retter publish` command.
+    config.publisher do
+      # Uncomment it if you want to do `cd $RETTER_ROOT && git push origin master` via `retter publish`.
+      # run 'git push origin master'
+    end
+  end
+```
 
 ### Hooks
 
 Hooks will be invoked after running commands.
 
 ```ruby
-configure api_revision: 1 do |config|
-  # <snip...>
-
   # Print `Well done :)` after running `retter edit`.
   config.after :edit do
     puts 'Well done :)'
   end
 
-  # Ask invoking `retter publish` automatically after running `retter build`.
+  # Ask invoking `retter publish` after running `retter build`.
   config.after :build do
     invoke :publish if yes?('Publish now? [yes/no]')
   end
-end
 ```
 
-## Manage articles
-
-Use `retter list` and `retter edit`.
-
-```
-  $ retter list            # Listing all articles on $RETTER_ROOT.
-  [e0] 2014-01-11
-    First article
-    Second article
-  [e1] 2014-01-13
-    Third article
-  $ retter edit e1         # Editing articles on 2014-01-13.
-  $ retter edit 2014-01-11 # Editing articles on 2014-01-11.
-  $ retter edit            # Editing articles on Date.today.
-```
-
-If you want remove articles of the day, You have to remove file by yourself.
-
-```
-  $ cd $RETTER_ROOT
-  $ rm source/retters/20140111.md # Removing articles on 2014-01-11.
-```
-
-### Edit and preview (w/ livereload)
-
-To preview, invoke run `retter preview`.
-
-```
-  $ retter edit    # Edit article.
-  $ retter preview # Invoke preview server and open last edited articles with $BROWSER.
-```
-
-Retter detects updates of markdown articles automatically until preview server is stopped.
-
-In other shell:
-
-```
-  $ retter edit # Edit article (once again).
-                # And $BROWSER will reload automatically.
-```
-
-### Markdown structure
+## Markdown structure
 
 Following markdown file includes two articles.
 
@@ -153,14 +148,31 @@ $RETTER_ROOT
   tmp         # Temporary files (caches, etc).
 ```
 
-# Install DISQUS (Comment service)
+## Extract source branch
 
-## Prepare
+You can move all files (except public files) to `source` branch.
+
+Migration example is below:
+
+```
+  $ cd $RETTER_ROOT
+  $ git checkout -b source
+  $ git rm -r assets entries *.{html,rss} # Removing public files from source branch
+  $ git commit -m 'Remove all public files'
+
+  $ git checkout master
+  $ git rm -r Retterfile source           # Removing source files from master branch
+  $ git commit -m 'Remove all source files'
+```
+
+## Install DISQUS (Comment service)
+
+### Prepare
 
 1. Create DISQUS Account
 2. Add new site for retter
 
-## Install
+### Install
 
 First, Add your `disqus_shortname` to Retterfile.
 
@@ -187,7 +199,7 @@ Please migrate via `retter migrate`, or create new site.
 
 ### Migrate command
 
-`retter migrate`  attempts to migrate  to new version.
+`retter migrate`  attempts to migrate to new version.
 
 ```
   $ cd $RETTER_ROOT

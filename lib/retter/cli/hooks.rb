@@ -5,6 +5,10 @@ module Retter
     module Hooks
       extend ActiveSupport::Concern
 
+      included do
+        include Thor::Actions
+      end
+
       module ClassMethods
         mattr_accessor :callbacks
 

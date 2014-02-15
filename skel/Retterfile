@@ -2,12 +2,15 @@
 # vi: set ft=ruby :
 
 configure api_revision: <%= Retter::API_REVISION %> do |config|
-  config.url            = 'http://retter.example.com/'
-  config.title          = '<%= name %>'
-  config.description    = '<%= name %>'
-  config.author         = '<%= ENV["USER"] %>'
+  # Website's root URL, title, description and author. URL is needed by feed generator.
+  config.url         = 'http://retter.example.com/'
+  config.title       = '<%= name %>'
+  config.description = '<%= name %>'
+  config.author      = '<%= ENV["USER"] %>'
 
+  # Processing for `retter publish` command.
   config.publisher do
-    # system 'git push origin master'
+    # Uncomment it if you want to do `cd $RETTER_ROOT && git push origin master` via `retter publish`.
+    # run 'git push origin master'
   end
 end

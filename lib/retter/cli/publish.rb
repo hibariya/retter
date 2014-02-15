@@ -5,8 +5,10 @@ module Retter
     include CLI::Hooks
 
     def publish
+      return unless publish_proc
+
       Dir.chdir root_path do
-        publish_proc.call if publish_proc
+        publish_proc.call
       end
     end
 
