@@ -69,6 +69,7 @@ module Retter
         *** WARNING ***
         Reading site (#{root.basename}) isn't compatible with current retter version (#{VERSION}).
         Please run `retter migrate` or `gem uninstall retter -v #{VERSION}`.
+        For more information, see https://github.com/hibariya/retter#migrate-from-retter-025-or-earlier
       MESSAGE
     end
   end
