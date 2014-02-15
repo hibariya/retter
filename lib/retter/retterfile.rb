@@ -60,7 +60,7 @@ module Retter
           repo.checkout current_branch
         end
       end
-    rescue Repository::RepositoryError
+    rescue Errno::ENOENT, Repository::RepositoryError
       # maybe dir isn't git repository
     end
   end
