@@ -15,6 +15,8 @@ module Retter
     Retter.on_initialize do |config|
       self.root_path    = config.root
       self.publish_proc = config.publisher
+
+      -> { }
     end
   end
 end
