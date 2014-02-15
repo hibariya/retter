@@ -39,7 +39,7 @@ configure api_revision: 1 do |config|
   config.author         = 'hibariya'
 
   config.publisher do                                  # Processing for `retter publish` command.
-    # system 'git push origin master'                  # Uncomment it if you want to do `git push origin master` via `retter publish`.
+    # system 'git push origin master'                  # Uncomment it if you want to do `cd $RETTER_ROOT && git push origin master` via `retter publish`.
   end
 end
 ```
