@@ -8,7 +8,7 @@ module Retter
       return unless publish_proc
 
       Dir.chdir root_path do
-        publish_proc.call
+        instance_eval &publish_proc
       end
     end
 
