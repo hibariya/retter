@@ -20,4 +20,4 @@
       %description= strip_tags(article.body)
       %content:encoded
         :cdata
-          #{h(article.body)}
+          #{article.body.html_safe}
