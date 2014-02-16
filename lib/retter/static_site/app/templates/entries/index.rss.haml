@@ -10,10 +10,10 @@
     %items
       %rdf:Seq
         - articles.each do |article|
-          %rdf:li{'rdf:resource' => entry_article_url(article.entry, article, format: 'html')}/
+          %rdf:li{'rdf:resource' => retter_entry_article_url(article.entry, article, format: 'html')}/
 
   - articles.each do |article|
-    - url = entry_article_url(article.entry, article, format: 'html')
+    - url = retter_entry_article_url(article.entry, article, format: 'html')
     %item{'rdf:about' => url}
       %title= article.title
       %link= url
