@@ -15,7 +15,7 @@ module Retter
 
       class << self
         def new(renderer = Renderer, options = {})
-          options.reverse_merge! autolink: true, space_after_headers: true, fenced_code_blocks: true, strikethrough: true, fenced_code_blocks: true, tables: true
+          options.reverse_merge! space_after_headers: true, fenced_code_blocks: true, strikethrough: true, fenced_code_blocks: true, tables: true
 
           super(renderer, options)
         end
