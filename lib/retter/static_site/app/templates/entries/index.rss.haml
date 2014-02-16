@@ -4,7 +4,8 @@
   %channel{'rdf:about' => config.url}
     %title= config.title
     %link= config.url
-    %dc:date= entries.first.try(:date).try(:iso8601)
+    - if latest = entries.first
+      %dc:date= latest.date_as_time.iso8601
     %description= config.description
     %items
       %rdf:Seq
@@ -16,7 +17,7 @@
     %item{'rdf:about' => url}
       %title= article.title
       %link= url
-      %dc:date= article.entry.date.iso8601
+      %dc:date= article.entry.date_as_time.iso8601
       %description= strip_tags(article.body)
       %content:encoded
         :cdata

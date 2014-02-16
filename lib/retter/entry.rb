@@ -1,4 +1,6 @@
 require 'active_model'
+require 'date'
+require 'time'
 
 module Retter
   class Entry
@@ -30,6 +32,12 @@ module Retter
     attr_reader :source_path
     attr_reader :date, :lede
     attr_reader :articles
+
+    def date_as_time
+      return unless date
+
+      date.to_time.getutc
+    end
 
     def modified_at
       source_path.try(:mtime)
