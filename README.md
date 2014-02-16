@@ -213,7 +213,7 @@ Please migrate via `retter migrate`, or create new site.
 You probably get many warnings, and migration command can't fix it.
 Anyway, at least, it will be compatible.
 
-### Migrate only articles
+### Migrate only articles (RECOMMENDED)
 
 If you can't migrate with `retter migrate`, you may want to migrate only articles. Like below.
 
