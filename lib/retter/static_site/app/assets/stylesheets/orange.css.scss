@@ -230,13 +230,22 @@ article img {
 }
 
 pre {
-  background: #EEE;
+  background: #EEE !important;
   color: rgb(0,30,67);
   padding: 1em;
   border-radius: 10px;
   border: 1px #BBB solid;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
+}
+
+code {
+  background: #EEE;
+  color: rgb(0,30,67);
+  border-radius: 3px;
+  border: 1px #BBB solid;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3x;
 }
 
 #footer {
