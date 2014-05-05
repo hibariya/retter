@@ -1,3 +1,5 @@
+require 'date'
+
 module Retter::Entry::Utils
   module_function
 

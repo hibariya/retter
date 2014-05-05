@@ -5,8 +5,10 @@ module Retter
     def find(date = nil, &block)
       if date
         find_by_date(date)
-      else
+      elsif block
         all.find(&block)
+      else
+        nil
       end
     end
 

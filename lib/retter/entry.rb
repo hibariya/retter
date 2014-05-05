@@ -18,8 +18,18 @@ module Retter
         @all ||= []
       end
 
-      def generate_entry_path(keyword = nil)
-        super
+      def find_or_build(keyword = nil)
+        if entry = find_by_keyword(keyword)
+          entry
+        elsif date = Utils.parse_date(keyword)
+          Entry.new(date: date)
+        else
+          if today_entry = find(Date.today)
+            today_entry
+          else
+            Entry.new
+          end
+        end
       end
     end
 
@@ -32,6 +42,12 @@ module Retter
     attr_reader :source_path
     attr_reader :date, :lede
     attr_reader :articles
+
+    def initialize(attrs = {})
+      @source_path, @date, @lede, @articles = *attrs.values_at(:source_path, :date, :lede, :articles)
+
+      @articles ||= []
+    end
 
     def date_as_time
       return unless date

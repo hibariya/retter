@@ -5,9 +5,15 @@ require 'nokogiri'
 module Retter
   module StaticSite
     module MarkdownEntry
-      mattr_accessor :source_path, :wip_file, :markdown
+      FNAME_FORMAT = '%Y%m%d.md'
 
       extend ActiveSupport::Concern
+
+      included do
+        alias_method_chain :source_path, :fallback
+      end
+
+      mattr_accessor :source_path, :wip_file, :markdown
 
       def load(path)
         @source_path = Pathname(path)
@@ -21,7 +27,7 @@ module Retter
       def commit!(date = Date.today)
         raise 'Already committed' unless wip?
 
-        new_path = source_path.dirname.join(date.strftime('%Y%m%d.md'))
+        new_path = source_path.dirname.join(date.strftime(FNAME_FORMAT))
         source_path.rename new_path
         @source_path =     new_path
       end
@@ -31,6 +37,17 @@ module Retter
       end
 
       private
+
+      def source_path_with_fallback
+        return source_path_without_fallback if @source_path
+
+        @source_path =
+          if date
+            MarkdownEntry.source_path.join(date.strftime(FNAME_FORMAT))
+          else
+            MarkdownEntry.wip_file
+          end
+      end
 
       def load_markdown
         html     = Nokogiri::HTML(MarkdownEntry.markdown.render(source_path.read))
@@ -59,20 +76,6 @@ module Retter
           load_wip_entry
 
           all.sort_by! &:date
-        end
-
-        def generate_entry_path(keyword)
-          if found_entry = find_by_keyword(keyword)
-            found_entry.source_path
-          elsif date = Entry::Utils.parse_date(keyword)
-            MarkdownEntry.source_path.join(date.strftime('%Y%m%d.md'))
-          else
-            if today_entry = find(Date.today)
-              today_entry.source_path
-            else
-              MarkdownEntry.wip_file
-            end
-          end
         end
 
         private
