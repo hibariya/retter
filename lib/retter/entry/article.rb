@@ -10,21 +10,17 @@ module Retter
       include ModelBase
       include Pagination
 
-      attr_reader :index, :title, :body
-      attr_reader :entry
-
-      def initialize(attrs = {})
-        @index, @title, @body, @entry = *attrs.values_at(:index, :title, :body, :entry)
-
-        @index ||= 0
-      end
+      attribute :position, default: 0
+      attribute :entry
+      attribute :title
+      attribute :body
 
       def id
         "#{entry.id}#{relative_code}"
       end
 
       def relative_code
-        "a#{index}"
+        "a#{position}"
       end
 
       # XXX: to_param should returns identifiable value

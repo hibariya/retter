@@ -1,3 +1,4 @@
+require 'active_attr'
 require 'active_model'
 require 'date'
 require 'time'
@@ -39,15 +40,10 @@ module Retter
     include ModelBase
     include Pagination
 
-    attr_reader :source_path
-    attr_reader :date, :lede
-    attr_reader :articles
-
-    def initialize(attrs = {})
-      @source_path, @date, @lede, @articles = *attrs.values_at(:source_path, :date, :lede, :articles)
-
-      @articles ||= []
-    end
+    attribute :source_path
+    attribute :date
+    attribute :lede
+    attribute :articles, default: []
 
     def date_as_time
       return unless date

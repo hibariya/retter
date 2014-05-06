@@ -7,19 +7,21 @@ module Retter
     module MarkdownEntry
       FNAME_FORMAT = '%Y%m%d.md'
 
+      class << self
+        attr_accessor :source_path, :wip_file, :markdown
+      end
+
       extend ActiveSupport::Concern
 
       included do
         alias_method_chain :source_path, :fallback
       end
 
-      mattr_accessor :source_path, :wip_file, :markdown
-
-      def load(path)
-        @source_path = Pathname(path)
+      def load_entry(path)
+        self.source_path = Pathname(path)
 
         fname = source_path.basename('.*').to_s
-        @date = Entry::Utils.parse_date(fname)
+        self.date = Entry::Utils.parse_date(fname)
 
         load_markdown
       end
@@ -29,7 +31,7 @@ module Retter
 
         new_path = source_path.dirname.join(date.strftime(FNAME_FORMAT))
         source_path.rename new_path
-        @source_path =     new_path
+        self.source_path = new_path
       end
 
       def wip?
@@ -39,27 +41,26 @@ module Retter
       private
 
       def source_path_with_fallback
-        return source_path_without_fallback if @source_path
-
-        @source_path =
-          if date
-            MarkdownEntry.source_path.join(date.strftime(FNAME_FORMAT))
-          else
-            MarkdownEntry.wip_file
-          end
+        if origin = source_path_without_fallback
+          origin
+        elsif date
+          MarkdownEntry.source_path.join(date.strftime(FNAME_FORMAT))
+        else
+          MarkdownEntry.wip_file
+        end
       end
 
       def load_markdown
         html     = Nokogiri::HTML(MarkdownEntry.markdown.render(source_path.read))
         elements = html.search('body > *').to_a
 
-        @lede     = ''
-        @articles = elements.each.with_object([]) {|el, articles|
+        self.lede     = ''
+        self.articles = elements.each.with_object([]) {|el, articles|
           if el.name == 'h1'
-            articles << Entry::Article.new(entry: self, index: articles.size, title: el.text, body: '')
+            articles << Entry::Article.new(entry: self, position: articles.size, title: el.text, body: '')
           else
             if articles.empty?
-              @lede << el.to_s
+              self.lede << el.to_s
               next
             end
 
@@ -69,10 +70,10 @@ module Retter
       end
 
       module ClassMethods
-        def load
+        def load_entries
           return unless MarkdownEntry.source_path
 
-          load_entries
+          load_persisted_entries
           load_wip_entry
 
           all.sort_by! &:date
@@ -80,19 +81,19 @@ module Retter
 
         private
 
-        def load_entries
+        def load_persisted_entries
           wip_file_path = MarkdownEntry.wip_file.to_path
           except_wip    = Dir.glob("#{MarkdownEntry.source_path}/*.md").reject {|path| path == wip_file_path }
 
           self.all = except_wip.map {|path|
-            new.tap {|e| e.load path }
+            new.tap {|e| e.load_entry path }
           }
         end
 
         def load_wip_entry
           return unless MarkdownEntry.wip_file.exist?
 
-          wip_entry = new.tap {|e| e.load(MarkdownEntry.wip_file) }
+          wip_entry = new.tap {|e| e.load_entry(MarkdownEntry.wip_file) }
 
           if find(wip_entry.date)
             # this file won't read while find(Date.today)
@@ -107,7 +108,7 @@ module Retter
         self.wip_file    = source_path.try(:join, 'today.md')
         self.markdown    = Markdown.new(config.renderer || Markdown::Renderer)
 
-        -> { Retter::Entry.load }
+        -> { Retter::Entry.load_entries }
       end
     end
   end

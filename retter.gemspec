@@ -35,6 +35,7 @@ For more information: https://github.com/hibariya/retter
   spec.add_runtime_dependency 'sass-rails',       '~> 4.0.3'
   spec.add_runtime_dependency 'uglifier',         '~> 2.5.0'
 
+  spec.add_runtime_dependency 'active_attr',      '~> 0.8.3'
   spec.add_runtime_dependency 'activesupport'
   spec.add_runtime_dependency 'chronic',          '~> 0.10.2'
   spec.add_runtime_dependency 'guard-livereload', '~> 2.1.2'
