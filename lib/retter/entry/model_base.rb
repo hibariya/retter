@@ -10,6 +10,7 @@ module Retter
       include ActiveAttr::AttributeDefaults
       include ActiveAttr::QueryAttributes
       include ActiveAttr::MassAssignment
+      include ActiveAttr::BlockInitialization
     end
   end
 end

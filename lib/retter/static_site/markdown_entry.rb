@@ -86,20 +86,16 @@ module Retter
           except_wip    = Dir.glob("#{MarkdownEntry.source_path}/*.md").reject {|path| path == wip_file_path }
 
           self.all = except_wip.map {|path|
-            new.tap {|e| e.load_entry path }
+            new {|e| e.load_entry path }
           }
         end
 
         def load_wip_entry
           return unless MarkdownEntry.wip_file.exist?
 
-          wip_entry = new.tap {|e| e.load_entry(MarkdownEntry.wip_file) }
+          wip_entry = new {|e| e.load_entry MarkdownEntry.wip_file }
 
-          if find(wip_entry.date)
-            # this file won't read while find(Date.today)
-          else
-            all << wip_entry
-          end
+          all << wip_entry unless find(wip_entry.date)
         end
       end
 
