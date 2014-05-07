@@ -43,7 +43,7 @@ module Retter
       def source_path_with_fallback
         if origin = source_path_without_fallback
           origin
-        elsif date
+        elsif date?
           MarkdownEntry.source_path.join(date.strftime(FNAME_FORMAT))
         else
           MarkdownEntry.wip_file

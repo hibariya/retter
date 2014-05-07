@@ -46,7 +46,7 @@ module Retter
     attribute :articles, default: []
 
     def date_as_time
-      return unless date
+      return unless date?
 
       date.to_time.getutc
     end
