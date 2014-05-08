@@ -1,3 +1,5 @@
+require 'bundler'
+
 module Retter
   class CLI::Edit < Thor::Group
     class_attribute :editor

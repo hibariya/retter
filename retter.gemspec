@@ -46,7 +46,7 @@ For more information: https://github.com/hibariya/retter
   spec.add_runtime_dependency 'rouge',            '~> 1.3.3'
   spec.add_runtime_dependency 'thor',             '~> 0.19.1'
 
-  spec.add_development_dependency 'bundler'
+  spec.add_development_dependency 'bundler',     '~> 1.6.2'
   spec.add_development_dependency 'coderay',     '~> 1.1.0'
   spec.add_development_dependency 'pygments.rb', '~> 0.5.4'
   spec.add_development_dependency 'rspec',       '~> 2.14.1'

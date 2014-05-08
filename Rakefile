@@ -1,3 +1,4 @@
+require 'bundler'
 require 'bundler/gem_tasks'
 require 'fileutils'
 require 'pathname'
